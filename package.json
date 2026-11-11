@@ -1,0 +1,7 @@
+{
+  "name": "srm-vivero",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "seed": "node db/seed.js legacy/jsons" },
+  "dependencies": { "sql.js": "^1.12.0" }
+}

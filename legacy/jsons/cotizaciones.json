@@ -1,0 +1,295 @@
+[
+    {
+        "id": 1,
+        "nombreCompra": "Compra 1",
+        "proveedor": "Vivero Jardín Botánico",
+        "fechaCreada": "2024-10-01",
+        "fechaEntrega": "2024-10-10",
+        "valor": "$1500",
+        "creadaPor": "Gerente A",
+        "productos": [
+            {
+                "name": "Orquídea Phalaenopsis",
+                "category": "Plantas",
+                "size": "Mediano",
+                "date": "2024-10-01",
+                "quantity": 10,
+                "description": "Descripción del orquídea phalaenopsis"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "nombreCompra": "Compra 2",
+        "proveedor": "Plantas y Flores S.A.",
+        "fechaCreada": "2024-10-02",
+        "fechaEntrega": "2024-10-11",
+        "valor": "$2000",
+        "creadaPor": "Gerente B",
+        "productos": [
+            {
+                "name": "Hortensia Azul",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-02",
+                "quantity": 15,
+                "description": "Descripción del hortensia azul"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "nombreCompra": "Compra 3",
+        "proveedor": "Naturaleza Viva",
+        "fechaCreada": "2024-10-03",
+        "fechaEntrega": "2024-10-12",
+        "valor": "$1200",
+        "creadaPor": "Gerente C",
+        "productos": [
+            {
+                "name": "Rosa Jardinera",
+                "category": "Plantas",
+                "size": "Pequeño",
+                "date": "2024-10-03",
+                "quantity": 8,
+                "description": "Descripción del rosa jardinera"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "nombreCompra": "Compra 4",
+        "proveedor": "Vivero El Paraíso",
+        "fechaCreada": "2024-10-04",
+        "fechaEntrega": "2024-10-13",
+        "valor": "$2500",
+        "creadaPor": "Gerente D",
+        "productos": [
+            {
+                "name": "Crisantemo Amarillo",
+                "category": "Plantas",
+                "size": "Mediano",
+                "date": "2024-10-04",
+                "quantity": 12,
+                "description": "Descripción del crisantemo amarillo"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "nombreCompra": "Compra 5",
+        "proveedor": "El Jardín de Mis Abuelos",
+        "fechaCreada": "2024-10-05",
+        "fechaEntrega": "2024-10-14",
+        "valor": "$1700",
+        "creadaPor": "Gerente A",
+        "productos": [
+            {
+                "name": "Bonsái Ficus",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-05",
+                "quantity": 7,
+                "description": "Descripción del bonsái ficus"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "nombreCompra": "Compra 6",
+        "proveedor": "Materas de Ráquira S.A.S.",
+        "fechaCreada": "2024-10-06",
+        "fechaEntrega": "2024-10-15",
+        "valor": "$900",
+        "creadaPor": "Gerente B",
+        "productos": [
+            {
+                "name": "Lavanda Francesa",
+                "category": "Plantas",
+                "size": "Pequeño",
+                "date": "2024-10-06",
+                "quantity": 20,
+                "description": "Descripción del lavanda francesa"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "nombreCompra": "Compra 7",
+        "proveedor": "Artesanías en Barro",
+        "fechaCreada": "2024-10-07",
+        "fechaEntrega": "2024-10-16",
+        "valor": "$1600",
+        "creadaPor": "Gerente C",
+        "productos": [
+            {
+                "name": "Helecho de Boston",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-07",
+                "quantity": 5,
+                "description": "Descripción del helecho de boston"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "nombreCompra": "Compra 8",
+        "proveedor": "Materas Artesanales de Ráquira",
+        "fechaCreada": "2024-10-08",
+        "fechaEntrega": "2024-10-17",
+        "valor": "$1400",
+        "creadaPor": "Gerente D",
+        "productos": [
+            {
+                "name": "Dracaena Marginata",
+                "category": "Plantas",
+                "size": "Mediano",
+                "date": "2024-10-08",
+                "quantity": 12,
+                "description": "Descripción del dracaena marginata"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "nombreCompra": "Compra 9",
+        "proveedor": "Barro y Color",
+        "fechaCreada": "2024-10-09",
+        "fechaEntrega": "2024-10-18",
+        "valor": "$1100",
+        "creadaPor": "Gerente A",
+        "productos": [
+            {
+                "name": "Cactus Espino",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-09",
+                "quantity": 18,
+                "description": "Descripción del cactus espino"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "nombreCompra": "Compra 10",
+        "proveedor": "Ráquira Materas",
+        "fechaCreada": "2024-10-10",
+        "fechaEntrega": "2024-10-19",
+        "valor": "$1350",
+        "creadaPor": "Gerente B",
+        "productos": [
+            {
+                "name": "Ficus Benjamina",
+                "category": "Plantas",
+                "size": "Pequeño",
+                "date": "2024-10-10",
+                "quantity": 10,
+                "description": "Descripción del ficus benjamina"
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "nombreCompra": "Compra 11",
+        "proveedor": "Artesanías Ráquira",
+        "fechaCreada": "2024-10-11",
+        "fechaEntrega": "2024-10-20",
+        "valor": "$1000",
+        "creadaPor": "Gerente C",
+        "productos": [
+            {
+                "name": "Palmera Areca",
+                "category": "Plantas",
+                "size": "Mediano",
+                "date": "2024-10-11",
+                "quantity": 15,
+                "description": "Descripción del palmera areca"
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "nombreCompra": "Compra 12",
+        "proveedor": "Decoraciones del Viento",
+        "fechaCreada": "2024-10-12",
+        "fechaEntrega": "2024-10-21",
+        "valor": "$1800",
+        "creadaPor": "Gerente D",
+        "productos": [
+            {
+                "name": "Geranio Rojo",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-12",
+                "quantity": 9,
+                "description": "Descripción del geranio rojo"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "nombreCompra": "Compra 13",
+        "proveedor": "Artesanías de la Tierra",
+        "fechaCreada": "2024-10-13",
+        "fechaEntrega": "2024-10-22",
+        "valor": "$1750",
+        "creadaPor": "Gerente A",
+        "productos": [
+            {
+                "name": "Orquídea Cymbidium",
+                "category": "Plantas",
+                "size": "Pequeño",
+                "date": "2024-10-13",
+                "quantity": 13,
+                "description": "Descripción del orquídea cymbidium"
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "nombreCompra": "Compra 14",
+        "proveedor": "El Taller de Artesanías",
+        "fechaCreada": "2024-10-14",
+        "fechaEntrega": "2024-10-23",
+        "valor": "$1900",
+        "creadaPor": "Gerente B",
+        "productos": [
+            {
+                "name": "Ficus elastica",
+                "category": "Plantas",
+                "size": "Mediano",
+                "date": "2024-10-14",
+                "quantity": 7,
+                "description": "Descripción del ficus elastica"
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "nombreCompra": "Compra 15",
+        "proveedor": "Vivero Verde Natural",
+        "fechaCreada": "2024-10-15",
+        "fechaEntrega": "2024-10-24",
+        "valor": "$1600",
+        "creadaPor": "Gerente C",
+        "productos": [
+            {
+                "name": "Planta del Dinero",
+                "category": "Plantas",
+                "size": "Grande",
+                "date": "2024-10-15",
+                "quantity": 6,
+                "description": "Descripción del planta del dinero"
+            },
+            {
+                "name": "Savia de Eucalipto",
+                "category": "Plantas",
+                "size": "Pequeña",
+                "date": "2024-10-15",
+                "quantity": 10,
+                "description": "Descripción de la savia de eucalipto"
+            }
+        ]
+    }    
+]

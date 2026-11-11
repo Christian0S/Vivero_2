@@ -1,0 +1,162 @@
+[
+    { 
+        "id": 1, 
+        "nombreCompra": "Pedido de Macetas de Barro", 
+        "proveedor": "Vanessa", 
+        "fechaRechazo": "15/10/2024", 
+        "valor": "$10,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de barro pequeñas", "precio": "$900", "fechaEntrega": "01/11/2024", "cantidad": 10 },
+            { "nombre": "Macetas de barro grandes", "precio": "$1,200", "fechaEntrega": "01/11/2024", "cantidad": 5 },
+            { "nombre": "Macetas de barro medianas", "precio": "$1,000", "fechaEntrega": "01/11/2024", "cantidad": 8 }
+        ], 
+        "razonRechazo": "El proveedor no cumplió con los tiempos de entrega establecidos.",
+        "direccion": "Calle 123, Ciudad A",
+        "fechaCreacion": "01/10/2024"
+    },
+    { 
+        "id": 2, 
+        "nombreCompra": "Pedido de Macetas de Plástico", 
+        "proveedor": "Jose", 
+        "fechaRechazo": "16/10/2024", 
+        "valor": "$15,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de plástico pequeñas", "precio": "$1,400", "fechaEntrega": "02/11/2024", "cantidad": 15 },
+            { "nombre": "Macetas de plástico grandes", "precio": "$2,000", "fechaEntrega": "02/11/2024", "cantidad": 10 },
+            { "nombre": "Macetas de plástico medianas", "precio": "$1,800", "fechaEntrega": "02/11/2024", "cantidad": 12 }
+        ], 
+        "razonRechazo": "El precio excedió el presupuesto asignado.",
+        "direccion": "Calle 456, Ciudad B",
+        "fechaCreacion": "02/10/2024"
+    },
+    { 
+        "id": 3, 
+        "nombreCompra": "Pedido de Abono Orgánico", 
+        "proveedor": "Bob", 
+        "fechaRechazo": "17/10/2024", 
+        "valor": "$20,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Abono orgánico en polvo", "precio": "$1,800", "fechaEntrega": "03/11/2024", "cantidad": 5 },
+            { "nombre": "Abono orgánico granular", "precio": "$2,200", "fechaEntrega": "03/11/2024", "cantidad": 8 },
+            { "nombre": "Abono orgánico líquido", "precio": "$1,500", "fechaEntrega": "03/11/2024", "cantidad": 6 }
+        ], 
+        "razonRechazo": "El proveedor no garantizó la calidad del producto.",
+        "direccion": "Calle 789, Ciudad C",
+        "fechaCreacion": "03/10/2024"
+    },
+    { 
+        "id": 4, 
+        "nombreCompra": "Pedido Variado", 
+        "proveedor": "Trey", 
+        "fechaRechazo": "18/10/2024", 
+        "valor": "$25,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de barro", "precio": "$2,200", "fechaEntrega": "04/11/2024", "cantidad": 20 },
+            { "nombre": "Abono orgánico", "precio": "$2,800", "fechaEntrega": "04/11/2024", "cantidad": 8 },
+            { "nombre": "Semillas de flores", "precio": "$1,200", "fechaEntrega": "04/11/2024", "cantidad": 50 }
+        ], 
+        "razonRechazo": "La entrega no cumplió con los plazos acordados.",
+        "direccion": "Calle 101, Ciudad D",
+        "fechaCreacion": "04/10/2024"
+    },
+    { 
+        "id": 5, 
+        "nombreCompra": "Pedido de Macetas de Plástico", 
+        "proveedor": "Kuhic", 
+        "fechaRechazo": "19/10/2024", 
+        "valor": "$30,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de plástico pequeñas", "precio": "$2,500", "fechaEntrega": "05/11/2024", "cantidad": 12 },
+            { "nombre": "Macetas de plástico grandes", "precio": "$3,000", "fechaEntrega": "05/11/2024", "cantidad": 10 },
+            { "nombre": "Macetas de plástico medianas", "precio": "$2,800", "fechaEntrega": "05/11/2024", "cantidad": 8 }
+        ], 
+        "razonRechazo": "Problemas detectados en la calidad del producto.",
+        "direccion": "Calle 202, Ciudad E",
+        "fechaCreacion": "05/10/2024"
+    },
+    { 
+        "id": 6, 
+        "nombreCompra": "Pedido de Abono y Macetas", 
+        "proveedor": "June", 
+        "fechaRechazo": "20/10/2024", 
+        "valor": "$35,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Abono orgánico", "precio": "$3,500", "fechaEntrega": "06/11/2024", "cantidad": 10 },
+            { "nombre": "Macetas de barro", "precio": "$3,000", "fechaEntrega": "06/11/2024", "cantidad": 5 },
+            { "nombre": "Semillas de hortalizas", "precio": "$2,500", "fechaEntrega": "06/11/2024", "cantidad": 20 }
+        ], 
+        "razonRechazo": "El proveedor no pudo cumplir con los tiempos acordados.",
+        "direccion": "Calle 303, Ciudad F",
+        "fechaCreacion": "06/10/2024"
+    },
+    { 
+        "id": 7, 
+        "nombreCompra": "Pedido de Macetas de Plástico", 
+        "proveedor": "Madison", 
+        "fechaRechazo": "21/10/2024", 
+        "valor": "$40,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de plástico pequeñas", "precio": "$4,000", "fechaEntrega": "07/11/2024", "cantidad": 18 },
+            { "nombre": "Macetas de plástico grandes", "precio": "$5,000", "fechaEntrega": "07/11/2024", "cantidad": 10 },
+            { "nombre": "Macetas de plástico medianas", "precio": "$4,500", "fechaEntrega": "07/11/2024", "cantidad": 12 }
+        ], 
+        "razonRechazo": "El presupuesto fue sobrepasado.",
+        "direccion": "Calle 404, Ciudad G",
+        "fechaCreacion": "07/10/2024"
+    },
+    { 
+        "id": 8, 
+        "nombreCompra": "Pedido de Abono", 
+        "proveedor": "Patrick", 
+        "fechaRechazo": "22/10/2024", 
+        "valor": "$45,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Abono orgánico en polvo", "precio": "$4,500", "fechaEntrega": "08/11/2024", "cantidad": 7 },
+            { "nombre": "Abono orgánico líquido", "precio": "$4,000", "fechaEntrega": "08/11/2024", "cantidad": 10 },
+            { "nombre": "Abono orgánico granular", "precio": "$4,200", "fechaEntrega": "08/11/2024", "cantidad": 8 }
+        ], 
+        "razonRechazo": "Falta de documentos requeridos.",
+        "direccion": "Calle 505, Ciudad H",
+        "fechaCreacion": "08/10/2024"
+    },
+    { 
+        "id": 9, 
+        "nombreCompra": "Pedido de Macetas de Barro", 
+        "proveedor": "Quinton", 
+        "fechaRechazo": "23/10/2024", 
+        "valor": "$50,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Macetas de barro grandes", "precio": "$5,500", "fechaEntrega": "09/11/2024", "cantidad": 15 },
+            { "nombre": "Macetas de barro pequeñas", "precio": "$3,800", "fechaEntrega": "09/11/2024", "cantidad": 12 },
+            { "nombre": "Macetas de barro medianas", "precio": "$4,200", "fechaEntrega": "09/11/2024", "cantidad": 10 }
+        ], 
+        "razonRechazo": "El proveedor no tuvo suficiente stock.",
+        "direccion": "Calle 606, Ciudad I",
+        "fechaCreacion": "09/10/2024"
+    },
+    { 
+        "id": 10, 
+        "nombreCompra": "Pedido Variado de Suministros", 
+        "proveedor": "Harrison", 
+        "fechaRechazo": "24/10/2024", 
+        "valor": "$55,000", 
+        "estado": "Rechazado",
+        "productos": [
+            { "nombre": "Semillas de flores", "precio": "$2,000", "fechaEntrega": "10/11/2024", "cantidad": 40 },
+            { "nombre": "Abono orgánico", "precio": "$5,000", "fechaEntrega": "10/11/2024", "cantidad": 15 },
+            { "nombre": "Macetas de plástico", "precio": "$4,500", "fechaEntrega": "10/11/2024", "cantidad": 20 }
+        ], 
+        "razonRechazo": "Problemas de comunicación con el proveedor.",
+        "direccion": "Calle 707, Ciudad J",
+        "fechaCreacion": "10/10/2024"
+    }
+]

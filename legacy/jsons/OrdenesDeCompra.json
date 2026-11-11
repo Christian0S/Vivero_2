@@ -1,0 +1,137 @@
+[
+    {
+        "id": "1",
+        "name": "Bonsái Ficus",
+        "category": "Plantas",
+        "size": "Mediano",
+        "date": "2024-10-21",
+        "quantity": "12",
+        "description": "Descripción del planta del dinero"
+    },
+    {
+        "id": "2",
+        "name": "Ficus Benjamina",
+        "category": "Plantas",
+        "size": "Mediano",
+        "date": "2024-10-22",
+        "quantity": "12",
+        "description": "Descripción del lavanda francesa"
+    },
+    {
+        "id": "3",
+        "name": "Dracaena Marginata",
+        "category": "Plantas",
+        "size": "Pequeño",
+        "date": "2024-10-23",
+        "quantity": "5",
+        "description": "Descripción del bonsái ficus"
+    },
+    {
+        "id": "4",
+        "name": "Orquídea Phalaenopsis",
+        "category": "Plantas",
+        "size": "Grande",
+        "date": "2024-10-24",
+        "quantity": "19",
+        "description": "Descripción del geranio rojo"
+    },
+    {
+        "id": "5",
+        "name": "Lavanda Francesa",
+        "category": "Plantas",
+        "size": "Grande",
+        "date": "2024-10-25",
+        "quantity": "5",
+        "description": "Descripción del hortensia azul"
+    },
+    {
+        "id": "6",
+        "name": "Orquídea Phalaenopsis",
+        "category": "Plantas",
+        "size": "Mediano",
+        "date": "2024-10-26",
+        "quantity": "17",
+        "description": "Descripción del orquídea phalaenopsis"
+    },
+    {
+        "id": "7",
+        "name": "Lavanda Francesa",
+        "category": "Plantas",
+        "size": "Pequeño",
+        "date": "2024-10-27",
+        "quantity": "8",
+        "description": "Descripción del geranio rojo"
+    },
+    {
+        "id": "8",
+        "name": "Helecho de Boston",
+        "category": "Plantas",
+        "size": "Grande",
+        "date": "2024-10-28",
+        "quantity": "13",
+        "description": "Descripción del orquídea phalaenopsis"
+    },
+    {
+        "id": "9",
+        "name": "Planta del Dinero",
+        "category": "Plantas",
+        "size": "Grande",
+        "date": "2024-10-29",
+        "quantity": "17",
+        "description": "Descripción del dracaena marginata"
+    },
+    {
+        "id": "10",
+        "name": "Bonsái Ficus",
+        "category": "Plantas",
+        "size": "Pequeño",
+        "date": "2024-10-30",
+        "quantity": "17",
+        "description": "Descripción del planta del dinero"
+    },
+    {
+        "id": "11",
+        "name": "Cactus Espino",
+        "category": "Plantas",
+        "size": "Pequeño",
+        "date": "2024-10-31",
+        "quantity": "6",
+        "description": "Descripción del helecho de boston"
+    },
+    {
+        "id": "12",
+        "name": "Cactus Espino",
+        "category": "Plantas",
+        "size": "Pequeño",
+        "date": "2024-11-01",
+        "quantity": "9",
+        "description": "Descripción del orquídea phalaenopsis"
+    },
+    {
+        "id": "13",
+        "name": "Matera Rústica de Arcilla",
+        "category": "materas",
+        "size": "Mediano",
+        "date": "2024-11-02",
+        "quantity": "10",
+        "description": "Descripción del ficus benjamina"
+    },
+    {
+        "id": "14",
+        "name": "Adorno de Pared de Barro",
+        "category": "Artesanías",
+        "size": "Grande",
+        "date": "2024-11-03",
+        "quantity": "18",
+        "description": "Descripción del palmera areca"
+    },
+    {
+        "id": "15",
+        "name": "Fertilizante Mineral",
+        "category": "Abonos-Tierra",
+        "size": "Pequeño",
+        "date": "2024-11-04",
+        "quantity": "7",
+        "description": "Descripción del lavanda francesa"
+    }
+]

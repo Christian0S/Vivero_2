@@ -1,0 +1,321 @@
+[
+    {
+        "id": 1,
+        "usuario": "Vanessa",
+        "rol": "Gerente",
+        "accion": "Modificación de Proveedor",
+        "descripcion": "Cambió la dirección del proveedor XYZ.",
+        "fechaHora": "20/10/2024 09:00"
+    },
+    {
+        "id": 2,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Edición de Perfil",
+        "descripcion": "Actualizó su información de contacto.",
+        "fechaHora": "19/10/2024 14:35"
+    },
+    {
+        "id": 3,
+        "usuario": "Bob",
+        "rol": "Proveedor",
+        "accion": "Cotización Aceptada",
+        "descripcion": "La cotización para el servicio de entrega fue aceptada.",
+        "fechaHora": "18/10/2024 11:20"
+    },
+    {
+        "id": 4,
+        "usuario": "Maria",
+        "rol": "Gerente",
+        "accion": "Contratación de Servicio",
+        "descripcion": "Se contrató el servicio de mantenimiento de equipos.",
+        "fechaHora": "17/10/2024 10:15"
+    },
+    {
+        "id": 5,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Eliminación de Inventario",
+        "descripcion": "Se eliminó el producto A del inventario.",
+        "fechaHora": "16/10/2024 16:45"
+    },
+    {
+        "id": 6,
+        "usuario": "Laura",
+        "rol": "Proveedor",
+        "accion": "Actualización de Inventario",
+        "descripcion": "Actualizó los precios de los productos en el catálogo.",
+        "fechaHora": "15/10/2024 09:30"
+    },
+    {
+        "id": 7,
+        "usuario": "Pedro",
+        "rol": "Gerente",
+        "accion": "Revisión de Cotización",
+        "descripcion": "Revisó la cotización de los servicios ofrecidos por el proveedor ABC.",
+        "fechaHora": "14/10/2024 13:00"
+    },
+    {
+        "id": 8,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Edición de Inventario",
+        "descripcion": "Se actualizó la cantidad del producto B en el inventario.",
+        "fechaHora": "13/10/2024 11:50"
+    },
+    {
+        "id": 9,
+        "usuario": "Jorge",
+        "rol": "Proveedor",
+        "accion": "Envío de Cotización",
+        "descripcion": "Envió la cotización solicitada para el producto C.",
+        "fechaHora": "12/10/2024 15:20"
+    },
+    {
+        "id": 10,
+        "usuario": "Clara",
+        "rol": "Gerente",
+        "accion": "Revisión de Inventario",
+        "descripcion": "Revisó el estado del inventario de suministros.",
+        "fechaHora": "11/10/2024 10:10"
+    },
+    {
+        "id": 11,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Agregar Producto al Inventario",
+        "descripcion": "Agregó el producto D al inventario.",
+        "fechaHora": "10/10/2024 09:40"
+    },
+    {
+        "id": 12,
+        "usuario": "Elena",
+        "rol": "Proveedor",
+        "accion": "Confirmación de Recepción de Pedido",
+        "descripcion": "Confirmó la recepción del pedido del producto E.",
+        "fechaHora": "09/10/2024 16:25"
+    },
+    {
+        "id": 13,
+        "usuario": "Fernando",
+        "rol": "Gerente",
+        "accion": "Solicitud de Informe",
+        "descripcion": "Solicitó un informe sobre el rendimiento del proveedor F.",
+        "fechaHora": "08/10/2024 12:00"
+    },
+    {
+        "id": 14,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Cotización Enviada",
+        "descripcion": "Envió una solicitud de cotización a proveedor G.",
+        "fechaHora": "07/10/2024 14:30"
+    },
+    {
+        "id": 15,
+        "usuario": "Gustavo",
+        "rol": "Proveedor",
+        "accion": "Actualización de Datos",
+        "descripcion": "Actualizó su información de contacto y dirección.",
+        "fechaHora": "06/10/2024 09:15"
+    },
+    {
+        "id": 16,
+        "usuario": "Patricia",
+        "rol": "Gerente",
+        "accion": "Evaluación de Proveedores",
+        "descripcion": "Evaluó el desempeño del proveedor H.",
+        "fechaHora": "05/10/2024 11:00"
+    },
+    {
+        "id": 17,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Creación de Reporte de Inventario",
+        "descripcion": "Creó un reporte del inventario actual.",
+        "fechaHora": "04/10/2024 10:50"
+    },
+    {
+        "id": 18,
+        "usuario": "Angela",
+        "rol": "Proveedor",
+        "accion": "Envió Documentación",
+        "descripcion": "Envió la documentación requerida para el registro.",
+        "fechaHora": "03/10/2024 13:40"
+    },
+    {
+        "id": 19,
+        "usuario": "Ricardo",
+        "rol": "Gerente",
+        "accion": "Aprobación de Compra",
+        "descripcion": "Aprobó la compra de insumos para la oficina.",
+        "fechaHora": "02/10/2024 15:10"
+    },
+    {
+        "id": 20,
+        "usuario": "Juan Vargas",
+        "rol": "Empleado",
+        "accion": "Asistencia a Capacitación",
+        "descripcion": "Asistió a la capacitación sobre manejo de inventario.",
+        "fechaHora": "01/10/2024 09:30"
+    },{
+        "id": 1,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Envió la cotización solicitada para productos de jardinería.",
+        "fechaHora": "01/10/2024 09:30"
+    },
+    {
+        "id": 42,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura correspondiente a la venta del mes anterior.",
+        "fechaHora": "02/10/2024 10:00"
+    },
+    {
+        "id": 43,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Editar Perfil",
+        "descripcion": "Actualizó la información de contacto en su perfil.",
+        "fechaHora": "03/10/2024 11:15"
+    },
+    {
+        "id": 44,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Presentó una nueva cotización para plantas ornamentales.",
+        "fechaHora": "04/10/2024 12:00"
+    },
+    {
+        "id": 65,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Confirmar Pedido",
+        "descripcion": "Confirmó el pedido de suministros de jardinería.",
+        "fechaHora": "05/10/2024 09:45"
+    },
+    {
+        "id": 66,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura de servicios de mantenimiento.",
+        "fechaHora": "06/10/2024 10:30"
+    },
+    {
+        "id": 67,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Actualizar Inventario",
+        "descripcion": "Actualizó la lista de productos disponibles en el inventario.",
+        "fechaHora": "07/10/2024 11:00"
+    },
+    {
+        "id": 68,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Envió una cotización para suministros de riego.",
+        "fechaHora": "08/10/2024 12:00"
+    },
+    {
+        "id": 69,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Editar Perfil",
+        "descripcion": "Modificó la dirección de entrega en su perfil.",
+        "fechaHora": "09/10/2024 13:00"
+    },
+    {
+        "id": 30,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura por la venta de fertilizantes.",
+        "fechaHora": "10/10/2024 14:30"
+    },
+    {
+        "id": 21,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Presentó una cotización para herramientas de jardinería.",
+        "fechaHora": "11/10/2024 09:15"
+    },
+    {
+        "id": 22,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Confirmar Pedido",
+        "descripcion": "Confirmó el pedido de semillas.",
+        "fechaHora": "12/10/2024 10:45"
+    },
+    {
+        "id": 23,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura por el servicio de consultoría.",
+        "fechaHora": "13/10/2024 11:30"
+    },
+    {
+        "id": 24,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Actualizar Inventario",
+        "descripcion": "Ajustó las cantidades de productos en el inventario.",
+        "fechaHora": "14/10/2024 12:15"
+    },
+    {
+        "id": 25,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Envió una cotización para el suministro de tierra orgánica.",
+        "fechaHora": "15/10/2024 13:45"
+    },
+    {
+        "id": 56,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Editar Perfil",
+        "descripcion": "Actualizó el número de teléfono de contacto.",
+        "fechaHora": "16/10/2024 14:20"
+    },
+    {
+        "id": 47,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura por el servicio de entrega.",
+        "fechaHora": "17/10/2024 15:10"
+    },
+    {
+        "id": 38,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Cotización",
+        "descripcion": "Presentó una cotización para productos de control de plagas.",
+        "fechaHora": "18/10/2024 09:00"
+    },
+    {
+        "id": 39,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Confirmar Pedido",
+        "descripcion": "Confirmó el pedido de equipos de jardinería.",
+        "fechaHora": "19/10/2024 10:30"
+    },
+    {
+        "id": 50,
+        "usuario": "Guate", 
+        "rol": "Proveedor", 
+        "accion": "Enviar Factura",
+        "descripcion": "Envió la factura por la compra de plantas.",
+        "fechaHora": "20/10/2024 11:00"
+    }
+]

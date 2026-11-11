@@ -1,0 +1,1413 @@
+[
+  {
+    "id": 1,
+    "nombrePedido": "Pedido de Macetas",
+    "proveedor": "Vanessa",
+    "fechaCreacion": "2024-01-01",
+    "valorTotal": "$15,000",
+    "direccionEntrega": "Calle 5",
+    "fechaEntrega": "2024-01-01",
+    "fechaAceptacion": "2024-01-02",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Macetas de barro",
+        "cantidad": 10,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Macetas de plástico",
+        "cantidad": 5,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Macetas colgantes",
+        "cantidad": 8,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Macetas decorativas",
+        "cantidad": 4,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Macetas grandes",
+        "cantidad": 2,
+        "valorUnitario": "$3,500"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nombrePedido": "Pedido de Plantas Ornamentales",
+    "proveedor": "Jose",
+    "fechaCreacion": "2024-02-02",
+    "valorTotal": "$20,000",
+    "direccionEntrega": "Calle 12",
+    "fechaEntrega": "2024-02-02",
+    "fechaAceptacion": "2024-02-03",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Palmera Areca",
+        "cantidad": 5,
+        "valorUnitario": "$3,000"
+      },
+      {
+        "nombre": "Cactus",
+        "cantidad": 10,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Planta de Jade",
+        "cantidad": 6,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Orquídeas",
+        "cantidad": 3,
+        "valorUnitario": "$4,000"
+      },
+      {
+        "nombre": "Ficus",
+        "cantidad": 4,
+        "valorUnitario": "$2,000"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nombrePedido": "Pedido de Abono",
+    "proveedor": "Bob",
+    "fechaCreacion": "2024-03-03",
+    "valorTotal": "$25,000",
+    "direccionEntrega": "Calle 23",
+    "fechaEntrega": "2024-03-03",
+    "fechaAceptacion": "2024-03-04",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Abono Orgánico",
+        "cantidad": 5,
+        "valorUnitario": "$4,000"
+      },
+      {
+        "nombre": "Fertilizante Granulado",
+        "cantidad": 3,
+        "valorUnitario": "$5,000"
+      },
+      {
+        "nombre": "Fertilizante Líquido",
+        "cantidad": 10,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Compost",
+        "cantidad": 6,
+        "valorUnitario": "$3,500"
+      },
+      {
+        "nombre": "Fertilizante Especial",
+        "cantidad": 2,
+        "valorUnitario": "$6,000"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "nombrePedido": "Pedido de Herramientas de Jardín",
+    "proveedor": "Trey",
+    "fechaCreacion": "2024-04-04",
+    "valorTotal": "$30,000",
+    "direccionEntrega": "Calle 34",
+    "fechaEntrega": "2024-04-04",
+    "fechaAceptacion": "2024-04-05",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Tijeras de Jardín",
+        "cantidad": 3,
+        "valorUnitario": "$5,000"
+      },
+      {
+        "nombre": "Guantes de Jardinería",
+        "cantidad": 5,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Pala de Jardín",
+        "cantidad": 2,
+        "valorUnitario": "$7,000"
+      },
+      {
+        "nombre": "Rastrillo",
+        "cantidad": 1,
+        "valorUnitario": "$6,000"
+      },
+      {
+        "nombre": "Regadera",
+        "cantidad": 2,
+        "valorUnitario": "$3,000"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "nombrePedido": "Pedido de Fertilizantes",
+    "proveedor": "Kuhic",
+    "fechaCreacion": "2024-05-05",
+    "valorTotal": "$35,000",
+    "direccionEntrega": "Calle 8",
+    "fechaEntrega": "2024-05-05",
+    "fechaAceptacion": "2024-05-06",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Fertilizante Líquido",
+        "cantidad": 10,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Fertilizante Sólido",
+        "cantidad": 5,
+        "valorUnitario": "$3,000"
+      },
+      {
+        "nombre": "Abono Granulado",
+        "cantidad": 4,
+        "valorUnitario": "$4,500"
+      },
+      {
+        "nombre": "Nutrientes Líquidos",
+        "cantidad": 3,
+        "valorUnitario": "$6,000"
+      },
+      {
+        "nombre": "Aditivo para Suelo",
+        "cantidad": 2,
+        "valorUnitario": "$5,000"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "nombrePedido": "Pedido de Semillas",
+    "proveedor": "López",
+    "fechaCreacion": "2024-06-06",
+    "valorTotal": "$18,000",
+    "direccionEntrega": "Calle 15",
+    "fechaEntrega": "2024-06-06",
+    "fechaAceptacion": "2024-06-07",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Semillas de Tomate",
+        "cantidad": 50,
+        "valorUnitario": "$200"
+      },
+      {
+        "nombre": "Semillas de Lechuga",
+        "cantidad": 30,
+        "valorUnitario": "$150"
+      },
+      {
+        "nombre": "Semillas de Zanahoria",
+        "cantidad": 40,
+        "valorUnitario": "$180"
+      },
+      {
+        "nombre": "Semillas de Pimiento",
+        "cantidad": 20,
+        "valorUnitario": "$250"
+      },
+      {
+        "nombre": "Semillas de Cebolla",
+        "cantidad": 25,
+        "valorUnitario": "$220"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "nombrePedido": "Pedido de Sustrato",
+    "proveedor": "Martínez",
+    "fechaCreacion": "2024-07-07",
+    "valorTotal": "$22,000",
+    "direccionEntrega": "Calle 19",
+    "fechaEntrega": "2024-07-07",
+    "fechaAceptacion": "2024-07-08",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Sustrato para Plantas de Interior",
+        "cantidad": 15,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Sustrato para Plantas de Exterior",
+        "cantidad": 10,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Sustrato para Cactus",
+        "cantidad": 8,
+        "valorUnitario": "$900"
+      },
+      {
+        "nombre": "Sustrato Orgánico",
+        "cantidad": 12,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Sustrato Especial para Orquídeas",
+        "cantidad": 5,
+        "valorUnitario": "$2,000"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "nombrePedido": "Pedido de Productos de Jardinería",
+    "proveedor": "Hernández",
+    "fechaCreacion": "2024-08-08",
+    "valorTotal": "$28,000",
+    "direccionEntrega": "Calle 27",
+    "fechaEntrega": "2024-08-08",
+    "fechaAceptacion": "2024-08-09",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Tierra para Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Granos de Riego",
+        "cantidad": 20,
+        "valorUnitario": "$700"
+      },
+      {
+        "nombre": "Mallas para Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Piedras Decorativas",
+        "cantidad": 50,
+        "valorUnitario": "$500"
+      },
+      {
+        "nombre": "Mantenimiento de Jardín",
+        "cantidad": 1,
+        "valorUnitario": "$20,000"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "nombrePedido": "Pedido de Accesorios de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-09",
+    "valorTotal": "$24,000",
+    "direccionEntrega": "Calle 30",
+    "fechaEntrega": "2024-09-09",
+    "fechaAceptacion": "2024-09-10",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Cercas de Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Caminos de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$4,500"
+      },
+      {
+        "nombre": "Macetas Decorativas",
+        "cantidad": 7,
+        "valorUnitario": "$3,000"
+      },
+      {
+        "nombre": "Fuentes de Jardín",
+        "cantidad": 2,
+        "valorUnitario": "$10,000"
+      },
+      {
+        "nombre": "Iluminación de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$4,000"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "nombrePedido": "Pedido de Herramientas para Cultivo",
+    "proveedor": "García",
+    "fechaCreacion": "2024-10-10",
+    "valorTotal": "$16,000",
+    "direccionEntrega": "Calle 45",
+    "fechaEntrega": "2024-10-10",
+    "fechaAceptacion": "2024-10-11",
+    "estado": "Pendiente",
+    "productos": [
+      {
+        "nombre": "Cultivador Manual",
+        "cantidad": 5,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Azada",
+        "cantidad": 3,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Rastrillo de Mano",
+        "cantidad": 4,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Pico",
+        "cantidad": 2,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Regadera de Mano",
+        "cantidad": 6,
+        "valorUnitario": "$1,000"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "nombrePedido": "Compra de Plantas Ornamentales",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$60,000",
+    "direccionEntrega": "Calle Principal 22",
+    "fechaEntrega": "2024-10-30",
+    "fechaAceptacion": "2024-10-31",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Plantas Decorativas",
+        "cantidad": 30,
+        "valorUnitario": "$800"
+      },
+      {
+        "nombre": "Sustrato para Plantas",
+        "cantidad": 20,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Macetas de Cerámica",
+        "cantidad": 15,
+        "valorUnitario": "$2,200"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "nombrePedido": "Pedido de Hortalizas",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$75,000",
+    "direccionEntrega": "Avenida Central 45",
+    "fechaEntrega": "2024-11-05",
+    "fechaAceptacion": "2024-11-06",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Semillas de Hortalizas",
+        "cantidad": 200,
+        "valorUnitario": "$300"
+      },
+      {
+        "nombre": "Fertilizante Natural",
+        "cantidad": 50,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Tierra Fertilizada",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "nombrePedido": "Compra de Sustratos",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$42,000",
+    "direccionEntrega": "Calle Las Palmas 67",
+    "fechaEntrega": "2024-11-07",
+    "fechaAceptacion": "2024-11-08",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Bolsas de Sustrato",
+        "cantidad": 40,
+        "valorUnitario": "$800"
+      },
+      {
+        "nombre": "Grava Decorativa",
+        "cantidad": 10,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Fertilizante Líquido",
+        "cantidad": 15,
+        "valorUnitario": "$1,800"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "nombrePedido": "Adquisición de Abonos",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$89,000",
+    "direccionEntrega": "Boulevard Jardines 89",
+    "fechaEntrega": "2024-11-10",
+    "fechaAceptacion": "2024-11-11",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Abono Orgánico",
+        "cantidad": 40,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Plantas de Jardín",
+        "cantidad": 60,
+        "valorUnitario": "$1,300"
+      },
+      {
+        "nombre": "Piedra de Río",
+        "cantidad": 25,
+        "valorUnitario": "$800"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "nombrePedido": "Solicitud de Tierra",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$50,000",
+    "direccionEntrega": "Calle Lomas 23",
+    "fechaEntrega": "2024-11-12",
+    "fechaAceptacion": "2024-11-13",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Tierra para Plantas",
+        "cantidad": 50,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Fertilizante de Flores",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Semillas de Césped",
+        "cantidad": 30,
+        "valorUnitario": "$400"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "nombrePedido": "Encargo de Jardinería",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$68,000",
+    "direccionEntrega": "Avenida San Juan 15",
+    "fechaEntrega": "2024-11-15",
+    "fechaAceptacion": "2024-11-16",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Arena para Jardines",
+        "cantidad": 45,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Plantas de Interior",
+        "cantidad": 25,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Sustrato para Plantas",
+        "cantidad": 30,
+        "valorUnitario": "$1,200"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "nombrePedido": "Pedido de Árboles",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$55,000",
+    "direccionEntrega": "Calle Antigua 78",
+    "fechaEntrega": "2024-11-17",
+    "fechaAceptacion": "2024-11-18",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Árboles Frutales",
+        "cantidad": 20,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Macetas de Metal",
+        "cantidad": 10,
+        "valorUnitario": "$1,800"
+      },
+      {
+        "nombre": "Sustrato para Orquídeas",
+        "cantidad": 15,
+        "valorUnitario": "$2,000"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "nombrePedido": "Abastecimiento de Fertilizantes",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$90,000",
+    "direccionEntrega": "Avenida del Sol 32",
+    "fechaEntrega": "2024-11-20",
+    "fechaAceptacion": "2024-11-21",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Sustrato para Orquídeas",
+        "cantidad": 50,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Semillas de Césped",
+        "cantidad": 30,
+        "valorUnitario": "$500"
+      },
+      {
+        "nombre": "Abono de Hierro",
+        "cantidad": 20,
+        "valorUnitario": "$1,800"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "nombrePedido": "Inventario de Macetas",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$63,000",
+    "direccionEntrega": "Calle del Mar 45",
+    "fechaEntrega": "2024-11-22",
+    "fechaAceptacion": "2024-11-23",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Macetas Colgantes",
+        "cantidad": 35,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Fertilizante Universal",
+        "cantidad": 30,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Tierra para Macetas",
+        "cantidad": 25,
+        "valorUnitario": "$900"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "nombrePedido": "Compra de Macetas Rectangulares",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-24",
+    "valorTotal": "$77,000",
+    "direccionEntrega": "Calle Valle Verde 12",
+    "fechaEntrega": "2024-11-25",
+    "fechaAceptacion": "2024-11-26",
+    "estado": "Validar",
+    "productos": [
+      {
+        "nombre": "Macetas Rectangulares",
+        "cantidad": 60,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Tierra para Cultivos",
+        "cantidad": 50,
+        "valorUnitario": "$1,300"
+      },
+      {
+        "nombre": "Plantas Aromáticas",
+        "cantidad": 20,
+        "valorUnitario": "$2,200"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "nombrePedido": "Compra de Herramientas de Jardinería",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$120,000",
+    "direccionEntrega": "Calle Jardín 10",
+    "fechaEntrega": "2024-11-01",
+    "fechaAceptacion": "2024-11-02",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Pala de Jardín",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Tijeras de Podar",
+        "cantidad": 15,
+        "valorUnitario": "$900"
+      },
+      {
+        "nombre": "Guantes de Jardinería",
+        "cantidad": 50,
+        "valorUnitario": "$200"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "nombrePedido": "Pedido de Semillas de Flores",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$70,000",
+    "direccionEntrega": "Avenida Flores 25",
+    "fechaEntrega": "2024-11-03",
+    "fechaAceptacion": "2024-11-04",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Semillas de Rosas",
+        "cantidad": 100,
+        "valorUnitario": "$300"
+      },
+      {
+        "nombre": "Semillas de Girasol",
+        "cantidad": 150,
+        "valorUnitario": "$200"
+      },
+      {
+        "nombre": "Semillas de Lirio",
+        "cantidad": 50,
+        "valorUnitario": "$400"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "nombrePedido": "Abastecimiento de Fertilizantes Especiales",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$85,000",
+    "direccionEntrega": "Calle Verde 42",
+    "fechaEntrega": "2024-11-05",
+    "fechaAceptacion": "2024-11-06",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Fertilizante para Rosales",
+        "cantidad": 30,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Fertilizante para Orquídeas",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Fertilizante Líquido",
+        "cantidad": 40,
+        "valorUnitario": "$900"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "nombrePedido": "Pedido de Jardinería Sostenible",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$95,000",
+    "direccionEntrega": "Avenida Ecológica 50",
+    "fechaEntrega": "2024-11-08",
+    "fechaAceptacion": "2024-11-09",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Abono Orgánico",
+        "cantidad": 35,
+        "valorUnitario": "$800"
+      },
+      {
+        "nombre": "Compost Casero",
+        "cantidad": 20,
+        "valorUnitario": "$600"
+      },
+      {
+        "nombre": "Tierra Vegetal",
+        "cantidad": 50,
+        "valorUnitario": "$1,000"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "nombrePedido": "Solicitud de Árboles Frutales",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$110,000",
+    "direccionEntrega": "Calle del Río 15",
+    "fechaEntrega": "2024-11-10",
+    "fechaAceptacion": "2024-11-11",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Árboles de Limón",
+        "cantidad": 15,
+        "valorUnitario": "$2,500"
+      },
+      {
+        "nombre": "Árboles de Naranja",
+        "cantidad": 15,
+        "valorUnitario": "$2,800"
+      },
+      {
+        "nombre": "Árboles de Manzano",
+        "cantidad": 10,
+        "valorUnitario": "$3,000"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "nombrePedido": "Compra de Accesorios de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$75,000",
+    "direccionEntrega": "Calle del Jardín 88",
+    "fechaEntrega": "2024-11-15",
+    "fechaAceptacion": "2024-11-16",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Muebles de Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$5,000"
+      },
+      {
+        "nombre": "Sombrillas de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Caminos de Jardín",
+        "cantidad": 20,
+        "valorUnitario": "$800"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "nombrePedido": "Adquisición de Plantas Nativas",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$65,000",
+    "direccionEntrega": "Calle del Bosque 60",
+    "fechaEntrega": "2024-11-20",
+    "fechaAceptacion": "2024-11-21",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Plantas de Cacao",
+        "cantidad": 30,
+        "valorUnitario": "$1,300"
+      },
+      {
+        "nombre": "Plantas de Guayaba",
+        "cantidad": 40,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Plantas de Café",
+        "cantidad": 20,
+        "valorUnitario": "$1,500"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "nombrePedido": "Pedido de Equipos de Riego",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$90,000",
+    "direccionEntrega": "Avenida del Agua 30",
+    "fechaEntrega": "2024-11-25",
+    "fechaAceptacion": "2024-11-26",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Mangueras de Riego",
+        "cantidad": 20,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Aspersores",
+        "cantidad": 15,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Centrales de Riego",
+        "cantidad": 5,
+        "valorUnitario": "$5,000"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "nombrePedido": "Compra de Plantas de Interior",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$50,000",
+    "direccionEntrega": "Calle del Sol 11",
+    "fechaEntrega": "2024-11-30",
+    "fechaAceptacion": "2024-12-01",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Plantas de Aloe Vera",
+        "cantidad": 50,
+        "valorUnitario": "$800"
+      },
+      {
+        "nombre": "Plantas de Espatifilo",
+        "cantidad": 30,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Plantas de Ficus",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "nombrePedido": "Encargo de Decoraciones de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-25",
+    "valorTotal": "$80,000",
+    "direccionEntrega": "Calle de las Flores 17",
+    "fechaEntrega": "2024-12-05",
+    "fechaAceptacion": "2024-12-06",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Estatuas de Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$3,000"
+      },
+      {
+        "nombre": "Fuentes de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$4,500"
+      },
+      {
+        "nombre": "Luces de Jardín",
+        "cantidad": 20,
+        "valorUnitario": "$500"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "nombrePedido": "Compra de Suelo para Jardinería",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-20",
+    "valorTotal": "$100,000",
+    "direccionEntrega": "Calle Verde 30",
+    "fechaEntrega": "2024-10-25",
+    "fechaAceptacion": "2024-10-26",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Sustrato para Plantas",
+        "cantidad": 50,
+        "valorUnitario": "$1,000"
+      },
+      {
+        "nombre": "Tierra Vegetal",
+        "cantidad": 30,
+        "valorUnitario": "$900"
+      },
+      {
+        "nombre": "Compost Orgánico",
+        "cantidad": 20,
+        "valorUnitario": "$1,200"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "nombrePedido": "Suministro de Plantas de Exterior",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-15",
+    "valorTotal": "$85,000",
+    "direccionEntrega": "Avenida Sol 25",
+    "fechaEntrega": "2024-10-22",
+    "fechaAceptacion": "2024-10-23",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Plantas de Lavanda",
+        "cantidad": 40,
+        "valorUnitario": "$600"
+      },
+      {
+        "nombre": "Plantas de Rosales",
+        "cantidad": 30,
+        "valorUnitario": "$800"
+      },
+      {
+        "nombre": "Plantas de Geranios",
+        "cantidad": 25,
+        "valorUnitario": "$400"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "nombrePedido": "Adquisición de Equipos de Riego",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-10",
+    "valorTotal": "$95,000",
+    "direccionEntrega": "Calle del Agua 15",
+    "fechaEntrega": "2024-10-18",
+    "fechaAceptacion": "2024-10-19",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Aspersores",
+        "cantidad": 20,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Mangueras de Riego",
+        "cantidad": 25,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Controladores de Riego",
+        "cantidad": 5,
+        "valorUnitario": "$4,500"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "nombrePedido": "Pedido de Herramientas de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-10-05",
+    "valorTotal": "$70,000",
+    "direccionEntrega": "Avenida Flores 40",
+    "fechaEntrega": "2024-10-10",
+    "fechaAceptacion": "2024-10-11",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Tijeras de Podar",
+        "cantidad": 15,
+        "valorUnitario": "$900"
+      },
+      {
+        "nombre": "Pala de Jardín",
+        "cantidad": 20,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Rastrillos",
+        "cantidad": 10,
+        "valorUnitario": "$600"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "nombrePedido": "Compra de Fertilizantes",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-30",
+    "valorTotal": "$80,000",
+    "direccionEntrega": "Calle del Jardín 60",
+    "fechaEntrega": "2024-10-05",
+    "fechaAceptacion": "2024-10-06",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Fertilizante para Flores",
+        "cantidad": 40,
+        "valorUnitario": "$900"
+      },
+      {
+        "nombre": "Fertilizante Líquido",
+        "cantidad": 30,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Fertilizante Orgánico",
+        "cantidad": 25,
+        "valorUnitario": "$1,000"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "nombrePedido": "Encargo de Muebles de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-25",
+    "valorTotal": "$110,000",
+    "direccionEntrega": "Calle de los Jardines 12",
+    "fechaEntrega": "2024-09-30",
+    "fechaAceptacion": "2024-10-01",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Sillas de Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$5,000"
+      },
+      {
+        "nombre": "Mesas de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$7,500"
+      },
+      {
+        "nombre": "Sombrillas",
+        "cantidad": 8,
+        "valorUnitario": "$2,000"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "nombrePedido": "Compra de Plantas de Interior",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-20",
+    "valorTotal": "$65,000",
+    "direccionEntrega": "Avenida del Sol 20",
+    "fechaEntrega": "2024-09-28",
+    "fechaAceptacion": "2024-09-29",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Plantas de Ficus",
+        "cantidad": 20,
+        "valorUnitario": "$1,500"
+      },
+      {
+        "nombre": "Plantas de Espatifilo",
+        "cantidad": 30,
+        "valorUnitario": "$1,200"
+      },
+      {
+        "nombre": "Plantas de Aloe Vera",
+        "cantidad": 25,
+        "valorUnitario": "$800"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "nombrePedido": "Abastecimiento de Decoraciones de Jardín",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-15",
+    "valorTotal": "$75,000",
+    "direccionEntrega": "Calle de las Flores 25",
+    "fechaEntrega": "2024-09-22",
+    "fechaAceptacion": "2024-09-23",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Estatuas de Jardín",
+        "cantidad": 5,
+        "valorUnitario": "$3,000"
+      },
+      {
+        "nombre": "Fuentes de Jardín",
+        "cantidad": 2,
+        "valorUnitario": "$4,500"
+      },
+      {
+        "nombre": "Luces de Jardín",
+        "cantidad": 10,
+        "valorUnitario": "$500"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "nombrePedido": "Pedido de Plantas de Hortalizas",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-10",
+    "valorTotal": "$90,000",
+    "direccionEntrega": "Avenida de la Huerta 30",
+    "fechaEntrega": "2024-09-15",
+    "fechaAceptacion": "2024-09-16",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Plantas de Tomate",
+        "cantidad": 50,
+        "valorUnitario": "$600"
+      },
+      {
+        "nombre": "Plantas de Lechuga",
+        "cantidad": 60,
+        "valorUnitario": "$400"
+      },
+      {
+        "nombre": "Plantas de Zanahoria",
+        "cantidad": 30,
+        "valorUnitario": "$300"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "nombrePedido": "Compra de Árboles Frutales",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-05",
+    "valorTotal": "$150,000",
+    "direccionEntrega": "Calle de los Frutales 18",
+    "fechaEntrega": "2024-09-10",
+    "fechaAceptacion": "2024-09-11",
+    "estado": "Completado",
+    "productos": [
+      {
+        "nombre": "Árboles de Mango",
+        "cantidad": 10,
+        "valorUnitario": "$8,000"
+      },
+      {
+        "nombre": "Árboles de Limón",
+        "cantidad": 15,
+        "valorUnitario": "$6,500"
+      },
+      {
+        "nombre": "Árboles de Naranja",
+        "cantidad": 12,
+        "valorUnitario": "$7,000"
+      }
+    ]
+  },{
+    "id": 41,
+    "nombrePedido": "Compra de Macetas de cerámica",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-05",
+    "valorTotal": "$150,000",
+    "direccionEntrega": "Calle de los Frutales 18",
+    "fechaEntrega": "2024-09-10",
+    "fechaAceptacion": "2024-09-11",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de cerámica",
+        "cantidad": 20,
+        "valorUnitario": "$5,000"
+      },
+      {
+        "nombre": "Macetas de vidrio",
+        "cantidad": 15,
+        "valorUnitario": "$4,000"
+      }
+    ],
+    "desempeño": 9
+  },
+  {
+    "id": 42,
+    "nombrePedido": "Compra de Macetas de metal",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-06",
+    "valorTotal": "$120,000",
+    "direccionEntrega": "Calle de los Jardines 5",
+    "fechaEntrega": "2024-09-12",
+    "fechaAceptacion": "2024-09-13",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de metal",
+        "cantidad": 25,
+        "valorUnitario": "$3,500"
+      },
+      {
+        "nombre": "Macetas de terracota",
+        "cantidad": 20,
+        "valorUnitario": "$4,500"
+      }
+    ],
+    "desempeño": 8
+  },
+  {
+    "id": 43,
+    "nombrePedido": "Compra de Macetas de madera",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-07",
+    "valorTotal": "$130,000",
+    "direccionEntrega": "Calle de la Selva 10",
+    "fechaEntrega": "2024-09-15",
+    "fechaAceptacion": "2024-09-14",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de madera",
+        "cantidad": 30,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Macetas colgantes",
+        "cantidad": 15,
+        "valorUnitario": "$2,500"
+      }
+    ],
+    "desempeño": 9.5
+  },
+  {
+    "id": 44,
+    "nombrePedido": "Compra de Macetas colgantes",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-08",
+    "valorTotal": "$110,000",
+    "direccionEntrega": "Calle de las Flores 8",
+    "fechaEntrega": "2024-09-20",
+    "fechaAceptacion": "2024-09-18",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas colgantes",
+        "cantidad": 20,
+        "valorUnitario": "$4,000"
+      },
+      {
+        "nombre": "Macetas de tela",
+        "cantidad": 10,
+        "valorUnitario": "$5,000"
+      }
+    ],
+    "desempeño": 8.7
+  },
+  {
+    "id": 45,
+    "nombrePedido": "Compra de Macetas de fibra de vidrio",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-09",
+    "valorTotal": "$95,000",
+    "direccionEntrega": "Calle del Rio 12",
+    "fechaEntrega": "2024-09-22",
+    "fechaAceptacion": "2024-09-19",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de fibra de vidrio",
+        "cantidad": 25,
+        "valorUnitario": "$3,800"
+      },
+      {
+        "nombre": "Macetas de cemento",
+        "cantidad": 20,
+        "valorUnitario": "$4,500"
+      }
+    ],
+    "desempeño": 9.2
+  },
+  {
+    "id": 46,
+    "nombrePedido": "Compra de Macetas de tela",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-10",
+    "valorTotal": "$85,000",
+    "direccionEntrega": "Calle de los Árboles 15",
+    "fechaEntrega": "2024-09-25",
+    "fechaAceptacion": "2024-09-21",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de tela",
+        "cantidad": 15,
+        "valorUnitario": "$4,500"
+      },
+      {
+        "nombre": "Macetas de terracota",
+        "cantidad": 10,
+        "valorUnitario": "$5,500"
+      }
+    ],
+    "desempeño": 8.5
+  },
+  {
+    "id": 47,
+    "nombrePedido": "Compra de Macetas de cemento",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-11",
+    "valorTotal": "$70,000",
+    "direccionEntrega": "Calle de la Montaña 3",
+    "fechaEntrega": "2024-09-28",
+    "fechaAceptacion": "2024-09-23",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de cemento",
+        "cantidad": 20,
+        "valorUnitario": "$3,500"
+      },
+      {
+        "nombre": "Macetas de plástico",
+        "cantidad": 15,
+        "valorUnitario": "$4,000"
+      }
+    ],
+    "desempeño": 9
+  },
+  {
+    "id": 48,
+    "nombrePedido": "Compra de Macetas de barro",
+    "proveedor": "Guate",
+    "fechaCreacion": "2024-09-12",
+    "valorTotal": "$60,000",
+    "direccionEntrega": "Calle de la Alegría 4",
+    "fechaEntrega": "2024-09-30",
+    "fechaAceptacion": "2024-09-26",
+    "estado": "Calificado",
+    "productos": [
+      {
+        "nombre": "Macetas de barro",
+        "cantidad": 30,
+        "valorUnitario": "$2,000"
+      },
+      {
+        "nombre": "Macetas de fibra natural",
+        "cantidad": 10,
+        "valorUnitario": "$3,500"
+      }
+    ],
+    "desempeño": 8.9
+  }
+]

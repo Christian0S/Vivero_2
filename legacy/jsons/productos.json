@@ -1,0 +1,2002 @@
+[
+    {
+        "id": 1,
+        "name": "Orquídea Phalaenopsis",
+        "category": "Plantas",
+        "supplierId": 1697819782736,
+        "basePrice": 30000,
+        "ultPercentage": 20.0,
+        "sellingPrice": 45000,
+        "vatPercentage": 19,
+        "priceWithVAT": 35700,
+        "quantityToAdd": 10,
+        "quantityToAlert": 5,
+        "image": "/Assent/img/plantas.png",
+        "description": "Orquídea Phalaenopsis en maceta decorativa",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Alcancía de Barro en Forma de Cerdito",
+        "category": "Artesanías",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 30787.37,
+        "ultPercentage": 20.0,
+        "sellingPrice": 43964.364,
+        "vatPercentage": 19,
+        "priceWithVAT": 36636.97,
+        "quantityToAdd": 26,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 2 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Matera de Barro Grande",
+        "category": "Materas",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 46656.63,
+        "ultPercentage": 20.0,
+        "sellingPrice": 66625.66799999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 55521.39,
+        "quantityToAdd": 33,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 3 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 4,
+        "name": "Abono Orgánico Universal",
+        "category": "Abonos-Tierra",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 22210.82,
+        "ultPercentage": 20.0,
+        "sellingPrice": 31717.056,
+        "vatPercentage": 19,
+        "priceWithVAT": 26430.88,
+        "quantityToAdd": 36,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 4 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 5,
+        "name": "Fertilizante Mineral",
+        "category": "Abonos-Tierra",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 33702.97,
+        "ultPercentage": 20.0,
+        "sellingPrice": 48127.835999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 40106.53,
+        "quantityToAdd": 32,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 5 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 6,
+        "name": "Hortensia Azul",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 20721.18,
+        "ultPercentage": 20.0,
+        "sellingPrice": 29589.84,
+        "vatPercentage": 19,
+        "priceWithVAT": 24658.2,
+        "quantityToAdd": 34,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 6 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 7,
+        "name": "Maceta de Barro Decorativa",
+        "category": "Artesanías",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 38623.17,
+        "ultPercentage": 20.0,
+        "sellingPrice": 55153.884,
+        "vatPercentage": 19,
+        "priceWithVAT": 45961.57,
+        "quantityToAdd": 21,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 7 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 8,
+        "name": "Matera de Barro Decorativa",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 48739.74,
+        "ultPercentage": 20.0,
+        "sellingPrice": 69600.348,
+        "vatPercentage": 19,
+        "priceWithVAT": 58000.29,
+        "quantityToAdd": 21,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 8 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 9,
+        "name": "Compost Orgánico",
+        "category": "Abonos-Tierra",
+        "supplierId": "Vivero Verde",
+        "basePrice": 49199.6,
+        "ultPercentage": 20.0,
+        "sellingPrice": 70257.02399999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 58547.52,
+        "quantityToAdd": 28,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 9 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 10,
+        "name": "Humus de Lombriz",
+        "category": "Abonos-Tierra",
+        "supplierId": "Vivero Verde",
+        "basePrice": 16096.44,
+        "ultPercentage": 20.0,
+        "sellingPrice": 22985.711999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 19154.76,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 10 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 11,
+        "name": "Tierra Negra para Plantas",
+        "category": "Abonos-Tierra",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 34282.99,
+        "ultPercentage": 20.0,
+        "sellingPrice": 48956.112,
+        "vatPercentage": 19,
+        "priceWithVAT": 40796.76,
+        "quantityToAdd": 50,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 11 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 12,
+        "name": "Rosa Jardinera",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 12277.06,
+        "ultPercentage": 20.0,
+        "sellingPrice": 17531.64,
+        "vatPercentage": 19,
+        "priceWithVAT": 14609.7,
+        "quantityToAdd": 19,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 12 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 13,
+        "name": "Matera Rústica de Arcilla",
+        "category": "Materas",
+        "supplierId": "Vivero Verde",
+        "basePrice": 21459.2,
+        "ultPercentage": 20.0,
+        "sellingPrice": 30643.739999999998,
+        "vatPercentage": 19,
+        "priceWithVAT": 25536.45,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 13 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 14,
+        "name": "Matera con Soporte de Hierro",
+        "category": "Materas",
+        "supplierId": "Sustentabilidad Verde",
+        "basePrice": 38616.67,
+        "ultPercentage": 20.0,
+        "sellingPrice": 55144.60799999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 45953.84,
+        "quantityToAdd": 37,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 14 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 15,
+        "name": "Crisantemo Amarillo",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 29071.67,
+        "ultPercentage": 20.0,
+        "sellingPrice": 41514.348,
+        "vatPercentage": 19,
+        "priceWithVAT": 34595.29,
+        "quantityToAdd": 49,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 15 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 16,
+        "name": "Fertilizante NPK",
+        "category": "Abonos-Tierra",
+        "supplierId": "Sustentabilidad Verde",
+        "basePrice": 24665.71,
+        "ultPercentage": 20.0,
+        "sellingPrice": 35222.628,
+        "vatPercentage": 19,
+        "priceWithVAT": 29352.19,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 16 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 17,
+        "name": "Abono para Jardines",
+        "category": "Abonos-Tierra",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 20880.13,
+        "ultPercentage": 20.0,
+        "sellingPrice": 29816.819999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 24847.35,
+        "quantityToAdd": 25,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 17 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 18,
+        "name": "Jarrón de Barro Tallado",
+        "category": "Artesanías",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 48898.27,
+        "ultPercentage": 20.0,
+        "sellingPrice": 69826.728,
+        "vatPercentage": 19,
+        "priceWithVAT": 58188.94,
+        "quantityToAdd": 18,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 18 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 19,
+        "name": "Fertilizante Líquido",
+        "category": "Abonos-Tierra",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 30038.86,
+        "ultPercentage": 20.0,
+        "sellingPrice": 42895.488,
+        "vatPercentage": 19,
+        "priceWithVAT": 35746.24,
+        "quantityToAdd": 18,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 19 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 20,
+        "name": "Vasija de Barro Pintada",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 32991.28,
+        "ultPercentage": 20.0,
+        "sellingPrice": 47111.544,
+        "vatPercentage": 19,
+        "priceWithVAT": 39259.62,
+        "quantityToAdd": 14,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 20 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 21,
+        "name": "Compostaje Natural",
+        "category": "Abonos-Tierra",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 25742.73,
+        "ultPercentage": 20.0,
+        "sellingPrice": 36760.619999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 30633.85,
+        "quantityToAdd": 42,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 21 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 22,
+        "name": "Matera de Cerámica Esmaltada",
+        "category": "Materas",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 42375.95,
+        "ultPercentage": 20.0,
+        "sellingPrice": 60512.85599999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 50427.38,
+        "quantityToAdd": 22,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 22 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 23,
+        "name": "Bonsái Ficus",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 40461.19,
+        "ultPercentage": 20.0,
+        "sellingPrice": 57778.583999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 48148.82,
+        "quantityToAdd": 49,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 23 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 24,
+        "name": "Maceta Barro Crudo",
+        "category": "Materas",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 14213.15,
+        "ultPercentage": 20.0,
+        "sellingPrice": 20296.38,
+        "vatPercentage": 19,
+        "priceWithVAT": 16913.65,
+        "quantityToAdd": 28,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 24 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 25,
+        "name": "Abono de Cosecha",
+        "category": "Abonos-Tierra",
+        "supplierId": "Vivero Verde",
+        "basePrice": 45336.09,
+        "ultPercentage": 20.0,
+        "sellingPrice": 64739.939999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 53949.95,
+        "quantityToAdd": 46,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 25 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 26,
+        "name": "Matera Redonda de Barro",
+        "category": "Materas",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 41301.48,
+        "ultPercentage": 20.0,
+        "sellingPrice": 58978.512,
+        "vatPercentage": 19,
+        "priceWithVAT": 49148.76,
+        "quantityToAdd": 40,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 26 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 27,
+        "name": "Tierra para Macetas",
+        "category": "Abonos-Tierra",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 46456.86,
+        "ultPercentage": 20.0,
+        "sellingPrice": 66340.392,
+        "vatPercentage": 19,
+        "priceWithVAT": 55283.66,
+        "quantityToAdd": 16,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 27 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 28,
+        "name": "Máscara de Barro Tradicional",
+        "category": "Artesanías",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 47007.54,
+        "ultPercentage": 20.0,
+        "sellingPrice": 67126.764,
+        "vatPercentage": 19,
+        "priceWithVAT": 55938.97,
+        "quantityToAdd": 39,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 28 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 29,
+        "name": "Candelabro de Barro",
+        "category": "Artesanías",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 34360.59,
+        "ultPercentage": 20.0,
+        "sellingPrice": 49066.92,
+        "vatPercentage": 19,
+        "priceWithVAT": 40889.1,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 29 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 30,
+        "name": "Sustrato Especial",
+        "category": "Abonos-Tierra",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 49403.07,
+        "ultPercentage": 20.0,
+        "sellingPrice": 70547.58,
+        "vatPercentage": 19,
+        "priceWithVAT": 58789.65,
+        "quantityToAdd": 28,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 30 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 31,
+        "name": "Lavanda Francesa",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 24667.19,
+        "ultPercentage": 20.0,
+        "sellingPrice": 35224.752,
+        "vatPercentage": 19,
+        "priceWithVAT": 29353.96,
+        "quantityToAdd": 50,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 31 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 32,
+        "name": "Matera de Barro para Cactus",
+        "category": "Materas",
+        "supplierId": "Sustentabilidad Verde",
+        "basePrice": 30814.28,
+        "ultPercentage": 20.0,
+        "sellingPrice": 44002.78799999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 36668.99,
+        "quantityToAdd": 24,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 32 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 33,
+        "name": "Abono de Guano",
+        "category": "Abonos-Tierra",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 33344.01,
+        "ultPercentage": 20.0,
+        "sellingPrice": 47615.244,
+        "vatPercentage": 19,
+        "priceWithVAT": 39679.37,
+        "quantityToAdd": 34,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 33 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 34,
+        "name": "Tierra Orgánica",
+        "category": "Abonos-Tierra",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 20725.72,
+        "ultPercentage": 20.0,
+        "sellingPrice": 29596.332,
+        "vatPercentage": 19,
+        "priceWithVAT": 24663.61,
+        "quantityToAdd": 22,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 34 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 35,
+        "name": "Helecho de Boston",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 47314.82,
+        "ultPercentage": 20.0,
+        "sellingPrice": 67565.568,
+        "vatPercentage": 19,
+        "priceWithVAT": 56304.64,
+        "quantityToAdd": 40,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 35 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 36,
+        "name": "Alcancía de Barro en Forma de Rana",
+        "category": "Artesanías",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 15874.57,
+        "ultPercentage": 20.0,
+        "sellingPrice": 22668.888000000003,
+        "vatPercentage": 19,
+        "priceWithVAT": 18890.74,
+        "quantityToAdd": 45,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 36 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 37,
+        "name": "Fertilizante Orgánico",
+        "category": "Abonos-Tierra",
+        "supplierId": "Cultivos del Pacífico",
+        "basePrice": 24358.66,
+        "ultPercentage": 20.0,
+        "sellingPrice": 34784.172,
+        "vatPercentage": 19,
+        "priceWithVAT": 28986.81,
+        "quantityToAdd": 45,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 37 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 38,
+        "name": "Dracaena Marginata",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 30455.16,
+        "ultPercentage": 20.0,
+        "sellingPrice": 43489.968,
+        "vatPercentage": 19,
+        "priceWithVAT": 36241.64,
+        "quantityToAdd": 40,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 38 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 39,
+        "name": "Florero de Barro",
+        "category": "Artesanías",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 13751.63,
+        "ultPercentage": 20.0,
+        "sellingPrice": 19637.328,
+        "vatPercentage": 19,
+        "priceWithVAT": 16364.44,
+        "quantityToAdd": 37,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 39 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 40,
+        "name": "Cactus Espino",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 13359.41,
+        "ultPercentage": 20.0,
+        "sellingPrice": 19077.24,
+        "vatPercentage": 19,
+        "priceWithVAT": 15897.7,
+        "quantityToAdd": 48,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 40 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 41,
+        "name": "Matera Colgante de Barro",
+        "category": "Materas",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 32996.56,
+        "ultPercentage": 20.0,
+        "sellingPrice": 47119.092000000004,
+        "vatPercentage": 19,
+        "priceWithVAT": 39265.91,
+        "quantityToAdd": 21,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 41 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 42,
+        "name": "Matera de Barro Pintada",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 39794.99,
+        "ultPercentage": 20.0,
+        "sellingPrice": 56827.248,
+        "vatPercentage": 19,
+        "priceWithVAT": 47356.04,
+        "quantityToAdd": 46,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 42 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 43,
+        "name": "Ficus Benjamina",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 26572.56,
+        "ultPercentage": 20.0,
+        "sellingPrice": 37945.619999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 31621.35,
+        "quantityToAdd": 27,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 43 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 44,
+        "name": "Adorno de Barro con Pintura",
+        "category": "Artesanías",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 35945.01,
+        "ultPercentage": 20.0,
+        "sellingPrice": 51329.471999999994,
+        "vatPercentage": 19,
+        "priceWithVAT": 42774.56,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 44 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 45,
+        "name": "Matera de Barro con Dibujo",
+        "category": "Materas",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 28172.57,
+        "ultPercentage": 20.0,
+        "sellingPrice": 40230.432,
+        "vatPercentage": 19,
+        "priceWithVAT": 33525.36,
+        "quantityToAdd": 21,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 45 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 46,
+        "name": "Palmera Areca",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 18191.63,
+        "ultPercentage": 20.0,
+        "sellingPrice": 25977.648,
+        "vatPercentage": 19,
+        "priceWithVAT": 21648.04,
+        "quantityToAdd": 33,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 46 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 47,
+        "name": "Geranio Rojo",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 37385.68,
+        "ultPercentage": 20.0,
+        "sellingPrice": 53386.752,
+        "vatPercentage": 19,
+        "priceWithVAT": 44488.96,
+        "quantityToAdd": 12,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 47 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 48,
+        "name": "Compost de Café",
+        "category": "Abonos-Tierra",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 22064.62,
+        "ultPercentage": 20.0,
+        "sellingPrice": 31508.28,
+        "vatPercentage": 19,
+        "priceWithVAT": 26256.9,
+        "quantityToAdd": 34,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 48 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 49,
+        "name": "Escultura de Barro",
+        "category": "Artesanías",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 31941.64,
+        "ultPercentage": 20.0,
+        "sellingPrice": 45612.66,
+        "vatPercentage": 19,
+        "priceWithVAT": 38010.55,
+        "quantityToAdd": 36,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 49 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 50,
+        "name": "Maceta con Tapa de Barro",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 15385.56,
+        "ultPercentage": 20.0,
+        "sellingPrice": 21970.584,
+        "vatPercentage": 19,
+        "priceWithVAT": 18308.82,
+        "quantityToAdd": 14,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 50 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 51,
+        "name": "Orquídea Cymbidium",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 17339.68,
+        "ultPercentage": 20.0,
+        "sellingPrice": 24761.064000000002,
+        "vatPercentage": 19,
+        "priceWithVAT": 20634.22,
+        "quantityToAdd": 50,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 51 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 52,
+        "name": "Matera de Barro para Plantas Grandes",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 12208.8,
+        "ultPercentage": 20.0,
+        "sellingPrice": 17434.163999999997,
+        "vatPercentage": 19,
+        "priceWithVAT": 14528.47,
+        "quantityToAdd": 12,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 52 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 53,
+        "name": "Portavelas de Barro",
+        "category": "Artesanías",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 21637.3,
+        "ultPercentage": 20.0,
+        "sellingPrice": 30898.068,
+        "vatPercentage": 19,
+        "priceWithVAT": 25748.39,
+        "quantityToAdd": 35,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 53 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 54,
+        "name": "Ficus elastica",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 36061.36,
+        "ultPercentage": 20.0,
+        "sellingPrice": 51495.623999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 42913.02,
+        "quantityToAdd": 12,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 54 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 55,
+        "name": "Abono para Flores",
+        "category": "Abonos-Tierra",
+        "supplierId": "Vivero Verde",
+        "basePrice": 25948.71,
+        "ultPercentage": 20.0,
+        "sellingPrice": 37054.752,
+        "vatPercentage": 19,
+        "priceWithVAT": 30878.96,
+        "quantityToAdd": 23,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 55 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 56,
+        "name": "Matera con Diseño Floral",
+        "category": "Materas",
+        "supplierId": "Cultivos del Pacífico",
+        "basePrice": 32448.26,
+        "ultPercentage": 20.0,
+        "sellingPrice": 46336.116,
+        "vatPercentage": 19,
+        "priceWithVAT": 38613.43,
+        "quantityToAdd": 33,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 56 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 57,
+        "name": "Planta del Dinero",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 35756.23,
+        "ultPercentage": 20.0,
+        "sellingPrice": 51059.892,
+        "vatPercentage": 19,
+        "priceWithVAT": 42549.91,
+        "quantityToAdd": 48,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 57 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 58,
+        "name": "Spathiphyllum",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 36530.45,
+        "ultPercentage": 20.0,
+        "sellingPrice": 52165.488,
+        "vatPercentage": 19,
+        "priceWithVAT": 43471.24,
+        "quantityToAdd": 35,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 58 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 59,
+        "name": "Sustrato para Cactus",
+        "category": "Abonos-Tierra",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 21818.63,
+        "ultPercentage": 20.0,
+        "sellingPrice": 31157.003999999997,
+        "vatPercentage": 19,
+        "priceWithVAT": 25964.17,
+        "quantityToAdd": 19,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 59 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 60,
+        "name": "Fertilizante de Poda",
+        "category": "Abonos-Tierra",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 16549.64,
+        "ultPercentage": 20.0,
+        "sellingPrice": 23632.884,
+        "vatPercentage": 19,
+        "priceWithVAT": 19694.07,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 60 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 61,
+        "name": "Abono para Plantas de Interior",
+        "category": "Abonos-Tierra",
+        "supplierId": "Cultivos del Pacífico",
+        "basePrice": 39968.02,
+        "ultPercentage": 20.0,
+        "sellingPrice": 57074.328,
+        "vatPercentage": 19,
+        "priceWithVAT": 47561.94,
+        "quantityToAdd": 25,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 61 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 62,
+        "name": "Matera de Barro para Orquídeas",
+        "category": "Materas",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 12869.26,
+        "ultPercentage": 20.0,
+        "sellingPrice": 18377.304,
+        "vatPercentage": 19,
+        "priceWithVAT": 15314.42,
+        "quantityToAdd": 35,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 62 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 63,
+        "name": "Matera de Barro Esmaltada",
+        "category": "Materas",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 26087.98,
+        "ultPercentage": 20.0,
+        "sellingPrice": 37253.64,
+        "vatPercentage": 19,
+        "priceWithVAT": 31044.7,
+        "quantityToAdd": 49,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 63 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 64,
+        "name": "Cesta de Barro Tejida",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 22479.77,
+        "ultPercentage": 20.0,
+        "sellingPrice": 32101.115999999998,
+        "vatPercentage": 19,
+        "priceWithVAT": 26750.93,
+        "quantityToAdd": 34,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 64 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 65,
+        "name": "Maceta de Cerámica con Dibujo",
+        "category": "Materas",
+        "supplierId": "Flores de la Montaña",
+        "basePrice": 19992.51,
+        "ultPercentage": 20.0,
+        "sellingPrice": 28549.308,
+        "vatPercentage": 19,
+        "priceWithVAT": 23791.09,
+        "quantityToAdd": 49,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 65 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 66,
+        "name": "Matera de Barro Tradicional",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 29208.22,
+        "ultPercentage": 20.0,
+        "sellingPrice": 41709.335999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 34757.78,
+        "quantityToAdd": 14,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 66 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 67,
+        "name": "Alcancía de Barro con Forma de Pez",
+        "category": "Artesanías",
+        "supplierId": "Flores de la Montaña",
+        "basePrice": 25579.81,
+        "ultPercentage": 20.0,
+        "sellingPrice": 36527.964,
+        "vatPercentage": 19,
+        "priceWithVAT": 30439.97,
+        "quantityToAdd": 28,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 67 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 68,
+        "name": "Compost de Restos de Jardín",
+        "category": "Abonos-Tierra",
+        "supplierId": "Semillas de Vida",
+        "basePrice": 45996.76,
+        "ultPercentage": 20.0,
+        "sellingPrice": 65683.368,
+        "vatPercentage": 19,
+        "priceWithVAT": 54736.14,
+        "quantityToAdd": 36,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 68 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 69,
+        "name": "Adorno de Pared de Barro",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 26912.97,
+        "ultPercentage": 20.0,
+        "sellingPrice": 38431.716,
+        "vatPercentage": 19,
+        "priceWithVAT": 32026.43,
+        "quantityToAdd": 47,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 69 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 70,
+        "name": "Maceta Colgante de Barro",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 48575.6,
+        "ultPercentage": 20.0,
+        "sellingPrice": 69365.95199999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 57804.96,
+        "quantityToAdd": 35,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 70 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 71,
+        "name": "Matera de Barro con Soporte",
+        "category": "Materas",
+        "supplierId": "Vivero Verde",
+        "basePrice": 32926.56,
+        "ultPercentage": 20.0,
+        "sellingPrice": 47019.132,
+        "vatPercentage": 19,
+        "priceWithVAT": 39182.61,
+        "quantityToAdd": 31,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 71 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 72,
+        "name": "Matera de Barro Ovalada",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 20432.95,
+        "ultPercentage": 20.0,
+        "sellingPrice": 29178.251999999997,
+        "vatPercentage": 19,
+        "priceWithVAT": 24315.21,
+        "quantityToAdd": 12,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 72 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 73,
+        "name": "Bamboo Lucky",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 41576.55,
+        "ultPercentage": 20.0,
+        "sellingPrice": 59371.30799999999,
+        "vatPercentage": 19,
+        "priceWithVAT": 49476.09,
+        "quantityToAdd": 26,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 73 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 74,
+        "name": "Poto",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 33745.22,
+        "ultPercentage": 20.0,
+        "sellingPrice": 48188.172,
+        "vatPercentage": 19,
+        "priceWithVAT": 40156.81,
+        "quantityToAdd": 17,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 74 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 75,
+        "name": "Bonsái de Olivo",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 16097.53,
+        "ultPercentage": 20.0,
+        "sellingPrice": 22987.272,
+        "vatPercentage": 19,
+        "priceWithVAT": 19156.06,
+        "quantityToAdd": 47,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 75 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 76,
+        "name": "Tierra de Huerta",
+        "category": "Abonos-Tierra",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 45687.43,
+        "ultPercentage": 20.0,
+        "sellingPrice": 65241.648,
+        "vatPercentage": 19,
+        "priceWithVAT": 54368.04,
+        "quantityToAdd": 15,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 76 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 77,
+        "name": "Maceta Decorativa de Barro",
+        "category": "Materas",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 23383.31,
+        "ultPercentage": 20.0,
+        "sellingPrice": 33391.367999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 27826.14,
+        "quantityToAdd": 26,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 77 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 78,
+        "name": "Máscara de Barro de la Cultura Muisca",
+        "category": "Artesanías",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 27938.78,
+        "ultPercentage": 20.0,
+        "sellingPrice": 39896.58,
+        "vatPercentage": 19,
+        "priceWithVAT": 33247.15,
+        "quantityToAdd": 20,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 78 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 79,
+        "name": "Matera de Barro para Exterior",
+        "category": "Materas",
+        "supplierId": "Cultivos del Pacífico",
+        "basePrice": 28545.3,
+        "ultPercentage": 20.0,
+        "sellingPrice": 40762.692,
+        "vatPercentage": 19,
+        "priceWithVAT": 33968.91,
+        "quantityToAdd": 43,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 79 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 80,
+        "name": "Matera de Barro con Filigrana",
+        "category": "Materas",
+        "supplierId": "Cultivos del Pacífico",
+        "basePrice": 33183.11,
+        "ultPercentage": 20.0,
+        "sellingPrice": 47385.48,
+        "vatPercentage": 19,
+        "priceWithVAT": 39487.9,
+        "quantityToAdd": 38,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 80 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 81,
+        "name": "Vasija de Barro para Plantas",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 46315.78,
+        "ultPercentage": 20.0,
+        "sellingPrice": 66138.936,
+        "vatPercentage": 19,
+        "priceWithVAT": 55115.78,
+        "quantityToAdd": 19,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 81 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 82,
+        "name": "Porta incienso de Barro",
+        "category": "Artesanías",
+        "supplierId": "Flores de la Montaña",
+        "basePrice": 17238.8,
+        "ultPercentage": 20.0,
+        "sellingPrice": 24617.003999999997,
+        "vatPercentage": 19,
+        "priceWithVAT": 20514.17,
+        "quantityToAdd": 26,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 82 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 83,
+        "name": "Alcancía de Barro en Forma de Perro",
+        "category": "Artesanías",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 35811.76,
+        "ultPercentage": 20.0,
+        "sellingPrice": 51139.187999999995,
+        "vatPercentage": 19,
+        "priceWithVAT": 42615.99,
+        "quantityToAdd": 45,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 83 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 84,
+        "name": "Cuenco de Barro para Decoración",
+        "category": "Artesanías",
+        "supplierId": "Flores de la Montaña",
+        "basePrice": 34768.02,
+        "ultPercentage": 20.0,
+        "sellingPrice": 49648.728,
+        "vatPercentage": 19,
+        "priceWithVAT": 41373.94,
+        "quantityToAdd": 30,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 84 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 85,
+        "name": "Cactáceas Variadas",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 35260.5,
+        "ultPercentage": 20.0,
+        "sellingPrice": 50351.988,
+        "vatPercentage": 19,
+        "priceWithVAT": 41959.99,
+        "quantityToAdd": 42,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 85 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 86,
+        "name": "Matera de Barro Pintada a Mano",
+        "category": "Materas",
+        "supplierId": "Verde Esperanza",
+        "basePrice": 39061.56,
+        "ultPercentage": 20.0,
+        "sellingPrice": 55779.912000000004,
+        "vatPercentage": 19,
+        "priceWithVAT": 46483.26,
+        "quantityToAdd": 46,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 86 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 87,
+        "name": "Matera de Barro Artística",
+        "category": "Materas",
+        "supplierId": "Sustentabilidad Verde",
+        "basePrice": 28684.35,
+        "ultPercentage": 20.0,
+        "sellingPrice": 40961.255999999994,
+        "vatPercentage": 19,
+        "priceWithVAT": 34134.38,
+        "quantityToAdd": 11,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 87 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 88,
+        "name": "Cebuella",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 46261.94,
+        "ultPercentage": 20.0,
+        "sellingPrice": 66062.052,
+        "vatPercentage": 19,
+        "priceWithVAT": 55051.71,
+        "quantityToAdd": 13,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 88 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 89,
+        "name": "Matera con Base de Madera",
+        "category": "Materas",
+        "supplierId": "Vivero Verde",
+        "basePrice": 18984.88,
+        "ultPercentage": 20.0,
+        "sellingPrice": 27110.411999999997,
+        "vatPercentage": 19,
+        "priceWithVAT": 22592.01,
+        "quantityToAdd": 35,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 89 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 90,
+        "name": "Fertilizante Natural para Césped",
+        "category": "Abonos-Tierra",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 29033.89,
+        "ultPercentage": 20.0,
+        "sellingPrice": 41460.396,
+        "vatPercentage": 19,
+        "priceWithVAT": 34550.33,
+        "quantityToAdd": 36,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 90 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 91,
+        "name": "Anthurium",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 14590.5,
+        "ultPercentage": 20.0,
+        "sellingPrice": 20835.228,
+        "vatPercentage": 19,
+        "priceWithVAT": 17362.69,
+        "quantityToAdd": 10,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 91 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 92,
+        "name": "Matera de Barro para Interior",
+        "category": "Materas",
+        "supplierId": "Huertos Urbanos",
+        "basePrice": 30021.22,
+        "ultPercentage": 20.0,
+        "sellingPrice": 42870.299999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 35725.25,
+        "quantityToAdd": 48,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 92 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 93,
+        "name": "Begonia",
+        "category": "Plantas",
+        "supplierId": 1697742943154,
+        "basePrice": 27770.61,
+        "ultPercentage": 20.0,
+        "sellingPrice": 39656.435999999994,
+        "vatPercentage": 19,
+        "priceWithVAT": 33047.03,
+        "quantityToAdd": 16,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/plantas.png",
+        "description": "Descripción del producto 93 en la categoría Plantas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 94,
+        "name": "Jarrón de Barro con Diseño Floral",
+        "category": "Artesanías",
+        "supplierId": "Vivero Verde",
+        "basePrice": 29703.95,
+        "ultPercentage": 20.0,
+        "sellingPrice": 42417.24,
+        "vatPercentage": 19,
+        "priceWithVAT": 35347.7,
+        "quantityToAdd": 44,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 94 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 95,
+        "name": "Abono para Hortalizas",
+        "category": "Abonos-Tierra",
+        "supplierId": "Flores de la Montaña",
+        "basePrice": 36902.55,
+        "ultPercentage": 20.0,
+        "sellingPrice": 52696.835999999996,
+        "vatPercentage": 19,
+        "priceWithVAT": 43914.03,
+        "quantityToAdd": 42,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 95 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 96,
+        "name": "Matera de Barro Decorativa",
+        "category": "Materas",
+        "supplierId": "Vivero Verde",
+        "basePrice": 27261.58,
+        "ultPercentage": 20.0,
+        "sellingPrice": 38929.536,
+        "vatPercentage": 19,
+        "priceWithVAT": 32441.28,
+        "quantityToAdd": 15,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 96 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 97,
+        "name": "Matera de Barro con Relieve",
+        "category": "Materas",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 39757.83,
+        "ultPercentage": 20.0,
+        "sellingPrice": 56774.184,
+        "vatPercentage": 19,
+        "priceWithVAT": 47311.82,
+        "quantityToAdd": 17,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 97 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 98,
+        "name": "Abono para Césped",
+        "category": "Abonos-Tierra",
+        "supplierId": "Plantas del Caribe",
+        "basePrice": 40887.64,
+        "ultPercentage": 20.0,
+        "sellingPrice": 58387.548,
+        "vatPercentage": 19,
+        "priceWithVAT": 48656.29,
+        "quantityToAdd": 42,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/abonos.png",
+        "description": "Descripción del producto 98 en la categoría Abonos-Tierra.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 99,
+        "name": "Candelabro de Cerámica",
+        "category": "Artesanías",
+        "supplierId": "Raíces Naturales",
+        "basePrice": 11611.17,
+        "ultPercentage": 20.0,
+        "sellingPrice": 16580.748,
+        "vatPercentage": 19,
+        "priceWithVAT": 13817.29,
+        "quantityToAdd": 25,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/artesanias.png",
+        "description": "Descripción del producto 99 en la categoría Artesanías.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    },
+    {
+        "id": 100,
+        "name": "Maceta de Barro de Color",
+        "category": "Materas",
+        "supplierId": "Jardines de Colombia",
+        "basePrice": 27857.3,
+        "ultPercentage": 20.0,
+        "sellingPrice": 39780.228,
+        "vatPercentage": 19,
+        "priceWithVAT": 33150.19,
+        "quantityToAdd": 17,
+        "quantityToAlert": 20,
+        "image": "/Assent/img/materas.png",
+        "description": "Descripción del producto 100 en la categoría Materas.",
+        "createdBy": {
+            "name": "Juan Pérez",
+            "role": "Empleado",
+            "date": "2024-10-18"
+        }
+    }
+]
