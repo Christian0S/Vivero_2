@@ -1,5 +1,7 @@
 // Carga los JSON del prototipo en la BD. Uso: node db/seed.js "<carpeta jsons>"
 const initSqlJs = require('sql.js');
+const bcrypt = require('bcryptjs');
+const DEMO_PASSWORD = 'Vivero2026!'; // SOLO desarrollo: cámbiala
 const fs = require('fs'), path = require('path');
 const dir = process.argv[2] || './legacy/jsons';
 const J = f => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
@@ -28,7 +30,7 @@ const run = () => { raw.run('BEGIN');
   // usuarios de ejemplo (hash temporal: se reemplaza por bcrypt al montar la API)
   const insU = db.prepare('INSERT INTO usuario(email,password_hash,rol) VALUES (?,?,?)');
   const uid = {};
-  for (const u of J('usuarios.json')) uid[u.position] = insU.run(u.email, 'PENDIENTE_BCRYPT', u.position).lastInsertRowid;
+  for (const u of J('usuarios.json')) uid[u.position] = insU.run(u.email, bcrypt.hashSync(DEMO_PASSWORD, 10), u.position).lastInsertRowid;
 
   // empleados (solo no eliminados)
   const insE = db.prepare(`INSERT INTO empleado(nombre,apellidos,tipo_doc,numero_doc,pais,ciudad,direccion,telefono,cargo,antecedentes,hoja_vida_url,avatar_url,eliminado)
@@ -76,5 +78,5 @@ for (const t of ['usuario','empleado','categoria','proveedor','producto','orden_
   console.log(t.padEnd(14), db.prepare(`SELECT COUNT(*) n FROM ${t}`).get().n);
 console.log('productos reasignados a proveedor de su categoría:', r.huerfanos, '| compras con proveedor no reconocido:', r.sinProv);
 fs.writeFileSync('db/srm.db', Buffer.from(raw.export()));
-console.log('Listo: db/srm.db creada');
+console.log('Listo: db/srm.db creada. Usuarios demo: gerente@vivero.com, empleado@vivero.com, proveedor@vivero.com / clave:', DEMO_PASSWORD);
 })();
