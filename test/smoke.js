@@ -1,6 +1,8 @@
 // Prueba de humo de la API: node test/smoke.js  (usa la BD ya sembrada con npm run seed)
 const { spawn } = require('child_process');
 const crypto = require('crypto');
+const { Client } = require('pg');
+const cfg = require('../src/config');
 const { primerApellido } = require('../src/nombres');
 const PORT = 3099, B = `http://localhost:${PORT}/api`;
 const env = { ...process.env, PORT, JWT_SECRET: crypto.randomBytes(48).toString('hex') };
@@ -52,6 +54,8 @@ async function esperarServidor(maxMs = 30000) {
     check('dashboard gerente trae KPIs', dg.status === 200 && dg.json.kpis.productos === 100 && dg.json.kpis.bajoStock === 23, JSON.stringify(dg.json?.kpis));
     const dp = await call('/dashboard', { cookie: p.set.split(';')[0] });
     check('dashboard proveedor ve solo lo suyo', dp.status === 200 && dp.json.rol === 'proveedor' && !!dp.json.proveedor, dp.json?.proveedor);
+    check('el proveedor NO recibe calificaciones ni promedios', !/promedio|calificacion|puntaje/i.test(JSON.stringify(dp.json)));
+    check('las respuestas no incluyen contraseñas', !/password|hash/i.test(JSON.stringify((await call('/auth/me', { cookie: ck })).json)));
     check('gerente lista 100 productos', (await call('/productos', { cookie: ck })).json?.length === 100);
     check('proveedor NO ve productos (403)', (await call('/productos', { cookie: p.set.split(';')[0] })).status === 403);
     // catálogo público: sin sesión, sin datos internos
@@ -68,6 +72,24 @@ async function esperarServidor(maxMs = 30000) {
     check('página de ingreso en /login.html', (await fetch(`http://localhost:${PORT}/login.html`)).status === 200);
     const html = await fetch(`http://localhost:${PORT}/`);
     check('sirve el front y cabeceras de seguridad', html.status === 200 && html.headers.get('x-frame-options') === 'DENY');
+
+    // ── Separación de bases y permisos (lo que protege ante un ataque) ──
+    const como = async (c, db, sql) => {
+      const cl = new Client({ ...cfg.pg, user: c.user, password: c.password, database: db });
+      try { await cl.connect(); const r = await cl.query(sql); return { ok: true, rows: r.rows }; }
+      catch (e) { return { ok: false, msg: e.message }; }
+      finally { await cl.end().catch(() => {}); }
+    };
+    check('usuario de identidad NO puede entrar a la base del negocio', !(await como(cfg.identidad, cfg.negocio.database, 'SELECT 1')).ok);
+    check('usuario del negocio NO puede entrar a la base de identidad', !(await como(cfg.negocio, cfg.identidad.database, 'SELECT 1')).ok);
+    check('la app NO puede crear ni borrar tablas', !(await como(cfg.negocio, cfg.negocio.database, 'CREATE TABLE intruso(x int)')).ok && !(await como(cfg.negocio, cfg.negocio.database, 'DROP TABLE producto')).ok);
+    const ins = await como(cfg.negocio, cfg.negocio.database, "INSERT INTO auditoria(accion, detalle) VALUES ('prueba', 'smoke')");
+    check('la auditoría admite INSERT...', ins.ok, ins.msg);
+    check('...pero NO UPDATE, DELETE ni TRUNCATE (inalterable)', !(await como(cfg.negocio, cfg.negocio.database, "UPDATE auditoria SET detalle = 'x'")).ok
+      && !(await como(cfg.negocio, cfg.negocio.database, 'DELETE FROM auditoria')).ok && !(await como(cfg.negocio, cfg.negocio.database, 'TRUNCATE auditoria')).ok);
+    check('la app NO ve el control de migraciones', !(await como(cfg.identidad, cfg.identidad.database, 'SELECT * FROM schema_migrations')).ok);
+    const ev = await como(cfg.identidad, cfg.identidad.database, "SELECT COUNT(*)::int n FROM evento_seguridad WHERE tipo IN ('login_ok','login_fallido')");
+    check('los inicios de sesión quedan registrados', ev.ok && ev.rows[0].n >= 5, ev.rows?.[0]?.n);
 
     let codigos = [];
     for (let i = 0; i < 6; i++) codigos.push((await login('proveedor@vivero.com', 'mala')).status);

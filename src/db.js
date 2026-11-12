@@ -1,26 +1,22 @@
-// Acceso a la BD (sql.js trabaja en memoria: cada escritura se guarda al archivo)
-const fs = require('fs'), path = require('path');
-const initSqlJs = require('sql.js');
-const FILE = path.join(__dirname, '..', 'db', 'srm.db');
+// Dos bases, dos usuarios de PostgreSQL: cada uno solo puede entrar a la suya y solo con permisos de datos (sin DDL).
+const { Pool, types } = require('pg');
+const cfg = require('./config');
 
-async function openDb() {
-  const SQL = await initSqlJs();
-  const raw = new SQL.Database(fs.readFileSync(FILE));
-  raw.run('PRAGMA foreign_keys = ON');
-  const persist = () => {
-    fs.writeFileSync(FILE, Buffer.from(raw.export()));
-    raw.run('PRAGMA foreign_keys = ON'); // export() reinicia los pragmas
-  };
-  const all = (q, ...p) => { const st = raw.prepare(q); st.bind(p); const rows = []; while (st.step()) rows.push(st.getAsObject()); st.free(); return rows; };
-  return {
-    all,
-    get: (q, ...p) => all(q, ...p)[0],
-    run: (q, ...p) => {
-      raw.run(q, p);
-      const id = raw.exec('SELECT last_insert_rowid()')[0].values[0][0];
-      persist();
-      return { lastInsertRowid: id };
-    },
-  };
-}
-module.exports = { openDb };
+types.setTypeParser(1082, v => v);        // date -> texto "2026-11-11" (evita corrimientos de zona horaria)
+types.setTypeParser(20, v => Number(v));  // bigint (COUNT) -> número
+types.setTypeParser(1700, v => parseFloat(v)); // numeric (promedios) -> número
+
+const envolver = pool => ({
+  pool,
+  all: async (sql, params = []) => (await pool.query(sql, params)).rows,
+  get: async (sql, params = []) => (await pool.query(sql, params)).rows[0],
+  run: (sql, params = []) => pool.query(sql, params),
+});
+const crear = c => new Pool({ host: cfg.pg.host, port: cfg.pg.port, database: c.database, user: c.user, password: c.password,
+  max: 10, idleTimeoutMillis: 30000, connectionTimeoutMillis: 5000 });
+
+const identidad = envolver(crear(cfg.identidad));
+const negocio = envolver(crear(cfg.negocio));
+const cerrar = () => Promise.all([identidad.pool.end(), negocio.pool.end()]);
+
+module.exports = { identidad, negocio, cerrar };

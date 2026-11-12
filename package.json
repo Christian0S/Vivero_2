@@ -3,16 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "seed": "node db/seed.js legacy/jsons",
+    "setup:env": "node scripts/init-env.js",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:setup": "node --env-file=.env scripts/db-setup.js",
+    "db:migrate": "node --env-file=.env scripts/migrate.js",
+    "db:seed": "node --env-file=.env scripts/seed.js",
+    "db:reset": "node --env-file=.env scripts/db-setup.js --reset && node --env-file=.env scripts/migrate.js && node --env-file=.env scripts/seed.js",
+    "seed": "npm run db:reset",
     "start": "node --env-file=.env src/server.js",
     "dev": "node --watch --env-file=.env src/server.js",
-    "test": "node test/smoke.js"
+    "test": "node --env-file=.env test/smoke.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "express": "^5.3.0",
     "jsonwebtoken": "^9.0.3",
-    "sql.js": "^1.16.0"
+    "pg": "^8.23.1"
   }
 }

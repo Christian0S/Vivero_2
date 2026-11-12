@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { esc, money, icon, img, stars, estadoBadge, ESTADOS } from '../ui.js';
+import { esc, money, icon, img, stars, estadoBadge, fechaCorta, ESTADOS } from '../ui.js';
 export const title = 'Inicio';
 
 const saludo = () => { const h = new Date().getHours(); return h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches'; };
@@ -27,11 +27,11 @@ export async function render(root, { user, alive }) {
     const k = d.kpis;
     root.innerHTML = head + `<div class="notice">Portal de <b>${esc(d.proveedor)}</b></div>
       <div class="grid kpis">${kpi('cart', k.abiertas, 'Pedidos abiertos')}${kpi('box', k.completadas, 'Pedidos completados')}
-        <div class="card kpi"><span class="ico">${icon('star')}</span><div><b>${k.promedio ?? '—'}</b><span class="l">${k.calificaciones} calificaciones</span></div></div></div>
+        ${kpi('alert', k.porConfirmar, 'Entregas por confirmar', k.porConfirmar ? 'alert' : '')}</div>
       <div class="grid two">
         <section class="card"><div class="card-head"><h2>Pedidos por estado</h2></div>${pipeline(d.ordenesPorEstado)}</section>
         <section class="card"><div class="card-head"><h2>Entregas recientes</h2></div><div class="list">${d.recientes.map(o =>
-          `<div class="item"><div class="grow"><strong>${esc(o.nombre)}</strong><small class="muted">Entrega: ${esc(o.fecha_entrega || '—')}</small></div>${estadoBadge(o.estado)}</div>`).join('')}</div></section>
+          `<div class="item"><div class="grow"><strong>${esc(o.nombre)}</strong><small class="muted">Entrega: ${esc(fechaCorta(o.fecha_entrega))}</small></div>${estadoBadge(o.estado)}</div>`).join('')}</div></section>
       </div>`;
     return;
   }

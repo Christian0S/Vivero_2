@@ -1,15 +1,20 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const { openDb } = require('./db');
+const cfg = require('./config');
 
-if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
-  console.error('Falta JWT_SECRET (mínimo 32 caracteres). Copia .env.example a .env y complétalo.');
-  process.exit(1);
-}
+cfg.exigir(['JWT_SECRET', 'IDENTIDAD_DB', 'IDENTIDAD_USER', 'IDENTIDAD_PASSWORD', 'NEGOCIO_DB', 'NEGOCIO_USER', 'NEGOCIO_PASSWORD']);
+if (process.env.JWT_SECRET.length < 32) { console.error('JWT_SECRET debe tener al menos 32 caracteres. Corre: npm run setup:env'); process.exit(1); }
+const db = require('./db');
 
 (async () => {
-  const db = await openDb();
+  try { await Promise.all([db.identidad.get('SELECT 1'), db.negocio.get('SELECT 1')]); }
+  catch (e) {
+    console.error(`No se pudo conectar a PostgreSQL (${cfg.pg.host}:${cfg.pg.port}): ${e.message}`);
+    console.error('¿Docker está abierto y corriste npm run db:up y npm run db:reset?');
+    process.exit(1);
+  }
+
   const app = express();
   app.disable('x-powered-by');
   app.use((req, res, next) => {
@@ -33,9 +38,23 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   app.use('/api', (req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
   const pub = path.join(__dirname, '..', 'public');
-  app.use('/img', express.static(path.join(pub, 'img'), { maxAge: '7d' }));
+  // En desarrollo (y para el logo siempre) el navegador revalida con ETag: si cambias una imagen, se ve al recargar.
+  // En producción las demás imágenes se guardan 7 días.
+  const DEV = process.env.NODE_ENV !== 'production';
+  app.use('/img', express.static(path.join(pub, 'img'), {
+    setHeaders: (res, file) => res.set('Cache-Control', DEV || /logo/i.test(file) ? 'no-cache' : 'public, max-age=0'),
+  }));
   app.use(express.static(pub));   // css/js/html se revalidan en cada carga (útil en desarrollo)
 
+  // Errores: nunca se filtran detalles internos al cliente
+  app.use((err, req, res, next) => {
+    if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Solicitud inválida' });
+    console.error(err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  });
+
   const port = process.env.PORT || 3000;
-  app.listen(port, () => console.log(`API lista en http://localhost:${port}`));
+  const server = app.listen(port, () => console.log(`API lista en http://localhost:${port}`));
+  const apagar = () => server.close(() => db.cerrar().finally(() => process.exit(0)));
+  process.on('SIGINT', apagar); process.on('SIGTERM', apagar);
 })();

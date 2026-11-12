@@ -63,6 +63,7 @@ button, input, select { font: inherit; color: inherit; }
 .usercard { display: flex; align-items: center; gap: .7rem; padding: .7rem; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
 .usercard .who { min-width: 0; flex: 1; line-height: 1.25; } .usercard strong, .usercard small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .usercard small { color: var(--muted); }
+.usercard .who strong { white-space: normal; line-height: 1.2; }
 .avatar { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--brand-200); color: var(--avatar-fg); font-weight: 700; font-size: .9rem; }
 .usercard .btn { min-height: 34px; padding: 0 .7rem; background: var(--surface); color: var(--text); font-size: .8rem; }
 .main { min-width: 0; padding: 1.75rem clamp(1rem, 3vw, 2.5rem) 3rem; max-width: 1280px; width: 100%; margin: 0 auto; }
