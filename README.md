@@ -54,3 +54,71 @@ Las claves originales del prototipo eran SHA-256 sin sal y no se reutilizan.
 - Mismo mensaje de error para correo inexistente y clave incorrecta.
 - `JWT_SECRET` obligatorio (mínimo 32 caracteres); sin él el servidor no arranca. `.env` está en `.gitignore`.
 - Pendiente para producción: HTTPS (activa `NODE_ENV=production` para cookie `secure`), protección CSRF si el front se sirve desde otro dominio, y que el usuario proveedor quede enlazado a su fila de `proveedor`.
+
+
+---
+# Fase 0 — Reorganización del front
+
+## Qué cambió respecto al prototipo
+| Antes | Ahora |
+|---|---|
+| 55 HTML, 53 JS y 46 CSS (tres copias por rol) | 2 HTML (`index.html` login y `app.html`) + 1 router + una página por función |
+| Menú copiado en cada página | Un solo menú definido por rol en `public/js/app.js` |
+| Colores y fuentes sueltos en cada CSS | Sistema de diseño en `public/css/tokens.css` (con modo oscuro) |
+| Fotos de hasta 5,2 MB en el inicio (7,4 MB en total) | WebP optimizado: 0,7 MB en total (-93 %) |
+| Pantalla en blanco mientras carga | Esqueletos de carga en pantallas e imágenes |
+| Datos desde JSON y `localStorage` | API real con sesión por cookie |
+
+## Estructura
+    public/            front (lo sirve Express)
+      index.html       inicio de sesión
+      app.html         aplicación (menú + pantallas)
+      css/             tokens.css (diseño) · app.css (componentes)
+      js/              api.js · ui.js · app.js (router y menú) · login.js
+      js/pages/        dashboard · inventario · proveedores  (una pantalla = un archivo)
+      img/             imágenes optimizadas
+    src/               API (rutas, middleware)
+    db/                esquema y carga de datos
+    legacy/            JSON originales del prototipo (solo para el seed)
+
+## Cómo agregar una pantalla nueva
+1. Crea `public/js/pages/nombre.js` exportando `title` y `async render(root, ctx)`.
+2. Regístrala en `PAGES` y en `NAV` (con los roles que la ven) dentro de `public/js/app.js`.
+3. Si necesita datos, crea su ruta en `src/routes/` protegida con `requireRole(...)`.
+
+## Fases siguientes
+1. **Órdenes de compra**: un solo flujo con estados (solicitada → cotizada → aceptada → en entrega → por validar → completada → calificada).
+2. **Cotizaciones comparativas**: pedir precio a varios proveedores y elegir con una tabla comparativa.
+3. **Reposición sugerida**: crear la orden desde "stock bajo" con el proveedor habitual ya elegido.
+4. **Desempeño del proveedor**: puntualidad, calidad y cumplimiento calculados de las entregas reales.
+5. **Empleados y auditoría**.
+
+
+---
+# Fase 0.1 — Catálogo público, tema y perfil de usuario
+
+## Rutas del sitio
+| Ruta | Quién | Qué es |
+|---|---|---|
+| `/` | Cualquiera (sin cuenta) | **Catálogo público** de productos disponibles |
+| `/login.html` | Personal | Ingreso de gerente, empleado y proveedor |
+| `/app.html` | Con sesión | Aplicación interna (menú según el rol) |
+
+## Catálogo público (`GET /api/catalogo`)
+No requiere sesión y solo entrega nombre, categoría, imagen, precio y disponibilidad
+(`disponible`, `pocas` = stock en o bajo el mínimo, `agotado`). **Nunca** expone proveedor, costo,
+margen ni cantidades exactas de stock. La prueba `npm test` lo verifica.
+
+## Tema claro / oscuro
+Claro por defecto (fondo verde claro), sin importar el modo del sistema operativo. El interruptor está en el menú
+lateral (y arriba a la derecha en el catálogo y el login). Se recuerda en el navegador. Los colores salen de `public/css/tokens.css`.
+
+## Perfil del usuario
+La tabla `usuario` ahora separa `nombre` y `apellidos`. La API devuelve `primerNombre`, `primerApellido` y `nombreCorto`
+(p. ej. "Miguel Ray"); los apellidos con partícula cuentan como uno ("De la Cruz Rojas" → "De la Cruz").
+El menú lateral muestra nombre corto y rol; el saludo del inicio usa el primer nombre.
+Los nombres de los usuarios demo están en `db/seed.js` (constante `DEMO`).
+
+## Sin JSON en el front
+Login, inicio, inventario, proveedores y catálogo consumen la API (`/api/...`). Los archivos de `legacy/jsons`
+solo los lee `db/seed.js` una vez para llenar la base.

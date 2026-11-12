@@ -1,0 +1,31 @@
+/* Sistema de diseño · Vivero Las Magnolias. Todo color/espacio sale de estas variables.
+   Tema claro por defecto; el oscuro se activa con el interruptor (data-tema="dark" en <html>). */
+:root {
+  --brand-50: #f0f8f3; --brand-100: #dcf0e3; --brand-200: #b9e0c8;
+  --brand-500: #2f9460; --brand-600: #237a4d; --brand-700: #1b6040; --brand-900: #0f2e1e;
+  --clay: #c46a3d; --clay-100: #fbebe2;
+  --bg: #e6f3ea; --surface: #ffffff; --surface-2: #f0f8f3;
+  --text: #14281c; --muted: #4d6456; --border: #cde2d4;
+  --avatar-fg: #0f2e1e;
+  --side-bg: #ffffff; --side-text: #14281c; --side-hover: #eaf5ee; --side-active: #d4ecdd; --side-active-text: #14502f;
+  --ok: #1d7f48; --ok-bg: #ddf2e5; --warn: #94600a; --warn-bg: #fdf0d2;
+  --danger: #b3321f; --danger-bg: #fbe4df; --info: #1f5a9c; --info-bg: #e1edf9;
+  --radius: 14px; --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(15, 60, 35, .06), 0 8px 24px rgba(15, 60, 35, .07);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sidebar: 264px;
+  color-scheme: light;
+}
+:root[data-tema="dark"] {
+  --brand-50: #14231b; --brand-100: #1a3024; --brand-200: #24432f;
+  --brand-500: #47b47c; --brand-600: #2f9460; --brand-700: #8fd3ae;
+  --clay: #e08a5d; --clay-100: #3a2519;
+  --bg: #0d1511; --surface: #14201a; --surface-2: #1a2a21;
+  --text: #e8f0ea; --muted: #9db1a4; --border: #26382d;
+  --avatar-fg: #bff0d3;
+  --side-bg: #101b15; --side-text: #e8f0ea; --side-hover: #1a2a21; --side-active: #234132; --side-active-text: #bff0d3;
+  --ok: #5fcf8c; --ok-bg: #173a27; --warn: #f0b955; --warn-bg: #3a2c10;
+  --danger: #ff8d79; --danger-bg: #40201a; --info: #7db4f0; --info-bg: #17304d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}

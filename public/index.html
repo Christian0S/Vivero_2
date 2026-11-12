@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo · Vivero Las Magnolias</title>
+  <meta name="description" content="Plantas, materas, artesanías y abonos disponibles en Vivero Las Magnolias.">
+  <link rel="icon" href="/img/logo.png">
+  <script src="/js/tema.js"></script>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="site-head"><div class="in">
+    <a class="brand" href="/"><img src="/img/logo.png" alt=""><span>Vivero Las Magnolias<small class="muted">Catálogo</small></span></a>
+    <button class="theme-btn" type="button" data-tema-toggle aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    <a class="btn sm" href="/login.html">Ingreso del personal</a>
+  </div></header>
+  <main class="container">
+    <section class="hero big"><div class="media"><img src="/img/hero-3.webp" alt="" fetchpriority="high"></div>
+      <div class="txt"><h1>Material vegetal de alta calidad</h1>
+        <p>Empresa familiar de plantas ornamentales, frutales y nativas, materas, artesanías, abonos y sustratos. Consulta lo que tenemos disponible hoy.</p></div></section>
+    <div class="toolbar" style="margin-top:1.25rem"><input class="input" id="q" type="search" placeholder="Buscar plantas, materas, abonos…" aria-label="Buscar en el catálogo"><span class="muted" id="count" aria-live="polite"></span></div>
+    <div class="chips" id="chips" style="margin-bottom:1.25rem"></div>
+    <div class="grid products" id="list">
+      <div class="sk sk-block"></div><div class="sk sk-block"></div><div class="sk sk-block"></div><div class="sk sk-block"></div>
+      <div class="sk sk-block"></div><div class="sk sk-block"></div><div class="sk sk-block"></div><div class="sk sk-block"></div>
+    </div>
+  </main>
+  <footer class="site-foot">© Vivero Las Magnolias · La disponibilidad puede cambiar durante el día.</footer>
+  <script type="module" src="/js/catalogo.js"></script>
+</body>
+</html>

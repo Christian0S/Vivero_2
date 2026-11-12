@@ -4,6 +4,8 @@ PRAGMA foreign_keys = ON;
 -- 1. Acceso: un solo lugar para login y roles
 CREATE TABLE usuario (
   id            INTEGER PRIMARY KEY,
+  nombre        TEXT NOT NULL DEFAULT '',
+  apellidos     TEXT NOT NULL DEFAULT '',
   email         TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,                       -- bcrypt, NO sha256 del front
   rol           TEXT NOT NULL CHECK (rol IN ('gerente','empleado','proveedor')),
