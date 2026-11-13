@@ -2,6 +2,7 @@
 export const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 export const money = n => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n || 0);
 export const fechaCorta = s => s ? new Date(s + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+export const fechaHora = s => s ? new Date(s).toLocaleString('es-CO', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Nunca';
 export const norm = s => String(s ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 export const initials = n => String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 export const debounce = (fn, ms = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -30,6 +31,7 @@ const P = {
   star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
   alert: '<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/>',
   moon: '<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>',
+  shield: '<path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
 export const icon = n => `<svg viewBox="0 0 24 24" aria-hidden="true">${P[n] || ''}</svg>`;
@@ -55,4 +57,15 @@ export function toast(msg, type = '') {
   const box = document.getElementById('toasts'); if (!box) return;
   const t = document.createElement('div'); t.className = 'toast ' + type; t.textContent = msg; box.append(t);
   setTimeout(() => t.remove(), 4500);
+}
+
+// Ventana modal accesible (usa <dialog>: foco atrapado y Esc de serie). cerrable:false la hace obligatoria.
+export function dialogo(html, { cerrable = true } = {}) {
+  const d = document.createElement('dialog');
+  d.className = 'dlg'; d.innerHTML = `<div class="dlg-in">${html}</div>`;
+  if (!cerrable) d.addEventListener('cancel', e => e.preventDefault());
+  d.addEventListener('click', e => { if (cerrable && e.target === d) d.close(); });
+  d.addEventListener('close', () => d.remove());
+  document.body.append(d); d.showModal();
+  return d;
 }

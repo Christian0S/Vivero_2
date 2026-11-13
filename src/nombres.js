@@ -17,6 +17,7 @@ function perfil(u) {
   const pn = primerNombre(u.nombre), pa = primerApellido(u.apellidos);
   return {
     id: u.id, email: u.email, rol: u.rol, nombre: u.nombre, apellidos: u.apellidos,
+    permisos: u.permisos || [], debeCambiarClave: !!u.debeCambiarClave,
     primerNombre: pn, primerApellido: pa, nombreCorto: [pn, pa].filter(Boolean).join(' ') || u.email,
   };
 }

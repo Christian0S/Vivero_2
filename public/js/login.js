@@ -5,7 +5,7 @@ watchImages();
 const form = document.getElementById('form'), err = document.getElementById('err'), btn = document.getElementById('submit');
 const email = document.getElementById('email'), pass = document.getElementById('password');
 
-api('/auth/me').then(() => location.replace('/app.html')).catch(() => {});   // si ya hay sesión, entra directo
+api('/me').then(() => location.replace('/app.html')).catch(() => {});   // si ya hay sesión, entra directo
 
 document.getElementById('toggle').onclick = e => {
   const show = pass.type === 'password';

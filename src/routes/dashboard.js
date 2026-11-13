@@ -1,11 +1,11 @@
 // Resumen para la pantalla de inicio; el contenido depende del rol
 const express = require('express');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, requirePermiso } = require('../../compartido/auth');
 const ABIERTAS = "estado NOT IN ('completada','calificada','rechazada')";
 
 module.exports = ({ negocio }) => {
   const r = express.Router();
-  r.use(requireAuth);
+  r.use(requireAuth(), requirePermiso('dashboard.ver'));
 
   r.get('/', async (req, res) => {
     if (req.user.rol === 'proveedor') {

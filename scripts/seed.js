@@ -1,6 +1,6 @@
 // Carga los JSON del prototipo (legacy/jsons) en ambas bases. Se puede repetir: vacía y vuelve a cargar.   Uso: npm run db:seed
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
-const bcrypt = require('bcryptjs');
+const { hash: hashClave } = require('../identidad/lib/password');
 const { Client } = require('pg');
 const cfg = require('../src/config');
 cfg.exigir(['PG_ADMIN_PASSWORD', 'IDENTIDAD_DB', 'NEGOCIO_DB']);
@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') { console.error('El seed de demostrac
 
 const DEMO_PASSWORD = 'Vivero2026!';   // SOLO desarrollo
 // Los usuarios del prototipo no tenían apellido: se completan con nombres de demostración
-const DEMO = { gerente: ['Miguel Ángel', 'Ray Soto'], empleado: ['Juan', 'Vargas'], proveedor: ['Gustavo', 'Mejía Rojas'] };
+const DEMO = { administrador: ['Admin', 'Sistema'], gerente: ['Miguel Ángel', 'Ray Soto'], empleado: ['Juan', 'Vargas'], proveedor: ['Gustavo', 'Mejía Rojas'] };
 const DIR = path.join(__dirname, '..', process.argv[2] || 'legacy/jsons');
 const J = f => JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8'));
 const pesos = v => typeof v === 'number' ? Math.round(v) : (parseInt(String(v).replace(/[^\d]/g, ''), 10) || 0); // el prototipo guardaba "$15,000" y decimales
@@ -23,14 +23,15 @@ const ins = async (cl, sql, p) => (await cl.query(sql + ' RETURNING id', p)).row
   const idc = await conectar(cfg.identidad), neg = await conectar(cfg.negocio);
   try {
     await idc.query('BEGIN'); await neg.query('BEGIN');
-    await idc.query('TRUNCATE evento_seguridad, cuenta RESTART IDENTITY CASCADE');
+    await idc.query('TRUNCATE evento_seguridad, sesion, cuenta RESTART IDENTITY CASCADE');
     await neg.query('TRUNCATE auditoria, calificacion, orden_item, orden_compra, producto, proveedor, empleado, categoria, perfil RESTART IDENTITY CASCADE');
 
     // Cuentas (identidad) y perfiles (negocio) con el mismo id
-    const uid = {}, hash = bcrypt.hashSync(DEMO_PASSWORD, 10);
-    for (const u of J('usuarios.json')) {
+    const uid = {};
+    const cuentas = [{ email: 'admin@vivero.com', position: 'administrador' }, ...J('usuarios.json').map(u => ({ email: u.email, position: u.position }))];
+    for (const u of cuentas) {
       const id = crypto.randomUUID(); uid[u.position] = id;
-      await idc.query('INSERT INTO cuenta(id, email, password_hash, rol) VALUES ($1,$2,$3,$4)', [id, u.email, hash, u.position]);
+      await idc.query('INSERT INTO cuenta(id, email, password_hash, rol) VALUES ($1,$2,$3,$4)', [id, u.email, await hashClave(DEMO_PASSWORD), u.position]);
       await neg.query('INSERT INTO perfil(cuenta_id, nombre, apellidos) VALUES ($1,$2,$3)', [id, DEMO[u.position][0], DEMO[u.position][1]]);
     }
 
@@ -91,7 +92,7 @@ const ins = async (cl, sql, p) => (await cl.query(sql + ' RETURNING id', p)).row
       console.log(t.padEnd(14), (await neg.query(`SELECT COUNT(*)::int n FROM ${t}`)).rows[0].n);
     console.log(`cuenta         ${(await idc.query('SELECT COUNT(*)::int n FROM cuenta')).rows[0].n}`);
     console.log(`productos reasignados a un proveedor de su categoría: ${reasignados}`);
-    console.log(`Listo. Usuarios demo: gerente@vivero.com, empleado@vivero.com, proveedor@vivero.com / clave: ${DEMO_PASSWORD}`);
+    console.log(`Listo. Usuarios demo: admin@vivero.com, gerente@vivero.com, empleado@vivero.com, proveedor@vivero.com / clave: ${DEMO_PASSWORD}`);
   } catch (e) { await idc.query('ROLLBACK').catch(() => {}); await neg.query('ROLLBACK').catch(() => {}); throw e; }
   finally { await idc.end(); await neg.end(); }
 })().catch(e => { console.error('Falló el seed:', e.message); process.exit(1); });

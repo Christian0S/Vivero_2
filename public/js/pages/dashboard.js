@@ -43,12 +43,12 @@ export async function render(root, { user, alive }) {
     <div class="grid kpis">
       ${kpi('box', k.productos, 'Productos en inventario', '', '#/inventario')}
       ${kpi('alert', k.bajoStock, 'Con stock bajo', k.bajoStock ? 'alert' : '', '#/inventario?bajo=1')}
-      ${kpi('truck', k.proveedores, 'Proveedores activos', '', user.rol === 'gerente' ? '#/proveedores' : '')}
+      ${kpi('truck', k.proveedores, 'Proveedores activos', '', user.permisos.includes('proveedores.ver') && user.rol !== 'empleado' ? '#/proveedores' : '')}
       ${kpi('cart', k.ordenesAbiertas, 'Órdenes en curso')}
     </div>
     <div class="grid two">
       <section class="card"><div class="card-head"><h2>Órdenes por estado</h2></div>${pipeline(d.ordenesPorEstado)}</section>
-      ${user.rol === 'gerente' ? `<section class="card"><div class="card-head"><h2>Mejores proveedores</h2><a href="#/proveedores">Ver todos</a></div><div class="list">${d.topProveedores.map(p =>
+      ${['gerente', 'administrador'].includes(user.rol) ? `<section class="card"><div class="card-head"><h2>Mejores proveedores</h2><a href="#/proveedores">Ver todos</a></div><div class="list">${d.topProveedores.map(p =>
         `<div class="item"><span class="avatar">${esc(p.nombre.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase())}</span><div class="grow"><strong>${esc(p.nombre)}</strong><small class="muted">${esc(p.categoria || '')}</small></div>${stars(p.promedio, p.n)}</div>`).join('') || '<p class="empty">Sin calificaciones todavía.</p>'}</div></section>` : ''}
     </div>
     <section class="card" style="margin-top:1rem"><div class="card-head"><h2>Productos por reponer</h2><a href="#/inventario?bajo=1">Ver todos</a></div>

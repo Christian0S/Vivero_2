@@ -1,10 +1,10 @@
 // Ruta protegida por rol: gerente y empleado ven proveedores (incluye su calificación: es información INTERNA)
 const express = require('express');
-const { requireAuth, requireRole } = require('../middleware/auth');
+const { requireAuth, requirePermiso } = require('../../compartido/auth');
 
 module.exports = ({ negocio }) => {
   const r = express.Router();
-  r.use(requireAuth, requireRole('gerente', 'empleado'));
+  r.use(requireAuth(), requirePermiso('proveedores.ver'));
   r.get('/', async (req, res) => res.json(await negocio.all(`
     SELECT p.id, p.nombre, p.ciudad, p.telefono, p.correo, c.nombre AS categoria,
            d.promedio, d.n AS calificaciones
