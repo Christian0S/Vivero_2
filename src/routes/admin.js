@@ -26,9 +26,9 @@ module.exports = ({ negocio }) => {
   const auditar = (req, accion, detalle) => negocio.run("INSERT INTO auditoria(usuario_id, accion, entidad, detalle) VALUES ($1,$2,'usuario',$3)", [req.user.id, accion, detalle]);
 
   r.get('/usuarios', requirePermiso('usuarios.admin'), async (req, res) => {
-    const [cuentas, perfiles] = await Promise.all([identidad(req, 'GET', '/cuentas'), negocio.all('SELECT cuenta_id, nombre, apellidos FROM perfil')]);
+    const [cuentas, perfiles] = await Promise.all([identidad(req, 'GET', '/cuentas'), negocio.all('SELECT cuenta_id, nombre, apellidos, foto_id FROM perfil')]);
     const p = new Map(perfiles.map(x => [x.cuenta_id, x]));
-    res.json(cuentas.map(c => ({ ...c, ...perfil({ id: c.id, email: c.email, rol: c.rol, nombre: p.get(c.id)?.nombre || '', apellidos: p.get(c.id)?.apellidos || '' }),
+    res.json(cuentas.map(c => ({ ...c, ...perfil({ id: c.id, email: c.email, rol: c.rol, nombre: p.get(c.id)?.nombre || '', apellidos: p.get(c.id)?.apellidos || '', fotoId: p.get(c.id)?.foto_id }),
       activo: c.activo, debeCambiarClave: c.debe_cambiar_clave, ultimoAcceso: c.ultimo_acceso })));
   });
 

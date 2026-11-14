@@ -4,6 +4,14 @@ const express = require('express');
 
 module.exports = ({ negocio }) => {
   const r = express.Router();
+  // Datos públicos del vivero (los marca el administrador en Parámetros)
+  r.get('/info', async (req, res) => {
+    res.set('Cache-Control', 'public, max-age=60');
+    const out = {};
+    for (const { clave, valor } of await negocio.all('SELECT clave, valor FROM parametro WHERE publico')) out[clave.replace('empresa.', '')] = valor;
+    res.json(out);
+  });
+
   r.get('/', async (req, res) => {
     res.set('Cache-Control', 'public, max-age=60');
     res.json(await negocio.all(`

@@ -7,6 +7,19 @@ const DISP = { disponible: ['Disponible', 'ok'], pocas: ['Últimas unidades', 'w
 const list = document.getElementById('list'), count = document.getElementById('count'), chips = document.getElementById('chips');
 const st = { q: '', cat: '' };
 
+// Datos del vivero (los define el administrador en Parámetros): botón de WhatsApp y pie de página
+(async () => {
+  try {
+    const i = await api('/catalogo/info'), nombre = i.nombre || 'Vivero Las Magnolias';
+    if (i.whatsapp) {
+      const msg = encodeURIComponent(`Hola ${nombre}, quiero consultar por los productos del catálogo.`);
+      document.getElementById('wa-slot').innerHTML = `<a class="btn sm primary" href="https://wa.me/${esc(i.whatsapp.replace(/\D/g, ''))}?text=${msg}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>`;
+    }
+    const partes = [`© ${esc(nombre)}`, i.direccion && esc(i.direccion), i.telefono && `Tel. ${esc(i.telefono)}`, 'La disponibilidad puede cambiar durante el día.'].filter(Boolean);
+    document.getElementById('pie').innerHTML = partes.join(' · ');
+  } catch { /* el catálogo funciona sin estos datos */ }
+})();
+
 (async () => {
   let data;
   try { data = await api('/catalogo'); }

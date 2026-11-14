@@ -1,5 +1,5 @@
 import { api } from './api.js';
-import { esc, initials, icon, toast, dialogo, watchImages, settleImages, skKpis, skBlocks, skHead } from './ui.js';
+import { esc, icon, toast, dialogo, avatar, BOTON_TEMA, watchImages, settleImages, skKpis, skBlocks, skHead } from './ui.js';
 
 // Un solo menú para todos los roles. Las pantallas reales se muestran según PERMISOS; las "pronto", según rol.
 const NAV = [
@@ -8,6 +8,7 @@ const NAV = [
   { r: 'proveedores', t: 'Proveedores', i: 'truck', perm: 'proveedores.ver' },
   { r: 'usuarios', t: 'Usuarios', i: 'users', perm: 'usuarios.admin' },
   { r: 'permisos', t: 'Permisos', i: 'shield', perm: 'permisos.admin' },
+  { r: 'parametros', t: 'Parámetros', i: 'settings', perm: 'parametros.admin' },
   { r: 'ordenes', t: 'Órdenes de compra', i: 'cart', soon: 1, roles: ['administrador', 'gerente'] },
   { r: 'ordenes', t: 'Recepción de pedidos', i: 'cart', soon: 1, roles: ['empleado'] },
   { r: 'empleados', t: 'Empleados', i: 'users', soon: 1, roles: ['administrador', 'gerente'] },
@@ -22,6 +23,8 @@ const PAGES = {
   proveedores: () => import('./pages/proveedores.js'),
   usuarios: () => import('./pages/usuarios.js'),
   permisos: () => import('./pages/permisos.js'),
+  parametros: () => import('./pages/parametros.js'),
+  perfil: () => import('./pages/perfil.js'),       // Mi perfil: lo ve cualquier usuario con sesión
 };
 const SOON = {
   ordenes: ['Órdenes de compra', 'Un solo flujo reemplaza los cuatro listados del prototipo: solicitar, cotizar con varios proveedores, comparar, aceptar, recibir y validar, y calificar. Cada orden cambia de estado en vez de copiarse a otra lista.'],
@@ -45,13 +48,46 @@ function shell() {
   $('#sidebar').innerHTML = `
     <div class="brand"><img src="/img/logo.png" alt=""><span>Vivero Las Magnolias<small>Gestión de proveedores</small></span></div>
     <nav class="nav" aria-label="Principal">${visibles.map(n =>
-      `<a href="#/${n.r}" data-r="${n.r}">${icon(n.i)}<span>${esc(n.t)}</span>${n.soon ? '<span class="soon">Pronto</span>' : ''}</a>`).join('')}</nav>
-    <button class="theme-row" type="button" data-tema-toggle>${icon('moon')}<span>Modo oscuro</span><span class="toggle"><i></i></span></button>
-    <div class="usercard"><span class="avatar">${esc(initials(user.nombreCorto))}</span>
-      <div class="who"><strong>${esc(user.nombreCorto)}</strong><small>${esc(ROL[user.rol] || user.rol)}</small></div>
-      <button class="btn" id="logout" type="button">Salir</button></div>`;
-  $('#topuser').innerHTML = `<strong>${esc(user.nombreCorto)}</strong><small>${esc(ROL[user.rol] || user.rol)}</small>`;
+      `<a href="#/${n.r}" data-r="${n.r}">${icon(n.i)}<span>${esc(n.t)}</span>${n.soon ? '<span class="soon">Pronto</span>' : ''}</a>`).join('')}</nav>`;
+}
+
+// ── Encabezado: campana de notificaciones, tema y menú de usuario ──
+const cerrarMenus = () => document.querySelectorAll('.dd-panel').forEach(p => { p.hidden = true; document.getElementById(p.dataset.btn)?.setAttribute('aria-expanded', 'false'); });
+function menu(btnId, panelId, alAbrir) {
+  const b = document.getElementById(btnId), p = document.getElementById(panelId);
+  p.dataset.btn = btnId;
+  b.onclick = e => {
+    e.stopPropagation();
+    const abrir = p.hidden; cerrarMenus();
+    if (abrir) { p.hidden = false; b.setAttribute('aria-expanded', 'true'); alAbrir?.(); }
+  };
+}
+function cabecera() {
+  const rol = ROL[user.rol] || user.rol;
+  $('#appbar-actions').innerHTML = `
+    <div class="dd"><button class="btn icon" id="btn-notif" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Notificaciones">${icon('bell')}<span class="dot" id="notif-n" hidden></span></button>
+      <div class="dd-panel" id="panel-notif" hidden><div class="dd-head"><strong>Notificaciones</strong></div><div id="notif-lista"></div></div></div>
+    ${BOTON_TEMA}
+    <div class="dd"><button class="user-btn" id="btn-user" type="button" aria-haspopup="true" aria-expanded="false">${avatar(user.nombreCorto, user.fotoUrl)}
+        <span class="user-btn-txt"><strong>${esc(user.nombreCorto)}</strong><small>${esc(rol)}</small></span>${icon('chevron')}</button>
+      <div class="dd-panel" id="panel-user" hidden>
+        <div class="dd-head"><strong>${esc(user.nombreCorto)}</strong><small class="muted" style="display:block">${esc(user.email)}</small></div>
+        <a class="dd-item" href="#/perfil">Mi perfil</a>
+        <button class="dd-item dd-sep" id="logout" type="button">Cerrar sesión</button></div></div>`;
+  menu('btn-user', 'panel-user'); menu('btn-notif', 'panel-notif', notificaciones);
   $('#logout').onclick = salir;
+  document.querySelectorAll('#panel-user a').forEach(a => a.addEventListener('click', cerrarMenus));
+}
+async function notificaciones() {
+  try {
+    const n = await api('/notificaciones'), dot = $('#notif-n'), lista = $('#notif-lista');
+    if (!dot) return;
+    dot.hidden = n.total === 0; dot.textContent = n.total;
+    lista.innerHTML = n.items.length
+      ? n.items.map(i => `<a class="dd-item" href="${esc(i.enlace)}"><span><strong>${esc(i.titulo)}</strong><small>${esc(i.detalle)}</small></span></a>`).join('')
+      : '<div class="notif-vacia">Todo al día ✓</div>';
+    lista.querySelectorAll('a').forEach(a => a.addEventListener('click', cerrarMenus));
+  } catch { /* la campana no debe romper la pantalla */ }
 }
 
 // Cuentas nuevas o restablecidas: no se puede usar la app hasta cambiar la clave temporal
@@ -84,7 +120,7 @@ async function route() {
   const my = ++token;
   document.body.classList.remove('nav-open');
   const [raw, qs] = (location.hash.replace(/^#\/?/, '') || 'dashboard').split('?');
-  const permitidas = visibles.map(n => n.r);
+  const permitidas = [...visibles.map(n => n.r), 'perfil'];
   const name = permitidas.includes(raw) ? raw : (permitidas.includes('dashboard') ? 'dashboard' : permitidas[0]);
   document.querySelectorAll('.nav a').forEach(a => (a.dataset.r === name ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
 
@@ -114,11 +150,16 @@ async function route() {
 (async () => {
   watchImages();
   $('#menu').onclick = () => document.body.classList.toggle('nav-open');
-  document.addEventListener('click', e => { if (document.body.classList.contains('nav-open') && !e.target.closest('.sidebar, #menu')) document.body.classList.remove('nav-open'); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.body.classList.remove('nav-open'); });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.dd')) cerrarMenus();
+    if (document.body.classList.contains('nav-open') && !e.target.closest('.sidebar, #menu')) document.body.classList.remove('nav-open');
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrarMenus(); document.body.classList.remove('nav-open'); } });
+  // Las pantallas avisan cuando cambia el perfil (foto, nombre) para repintar el encabezado
+  window.addEventListener('perfil:cambio', async () => { try { user = await api('/me'); cabecera(); } catch { /* se reintenta en la siguiente acción */ } });
   try { user = await api('/me'); } catch { return; }   // 401 ya redirige al inicio de sesión
   visibles = calcularVisibles();
-  shell();
+  shell(); cabecera(); notificaciones(); setInterval(notificaciones, 5 * 60 * 1000);
   if (user.debeCambiarClave) await exigirCambioDeClave();
   window.addEventListener('hashchange', route);
   route();

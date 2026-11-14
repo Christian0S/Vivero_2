@@ -37,6 +37,9 @@ const { verificarOrigen } = require('../compartido/auth');
   app.use('/api', (req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
   app.use('/api/auth', require('./routes/auth-proxy')());   // login, refresh, logout, cambiar-clave -> servicio de identidad
   app.use('/api/me', require('./routes/me')(db));
+  app.use('/api/archivos', require('./routes/archivos')(db));
+  app.use('/api/parametros', require('./routes/parametros')(db));
+  app.use('/api/notificaciones', require('./routes/notificaciones')(db));
   app.use('/api/admin', require('./routes/admin')(db));
   app.use('/api/catalogo', require('./routes/catalogo')(db));   // público
   app.use('/api/proveedores', require('./routes/proveedores')(db));
@@ -56,6 +59,7 @@ const { verificarOrigen } = require('../compartido/auth');
   // Errores: nunca se filtran detalles internos al cliente
   app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Solicitud inválida' });
+    if (err.type === 'entity.too.large') return res.status(413).json({ error: 'El archivo es demasiado grande' });
     if (err.servicio) return res.status(err.status).json({ error: err.message });
     console.error(err);
     res.status(500).json({ error: 'Error interno del servidor' });

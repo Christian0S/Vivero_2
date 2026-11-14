@@ -6,6 +6,7 @@ const cfg = require('../src/config');
 cfg.exigir(['PG_ADMIN_PASSWORD', 'IDENTIDAD_DB', 'NEGOCIO_DB']);
 if (process.env.NODE_ENV === 'production') { console.error('El seed de demostración está bloqueado en producción.'); process.exit(1); }
 
+const ALMACEN = path.resolve(__dirname, '..', process.env.ALMACEN_DIR || 'almacenamiento');
 const DEMO_PASSWORD = 'Vivero2026!';   // SOLO desarrollo
 // Los usuarios del prototipo no tenían apellido: se completan con nombres de demostración
 const DEMO = { administrador: ['Admin', 'Sistema'], gerente: ['Miguel Ángel', 'Ray Soto'], empleado: ['Juan', 'Vargas'], proveedor: ['Gustavo', 'Mejía Rojas'] };
@@ -22,9 +23,11 @@ const ins = async (cl, sql, p) => (await cl.query(sql + ' RETURNING id', p)).row
 (async () => {
   const idc = await conectar(cfg.identidad), neg = await conectar(cfg.negocio);
   try {
+    // los archivos de una corrida anterior ya no tienen registro en la base: se limpian (solo si el almacén está dentro del proyecto)
+    if (ALMACEN.startsWith(path.resolve(__dirname, '..') + path.sep)) fs.rmSync(ALMACEN, { recursive: true, force: true });
     await idc.query('BEGIN'); await neg.query('BEGIN');
     await idc.query('TRUNCATE evento_seguridad, sesion, cuenta RESTART IDENTITY CASCADE');
-    await neg.query('TRUNCATE auditoria, calificacion, orden_item, orden_compra, producto, proveedor, empleado, categoria, perfil RESTART IDENTITY CASCADE');
+    await neg.query('TRUNCATE auditoria, calificacion, orden_item, orden_compra, producto, proveedor, empleado, categoria, archivo, perfil RESTART IDENTITY');
 
     // Cuentas (identidad) y perfiles (negocio) con el mismo id
     const uid = {};

@@ -18,6 +18,7 @@ function perfil(u) {
   return {
     id: u.id, email: u.email, rol: u.rol, nombre: u.nombre, apellidos: u.apellidos,
     permisos: u.permisos || [], debeCambiarClave: !!u.debeCambiarClave,
+    telefono: u.telefono || '', fotoUrl: u.fotoId ? `/api/archivos/${u.fotoId}` : null,
     primerNombre: pn, primerApellido: pa, nombreCorto: [pn, pa].filter(Boolean).join(' ') || u.email,
   };
 }

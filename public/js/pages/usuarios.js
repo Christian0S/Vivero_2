@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { esc, dialogo, toast, norm, debounce, initials, fechaHora } from '../ui.js';
+import { esc, dialogo, toast, norm, debounce, avatar, fechaHora } from '../ui.js';
 export const title = 'Usuarios';
 const ROL = { administrador: 'Administrador', gerente: 'Gerente', empleado: 'Empleado', proveedor: 'Proveedor' };
 const ORDEN = Object.keys(ROL);   // orden lógico, no alfabético
@@ -22,7 +22,7 @@ export async function render(root, { user, alive }) {
     const ver = lista.filter(u => !t || norm(`${u.nombre} ${u.apellidos} ${u.email}`).includes(t));
     count.textContent = `${ver.length} de ${lista.length} cuentas`;
     rows.innerHTML = ver.map(u => `<tr data-id="${esc(u.id)}">
-      <td><div class="prod"><span class="avatar">${esc(initials(u.nombreCorto))}</span><div><strong>${esc(u.nombreCorto)}</strong><small>${esc(u.email)}</small></div></div></td>
+      <td><div class="prod">${avatar(u.nombreCorto, u.fotoUrl)}<div><strong>${esc(u.nombreCorto)}</strong><small>${esc(u.email)}</small></div></div></td>
       <td><span class="badge info">${esc(ROL[u.rol] || u.rol)}</span></td>
       <td><span class="badge ${u.activo ? 'ok' : 'danger'}">${u.activo ? 'Activo' : 'Inactivo'}</span> ${u.debeCambiarClave ? '<span class="badge warn">Clave pendiente</span>' : ''}</td>
       <td>${esc(fechaHora(u.ultimoAcceso))}</td>

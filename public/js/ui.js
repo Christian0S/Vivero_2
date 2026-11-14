@@ -3,6 +3,12 @@ export const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;'
 export const money = n => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n || 0);
 export const fechaCorta = s => s ? new Date(s + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
 export const fechaHora = s => s ? new Date(s).toLocaleString('es-CO', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Nunca';
+// Avatar: la foto si existe; si no (o si falla al cargar), las iniciales
+export const avatar = (nombre, fotoUrl, extra = '') => {
+  const ini = initials(nombre);
+  return `<span class="avatar ${extra}" data-ini="${esc(ini)}">${fotoUrl ? `<img src="${esc(fotoUrl)}" alt="">` : esc(ini)}</span>`;
+};
+export const BOTON_TEMA = '<button class="theme-btn" type="button" data-tema-toggle aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>';
 export const norm = s => String(s ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 export const initials = n => String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 export const debounce = (fn, ms = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -32,6 +38,9 @@ const P = {
   alert: '<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/>',
   moon: '<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>',
   shield: '<path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  bell: '<path d="M6 9a6 6 0 0112 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2 2 0 004 0"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3h0a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9v0a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>',
+  chevron: '<path d="M6 9l6 6 6-6"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
 export const icon = n => `<svg viewBox="0 0 24 24" aria-hidden="true">${P[n] || ''}</svg>`;
@@ -42,7 +51,11 @@ export const img = (src, alt = '', cls = '') =>
 export function watchImages() {
   const done = e => { if (e.target.tagName === 'IMG') e.target.closest('.media')?.classList.add('done'); };
   document.addEventListener('load', done, true);
-  document.addEventListener('error', done, true);
+  document.addEventListener('error', e => {
+    done(e);
+    const av = e.target.tagName === 'IMG' && e.target.closest('.avatar');
+    if (av) av.textContent = av.dataset.ini || '?';    // la foto no cargó: se muestran las iniciales
+  }, true);
   settleImages(document);   // imágenes que ya cargaron antes de que corriera este script
 }
 export const settleImages = root => root.querySelectorAll('.media img').forEach(i => { if (i.complete) i.closest('.media').classList.add('done'); });

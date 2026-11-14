@@ -32,12 +32,12 @@ class Jar {
   }
   get header() { return [...this.c].map(([k, v]) => `${k}=${v}`).join('; '); }
 }
-async function pedir(jar, ruta, { method = 'GET', body, cookie, headers = {} } = {}) {
+async function pedir(jar, ruta, { method = 'GET', body, raw, tipo, cookie, headers = {} } = {}) {
   const c = cookie ?? jar?.header;
   const res = await fetch(NG + ruta, {
     method, redirect: 'manual',
-    headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(c ? { Cookie: c } : {}), ...headers },
-    body: body ? JSON.stringify(body) : undefined,
+    headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(raw ? { 'Content-Type': tipo } : {}), ...(c ? { Cookie: c } : {}), ...headers },
+    body: raw ?? (body ? JSON.stringify(body) : undefined),
   });
   jar?.guardar(res);
   return { status: res.status, json: await res.json().catch(() => null), res };
@@ -191,6 +191,73 @@ async function comoApp(c, db, sql) {
     check('sirve catálogo (/) y /login.html con cabeceras de seguridad', raiz.status === 200 && login.status === 200 && raiz.headers.get('x-frame-options') === 'DENY');
     check('ruta de API inexistente da 404', (await pedir(null, '/api/nada')).status === 404);
 
+    console.log('\n── Mi perfil ──');
+    const mi = (await pedir(G2.jar, '/api/me')).json;
+    check('/api/me incluye teléfono y foto (vacíos al inicio)', mi.telefono === '' && mi.fotoUrl === null);
+    const tel = await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { telefono: '+57 300 123 4567' } });
+    check('actualizar el teléfono propio -> 200', tel.status === 200 && tel.json.telefono === '+57 300 123 4567');
+    check('intentar cambiar el rol desde el perfil -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { rol: 'administrador' } })).status === 400);
+    check('intentar cambiar el correo desde el perfil -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { email: 'otro@x.co' } })).status === 400);
+    check('teléfono inválido -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { telefono: 'abc' } })).status === 400);
+    check('nombre vacío -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { nombre: '   ' } })).status === 400);
+    check('sin cambios -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: {} })).status === 400);
+    check('sin sesión no se edita el perfil (401)', (await pedir(null, '/api/me', { method: 'PATCH', body: { telefono: '3001234567' } })).status === 401);
+    await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { telefono: '' } });
+
+    console.log('\n── Foto de perfil y archivos ──');
+    const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+    const gId = (await pedir(G2.jar, '/api/me')).json.id;
+    const up = await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: PNG, tipo: 'image/png' });
+    check('subir una foto PNG válida -> 200 con su URL', up.status === 200 && /^\/api\/archivos\/[0-9a-f-]{36}$/.test(up.json?.fotoUrl || ''), up.json?.fotoUrl);
+    const bajar = (jar, url) => fetch(NG + url, { headers: jar ? { Cookie: jar.header } : {} });
+    const f1 = await bajar(G2.jar, up.json.fotoUrl);
+    check('el dueño descarga su foto con tipo y cabeceras de seguridad', f1.status === 200 && f1.headers.get('content-type') === 'image/png'
+      && f1.headers.get('x-content-type-options') === 'nosniff' && /sandbox/.test(f1.headers.get('content-security-policy') || '') && Buffer.from(await f1.arrayBuffer()).equals(PNG));
+    check('otro empleado NO ve la foto (403)', (await bajar(E.jar, up.json.fotoUrl)).status === 403);
+    check('quien administra usuarios sí la ve (200)', (await bajar(A.jar, up.json.fotoUrl)).status === 200);
+    check('sin sesión no se descarga (401)', (await bajar(null, up.json.fotoUrl)).status === 401);
+    check('un id que no es UUID -> 404 (no hay rutas por nombre de archivo)', (await bajar(G2.jar, '/api/archivos/..%2F..%2F.env')).status === 404);
+    const reg = (await ngDb.query('SELECT * FROM archivo WHERE id = $1', [up.json.fotoUrl.split('/').pop()])).rows[0];
+    const enDisco = path.join(RAIZ, 'almacenamiento', reg.ruta);
+    check('queda registrada con huella SHA-256, en la carpeta del usuario y con nombre ordenado', reg.sha256.length === 64 && reg.ruta.startsWith(`usuarios/${gId}/foto_`) && /foto_\d{8}-\d{6}_[0-9a-f]{8}\.png$/.test(reg.ruta), reg.ruta);
+    check('el archivo existe en disco y su huella coincide con la registrada', fs.existsSync(enDisco) && crypto.createHash('sha256').update(fs.readFileSync(enDisco)).digest('hex') === reg.sha256);
+    const up2 = await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: PNG, tipo: 'image/png' });
+    check('subir otra foto reemplaza a la anterior (la vieja deja de servirse)', up2.status === 200 && up2.json.fotoUrl !== up.json.fotoUrl && (await bajar(G2.jar, up.json.fotoUrl)).status === 404 && (await bajar(G2.jar, up2.json.fotoUrl)).status === 200);
+    check('...pero la foto anterior NO se borra: queda marcada como eliminada (evidencia)', (await ngDb.query('SELECT eliminado_en FROM archivo WHERE id = $1', [reg.id])).rows[0].eliminado_en !== null && fs.existsSync(enDisco));
+    check('foto con bytes que no son imagen -> 400', (await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: Buffer.from('<html><script>alert(1)</script></html>'), tipo: 'image/png' })).status === 400);
+    check('PNG declarado como JPEG -> 400 (no se confía en lo que diga el navegador)', (await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: PNG, tipo: 'image/jpeg' })).status === 400);
+    check('SVG (puede llevar código) -> 415', (await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'), tipo: 'image/svg+xml' })).status === 415);
+    check('foto de más de 600 KB -> 413', (await pedir(G2.jar, '/api/me/foto', { method: 'PUT', raw: Buffer.concat([PNG, Buffer.alloc(700 * 1024)]), tipo: 'image/png' })).status === 413);
+    check('sin sesión no se sube foto (401)', (await pedir(null, '/api/me/foto', { method: 'PUT', raw: PNG, tipo: 'image/png' })).status === 401);
+    const quitar = await pedir(G2.jar, '/api/me/foto', { method: 'DELETE' });
+    check('quitar la foto -> el perfil queda sin foto y el archivo deja de servirse', quitar.status === 200 && quitar.json.fotoUrl === null && (await bajar(G2.jar, up2.json.fotoUrl)).status === 404);
+    const lista2 = await pedir(A.jar, '/api/admin/usuarios');
+    check('la lista de usuarios del administrador incluye fotoUrl', lista2.json.every(u => 'fotoUrl' in u));
+
+    console.log('\n── Parámetros del sistema ──');
+    check('gerente NO ve parámetros (403)', (await pedir(G2.jar, '/api/parametros')).status === 403);
+    const par = await pedir(A.jar, '/api/parametros');
+    check('el administrador ve los parámetros por grupo', par.status === 200 && par.json.length === 11 && par.json.some(p => p.clave === 'empresa.nombre'));
+    const put = (clave, valor, jar = A.jar) => pedir(jar, `/api/parametros/${clave}`, { method: 'PUT', body: { valor } });
+    check('cambiar un parámetro válido -> 200', (await put('alertas.meses_proveedor_inactivo', '4')).status === 200);
+    check('valor no numérico -> 400', (await put('alertas.meses_proveedor_inactivo', 'abc')).status === 400);
+    check('por debajo del mínimo (0) -> 400', (await put('alertas.meses_proveedor_inactivo', '0')).status === 400);
+    check('por encima del máximo (61) -> 400', (await put('alertas.meses_proveedor_inactivo', '61')).status === 400);
+    check('parámetro inexistente -> 404', (await put('no.existe', '1')).status === 404);
+    check('gerente NO cambia parámetros (403)', (await put('alertas.meses_proveedor_inactivo', '5', G2.jar)).status === 403);
+    check('WhatsApp sin indicativo -> 400', (await put('empresa.whatsapp', '3001234567')).status === 400);
+    const wa = await put('empresa.whatsapp', '+57 300 123 4567');
+    check('WhatsApp con indicativo se guarda compacto', wa.status === 200 && wa.json.valor === '+573001234567');
+    const info = await pedir(null, '/api/catalogo/info');
+    check('el catálogo público muestra solo datos marcados como públicos', info.status === 200 && info.json.nombre === 'Vivero Las Magnolias' && info.json.whatsapp === '+573001234567' && !('nit' in info.json) && !('correo' in info.json), JSON.stringify(info.json));
+    await put('alertas.meses_proveedor_inactivo', '3'); await put('empresa.whatsapp', '');
+
+    console.log('\n── Notificaciones ──');
+    const nG = await pedir(G2.jar, '/api/notificaciones');
+    check('el gerente ve la alerta de stock bajo', nG.status === 200 && nG.json.items.some(i => i.tipo === 'stock_bajo' && /23 productos/.test(i.titulo)), nG.json?.items?.[0]?.titulo);
+    check('el proveedor no recibe alertas de inventario', (await pedir(P.jar, '/api/notificaciones')).json?.total === 0);
+    check('sin sesión no hay notificaciones (401)', (await pedir(null, '/api/notificaciones')).status === 401);
+
     console.log('\n── Separación de servicios y bases ──');
     check('la API del negocio NO recibe credenciales de identidad ni la llave privada', !Object.keys(envNg).some(k => /IDENTIDAD_(DB|USER|PASSWORD)|PRIVATE|PG_ADMIN/.test(k)));
     check('el servicio de identidad NO recibe credenciales del negocio', !Object.keys(envId).some(k => /NEGOCIO_|PG_ADMIN/.test(k)));
@@ -203,6 +270,8 @@ async function comoApp(c, db, sql) {
       && !(await comoApp(cfg.negocio, cfg.negocio.database, 'DELETE FROM auditoria')).ok && !(await comoApp(cfg.negocio, cfg.negocio.database, 'TRUNCATE auditoria')).ok);
     check('los eventos de seguridad también son inalterables', !(await comoApp(cfg.identidad, cfg.identidad.database, "UPDATE evento_seguridad SET tipo = 'login_ok'")).ok
       && !(await comoApp(cfg.identidad, cfg.identidad.database, 'DELETE FROM evento_seguridad')).ok);
+    check('los archivos nunca se borran desde la app (sin DELETE ni TRUNCATE)', !(await comoApp(cfg.negocio, cfg.negocio.database, 'DELETE FROM archivo')).ok && !(await comoApp(cfg.negocio, cfg.negocio.database, 'TRUNCATE archivo')).ok);
+    check('...ni se les puede alterar la huella, solo marcarlos como eliminados', !(await comoApp(cfg.negocio, cfg.negocio.database, "UPDATE archivo SET sha256 = 'x' WHERE false")).ok && (await comoApp(cfg.negocio, cfg.negocio.database, 'UPDATE archivo SET eliminado_en = eliminado_en WHERE false')).ok);
     check('la app NO ve el control de migraciones', !(await comoApp(cfg.identidad, cfg.identidad.database, 'SELECT * FROM schema_migrations')).ok);
     check('en la base solo hay huellas de los refresh, nunca el token', (await comoApp(cfg.identidad, cfg.identidad.database, "SELECT 1 FROM sesion WHERE refresh_huella = '" + G2.jar.c.get('refresh') + "'")).rows.length === 0);
 
@@ -220,6 +289,10 @@ async function comoApp(c, db, sql) {
         await idDb.query('DELETE FROM cuenta WHERE id = ANY($1)', [ids]);
         await ngDb.query('DELETE FROM perfil WHERE cuenta_id = ANY($1)', [ids]);
         await ngDb.query("DELETE FROM auditoria WHERE accion = 'prueba'");
+        const subidos = (await ngDb.query('SELECT ruta FROM archivo WHERE creado_en >= $1', [inicio])).rows;
+        await ngDb.query('UPDATE perfil SET foto_id = NULL WHERE foto_id IN (SELECT id FROM archivo WHERE creado_en >= $1)', [inicio]);
+        await ngDb.query('DELETE FROM archivo WHERE creado_en >= $1', [inicio]);
+        for (const f of subidos) fs.rmSync(path.join(RAIZ, 'almacenamiento', f.ruta), { force: true });
       }
     } catch (e) { console.error('Limpieza:', e.message); }
     await idDb?.end().catch(() => {}); await ngDb?.end().catch(() => {});

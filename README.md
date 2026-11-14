@@ -55,6 +55,7 @@ Para agregar un permiso: una migración nueva en `migrations/identidad/` y listo
 | proveedores.ver | ✓ | ✓ | ✓ | |
 | usuarios.admin | ✓ | | | |
 | permisos.admin | ✓ | | | |
+| parametros.admin | ✓ | | | |
 
 El administrador no puede cambiar su propio rol ni desactivarse, y siempre debe quedar al menos un administrador activo.
 El proveedor **nunca** recibe calificaciones (ni las suyas).
@@ -68,6 +69,22 @@ El proveedor **nunca** recibe calificaciones (ni las suyas).
 Cada usuario solo entra a su base, solo con permisos de datos (nada de DDL), y `auditoria` y `evento_seguridad` son **solo inserción**.
 Cuenta y perfil comparten el mismo UUID, sin llave foránea entre bases a propósito.
 Los cambios de estructura son archivos nuevos `migrations/<base>/00N_nombre.sql` (una migración aplicada no se edita: el sistema lo detecta).
+
+## Archivos
+La base guarda los **datos** del archivo (tabla `archivo`) y el archivo vive en disco, en `almacenamiento/` (configurable con `ALMACEN_DIR`).
+- **Ruta y nombre**: `usuarios/{id}/foto_20261113-051530_a1b2c3d4.webp` → qué es, fecha y hora (UTC), sufijo aleatorio.
+- **Se confía en los bytes, no en el nombre**: solo PNG, JPEG y WebP (el SVG se rechaza porque puede llevar código); máximo 600 KB.
+  El navegador reduce la foto a 256 px antes de subirla.
+- **Huella SHA-256** de cada archivo: prueba de que no fue alterado.
+- **Nunca se borran desde la app**: se marcan como eliminados (la app no tiene `DELETE` ni puede cambiar la huella). Es la base de la evidencia en pedidos y reclamos.
+- **Se descargan solo con sesión** y permiso sobre ese archivo (`/api/archivos/:id`), con `nosniff` y CSP `sandbox`. No hay carpetas públicas.
+- Para sumar un tipo de archivo (producto, soporte, factura): ampliar el `CHECK` de `archivo.tipo` con una migración y su regla de acceso en `src/routes/archivos.js`.
+
+## Mi perfil, parámetros y notificaciones
+- **Mi perfil** (todos los roles): nombre, apellidos, teléfono, foto y cambio de contraseña. El rol, el correo y el estado NO se editan ahí.
+- **Parámetros** (solo administrador): datos del vivero, IVA y stock mínimo por defecto, plazos de alerta, prefijo de pedidos. Cada uno se valida según su tipo y rango.
+  Los marcados como públicos (nombre, teléfono, WhatsApp, dirección) aparecen en el catálogo, que muestra un botón de WhatsApp si se configuró.
+- **Campana**: notificaciones calculadas al momento según los permisos de quien pregunta. Hoy: stock bajo. La Fase 8 agrega entregas por confirmar, calificaciones pendientes y proveedores inactivos.
 
 ## Comandos
 | Comando | Qué hace |
@@ -89,6 +106,7 @@ Los cambios de estructura son archivos nuevos `migrations/<base>/00N_nombre.sql`
     migrations/    SQL versionado, una carpeta por base
     scripts/       setup:env, db-setup, migrate, seed, arrancar
     keys/          llaves de firma (NO se suben a Git)
+    almacenamiento/ archivos subidos (fotos, luego documentos). NO se sube a Git
     legacy/jsons   datos del prototipo (solo los lee el seed)
 
 ## Problemas frecuentes
@@ -105,3 +123,4 @@ Los cambios de estructura son archivos nuevos `migrations/<base>/00N_nombre.sql`
 1. Base de datos y carga de datos del prototipo. 2. API de login y roles. 2.5. Front reorganizado: catálogo público, tema, perfil.
 3A. PostgreSQL en Docker, dos bases, migraciones, auditoría inalterable.
 3B. Servicio de identidad separado: tokens EdDSA, renovación rotativa, roles y permisos editables, administración de usuarios, cambio obligatorio de clave.
+3C. Encabezado nuevo (campana, tema, menú de usuario), Mi perfil con foto, parámetros del sistema, base de archivos con huella SHA-256 y catálogo con WhatsApp.

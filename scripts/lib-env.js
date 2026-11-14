@@ -18,7 +18,7 @@ const SISTEMA = ['PATH', 'SYSTEMROOT', 'WINDIR', 'TEMP', 'TMP', 'HOME', 'USERPRO
 const COMUN = ['PG_HOST', 'PG_PORT', 'NODE_ENV', 'ACCESS_TTL_SECONDS'];
 const POR_SERVICIO = {
   identidad: [...COMUN, 'IDENTIDAD_DB', 'IDENTIDAD_USER', 'IDENTIDAD_PASSWORD', 'JWT_PRIVATE_KEY_FILE', 'JWT_PUBLIC_KEY_FILE', 'APP_ORIGENES', 'APP_PORT'],
-  negocio: [...COMUN, 'NEGOCIO_DB', 'NEGOCIO_USER', 'NEGOCIO_PASSWORD', 'JWT_PUBLIC_KEY_FILE', 'IDENTIDAD_URL'],
+  negocio: [...COMUN, 'NEGOCIO_DB', 'NEGOCIO_USER', 'NEGOCIO_PASSWORD', 'JWT_PUBLIC_KEY_FILE', 'IDENTIDAD_URL', 'ALMACEN_DIR'],
 };
 // 'extra' permite a las pruebas sobreescribir (puertos, etc.)
 function envPara(servicio, extra = {}) {

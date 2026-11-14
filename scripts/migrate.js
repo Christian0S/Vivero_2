@@ -6,7 +6,8 @@ cfg.exigir(['PG_ADMIN_PASSWORD', 'IDENTIDAD_DB', 'IDENTIDAD_USER', 'NEGOCIO_DB',
 
 const BASES = [
   { nombre: 'identidad', c: cfg.identidad, dir: 'migrations/identidad', soloInsercion: ['evento_seguridad'] },
-  { nombre: 'negocio', c: cfg.negocio, dir: 'migrations/negocio', soloInsercion: ['auditoria'] },
+  // archivo: la app puede insertar y leer, y solo marcar como eliminado (nunca borrar ni cambiar la huella)
+  { nombre: 'negocio', c: cfg.negocio, dir: 'migrations/negocio', soloInsercion: ['auditoria'], soloColumnas: { archivo: ['eliminado_en', 'eliminado_por'] } },
 ];
 const normalizar = s => s.replace(/\r\n/g, '\n');   // que Windows (CRLF) no cambie la huella
 const huella = s => crypto.createHash('sha256').update(normalizar(s)).digest('hex');
@@ -42,6 +43,10 @@ const huella = s => crypto.createHash('sha256').update(normalizar(s)).digest('he
     await cl.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ${rol}`);
     await cl.query(`REVOKE ALL ON TABLE schema_migrations FROM ${rol}`);
     for (const t of b.soloInsercion) await cl.query(`REVOKE UPDATE, DELETE, TRUNCATE ON TABLE ${cl.escapeIdentifier(t)} FROM ${rol}`); // registros inalterables
+    for (const [t, cols] of Object.entries(b.soloColumnas || {})) {
+      await cl.query(`REVOKE UPDATE, DELETE, TRUNCATE ON TABLE ${cl.escapeIdentifier(t)} FROM ${rol}`);
+      await cl.query(`GRANT UPDATE (${cols.map(c => cl.escapeIdentifier(c)).join(', ')}) ON TABLE ${cl.escapeIdentifier(t)} TO ${rol}`);
+    }
     await cl.end();
     console.log(`Base ${b.nombre}: ${nuevas ? nuevas + ' migración(es) nueva(s)' : 'al día'}; permisos ajustados`);
   }
