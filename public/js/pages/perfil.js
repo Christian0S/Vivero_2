@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { esc, avatar, toast } from '../ui.js';
+import { esc, avatar, toast, fmtTel } from '../ui.js';
 export const title = 'Mi perfil';
 const ROL = { administrador: 'Administrador', gerente: 'Gerente', empleado: 'Empleado', proveedor: 'Proveedor' };
 
@@ -36,9 +36,19 @@ export async function render(root, { user, alive }) {
           <div class="form-error" id="e-datos" role="alert" hidden></div>
           <div class="field"><label for="p-nom">Nombre</label><input class="input" id="p-nom" maxlength="80" value="${esc(yo.nombre)}" required></div>
           <div class="field"><label for="p-ape">Apellidos</label><input class="input" id="p-ape" maxlength="80" value="${esc(yo.apellidos)}" required></div>
-          <div class="field"><label for="p-tel">Teléfono</label><input class="input" id="p-tel" type="tel" maxlength="20" value="${esc(yo.telefono)}" placeholder="+57 300 123 4567"></div>
-          <div class="field"><label>Correo electrónico</label><input class="input" value="${esc(yo.email)}" disabled><span class="hint">Para cambiar el correo o el rol, habla con el administrador.</span></div>
-          <div class="field"><label>Rol</label><input class="input" value="${esc(ROL[yo.rol] || yo.rol)}" disabled></div>
+          <div class="field"><label for="p-tel">Teléfono</label><input class="input" id="p-tel" type="tel" maxlength="24" value="${esc(fmtTel(yo.telefono))}" placeholder="+57 300 123 4567"><span class="hint">Con o sin el +57.</span></div>
+          <div class="form-2">
+            <div class="field"><label for="p-ciu">Ciudad</label><input class="input" id="p-ciu" maxlength="80" value="${esc(yo.ciudad)}"></div>
+            <div class="field"><label for="p-dir">Dirección</label><input class="input" id="p-dir" maxlength="160" value="${esc(yo.direccion)}"></div>
+          </div>
+          <p class="form-section">Los define el administrador</p>
+          <div class="form-2">
+            <div class="field"><label>Correo electrónico</label><input class="input" value="${esc(yo.email)}" disabled></div>
+            <div class="field"><label>Rol</label><input class="input" value="${esc(ROL[yo.rol] || yo.rol)}" disabled></div>
+            <div class="field"><label>Documento</label><input class="input" value="${esc(`${yo.tipoDoc} ${yo.numeroDoc}`.trim() || 'Sin registrar')}" disabled></div>
+            <div class="field"><label>Cargo</label><input class="input" value="${esc(yo.cargo || 'Sin registrar')}" disabled></div>
+          </div>
+          <span class="hint">Si alguno de estos datos está mal, pídele al administrador que lo corrija.</span>
           <div class="dlg-actions"><button class="btn primary" type="submit">Guardar cambios</button></div>
         </form>
       </section>
@@ -76,7 +86,9 @@ export async function render(root, { user, alive }) {
       const cambios = {}, v = id => root.querySelector(id).value.trim();
       if (v('#p-nom') !== yo.nombre) cambios.nombre = v('#p-nom');
       if (v('#p-ape') !== yo.apellidos) cambios.apellidos = v('#p-ape');
-      if (v('#p-tel') !== yo.telefono) cambios.telefono = v('#p-tel');
+      if (v('#p-tel') !== fmtTel(yo.telefono)) cambios.telefono = v('#p-tel');
+      if (v('#p-ciu') !== yo.ciudad) cambios.ciudad = v('#p-ciu');
+      if (v('#p-dir') !== yo.direccion) cambios.direccion = v('#p-dir');
       if (!Object.keys(cambios).length) { toast('No hay cambios para guardar'); return; }
       try { yo = await api('/me', { method: 'PATCH', body: cambios }); toast('Datos guardados'); pintar(); avisar(); }
       catch (ex) { err.textContent = ex.message; err.hidden = false; }

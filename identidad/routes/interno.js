@@ -33,20 +33,27 @@ r.post('/cuentas', requirePermiso('usuarios.admin'), async (req, res) => {
 r.patch('/cuentas/:id', requirePermiso('usuarios.admin'), async (req, res) => {
   const { id } = req.params;
   if (!UUID.test(id)) return res.status(400).json({ error: 'Identificador inválido' });
-  const actual = await db.get('SELECT id, rol, activo FROM cuenta WHERE id = $1', [id]);
+  const actual = await db.get('SELECT id, email, rol, activo FROM cuenta WHERE id = $1', [id]);
   if (!actual) return res.status(404).json({ error: 'La cuenta no existe' });
   const rol = req.body?.rol ?? actual.rol, activo = req.body?.activo ?? actual.activo;
+  const email = req.body?.email === undefined ? actual.email : String(req.body.email).trim().toLowerCase();
+  if (email !== actual.email && (!EMAIL.test(email) || email.length > 120)) return res.status(400).json({ error: 'El correo no es válido' });
   if (typeof activo !== 'boolean') return res.status(400).json({ error: 'Estado inválido' });
-  if (id === req.user.id && (rol !== actual.rol || activo === false)) return res.status(400).json({ error: 'No puedes cambiar tu propio rol ni desactivar tu cuenta' });
+  if (id === req.user.id && (rol !== actual.rol || activo === false || email !== actual.email)) return res.status(400).json({ error: 'No puedes cambiar tu propio rol, tu correo ni desactivar tu cuenta' });
   if (actual.rol === 'administrador' && actual.activo && (rol !== 'administrador' || !activo)) {
     const otros = await db.get("SELECT COUNT(*)::int n FROM cuenta WHERE rol = 'administrador' AND activo AND id <> $1", [id]);
     if (otros.n === 0) return res.status(400).json({ error: 'Debe quedar al menos un administrador activo' });
   }
-  try { await db.run('UPDATE cuenta SET rol = $1, activo = $2 WHERE id = $3', [rol, activo, id]); }
-  catch (e) { if (e.code === '23503') return res.status(400).json({ error: 'El rol no existe' }); throw e; }
-  if (rol !== actual.rol || activo !== actual.activo) await S.revocarCuenta(db, id);   // los permisos nuevos rigen desde el próximo login
-  await evento(db, req, { cuentaId: id, tipo: 'cuenta_modificada', actorId: req.user.id, detalle: `rol ${actual.rol}→${rol}; activo ${actual.activo}→${activo}` });
-  res.json({ id, rol, activo });
+  try { await db.run('UPDATE cuenta SET rol = $1, activo = $2, email = $3 WHERE id = $4', [rol, activo, email, id]); }
+  catch (e) {
+    if (e.code === '23503') return res.status(400).json({ error: 'El rol no existe' });
+    if (e.code === '23505') return res.status(409).json({ error: 'Ya existe una cuenta con ese correo' });
+    throw e;
+  }
+  // Cambiar rol, estado o correo cierra sus sesiones: los permisos y el correo nuevos rigen desde el próximo login
+  if (rol !== actual.rol || activo !== actual.activo || email !== actual.email) await S.revocarCuenta(db, id);
+  await evento(db, req, { cuentaId: id, tipo: 'cuenta_modificada', actorId: req.user.id, detalle: `rol ${actual.rol}→${rol}; activo ${actual.activo}→${activo}${email !== actual.email ? `; correo ${actual.email}→${email}` : ''}` });
+  res.json({ id, rol, activo, email });
 });
 
 r.post('/cuentas/:id/reset-clave', requirePermiso('usuarios.admin'), async (req, res) => {

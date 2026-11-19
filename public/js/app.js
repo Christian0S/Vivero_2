@@ -13,9 +13,9 @@ const NAV = [
   { r: 'ordenes', t: 'Recepción de pedidos', i: 'cart', soon: 1, roles: ['empleado'] },
   { r: 'empleados', t: 'Empleados', i: 'users', soon: 1, roles: ['administrador', 'gerente'] },
   { r: 'auditoria', t: 'Auditoría', i: 'clipboard', soon: 1, roles: ['administrador', 'gerente'] },
+  { r: 'mi-empresa', t: 'Mi empresa', i: 'truck', perm: 'proveedor.editar_propio', roles: ['proveedor'] },
   { r: 'pedidos', t: 'Mis pedidos', i: 'cart', soon: 1, roles: ['proveedor'] },
   { r: 'cotizaciones', t: 'Cotizaciones', i: 'file', soon: 1, roles: ['proveedor'] },
-  { r: 'desempeno', t: 'Mi desempeño', i: 'star', soon: 1, roles: ['proveedor'] },
 ];
 const PAGES = {
   dashboard: () => import('./pages/dashboard.js'),
@@ -24,6 +24,7 @@ const PAGES = {
   usuarios: () => import('./pages/usuarios.js'),
   permisos: () => import('./pages/permisos.js'),
   parametros: () => import('./pages/parametros.js'),
+  'mi-empresa': () => import('./pages/mi-empresa.js'),
   perfil: () => import('./pages/perfil.js'),       // Mi perfil: lo ve cualquier usuario con sesión
 };
 const SOON = {
@@ -32,7 +33,6 @@ const SOON = {
   auditoria: ['Auditoría', 'Quién cambió qué y cuándo, con un catálogo corto de acciones (crear, editar, cotizar, aceptar, validar, calificar).'],
   pedidos: ['Mis pedidos', 'Las órdenes que te asignó el vivero, con su estado, fecha de entrega y la confirmación de despacho.'],
   cotizaciones: ['Cotizaciones', 'Responde las solicitudes del vivero con precios y plazos, y consulta cuáles fueron aceptadas o rechazadas y por qué.'],
-  desempeno: ['Mi desempeño', 'Tu puntaje de puntualidad, calidad y cumplimiento, calculado a partir de las calificaciones reales de cada entrega.'],
 };
 const ROL = { administrador: 'Administrador', gerente: 'Gerente', empleado: 'Empleado', proveedor: 'Proveedor' };
 
@@ -40,7 +40,8 @@ const $ = s => document.querySelector(s);
 const main = $('#main');
 let token = 0, user, visibles = [];
 
-const calcularVisibles = () => NAV.filter(n => (n.perm ? user.permisos.includes(n.perm) : n.roles.includes(user.rol)));
+// Una entrada se muestra si cumple su permiso Y su rol (cuando declara ambos)
+const calcularVisibles = () => NAV.filter(n => (!n.perm || user.permisos.includes(n.perm)) && (!n.roles || n.roles.includes(user.rol)));
 
 async function salir() { try { await api('/auth/logout', { method: 'POST' }); } finally { location.replace('/login.html'); } }
 

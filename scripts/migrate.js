@@ -7,7 +7,11 @@ cfg.exigir(['PG_ADMIN_PASSWORD', 'IDENTIDAD_DB', 'IDENTIDAD_USER', 'NEGOCIO_DB',
 const BASES = [
   { nombre: 'identidad', c: cfg.identidad, dir: 'migrations/identidad', soloInsercion: ['evento_seguridad'] },
   // archivo: la app puede insertar y leer, y solo marcar como eliminado (nunca borrar ni cambiar la huella)
-  { nombre: 'negocio', c: cfg.negocio, dir: 'migrations/negocio', soloInsercion: ['auditoria'], soloColumnas: { archivo: ['eliminado_en', 'eliminado_por'] } },
+  { nombre: 'negocio', c: cfg.negocio, dir: 'migrations/negocio', soloInsercion: ['auditoria'], soloColumnas: { archivo: ['eliminado_en', 'eliminado_por'] },
+    avisos: [{ titulo: 'Productos cuyo proveedor no es de su categoría (edítalos desde Inventario)',
+      sql: 'SELECT p.nombre, v.nombre FROM producto p JOIN proveedor v ON v.id = p.proveedor_id WHERE p.categoria_id IS DISTINCT FROM v.categoria_id ORDER BY p.nombre' },
+      { titulo: 'Proveedores con teléfono sin formato internacional (corrígelos desde Proveedores)',
+      sql: "SELECT nombre, telefono FROM proveedor WHERE telefono IS NOT NULL AND telefono !~ '^\\+[1-9][0-9]{7,14}$' ORDER BY nombre" }] },
 ];
 const normalizar = s => s.replace(/\r\n/g, '\n');   // que Windows (CRLF) no cambie la huella
 const huella = s => crypto.createHash('sha256').update(normalizar(s)).digest('hex');
@@ -46,6 +50,11 @@ const huella = s => crypto.createHash('sha256').update(normalizar(s)).digest('he
     for (const [t, cols] of Object.entries(b.soloColumnas || {})) {
       await cl.query(`REVOKE UPDATE, DELETE, TRUNCATE ON TABLE ${cl.escapeIdentifier(t)} FROM ${rol}`);
       await cl.query(`GRANT UPDATE (${cols.map(c => cl.escapeIdentifier(c)).join(', ')}) ON TABLE ${cl.escapeIdentifier(t)} TO ${rol}`);
+    }
+    // Avisos de calidad de datos: informan, no detienen nada
+    for (const a of b.avisos || []) {
+      const filas = (await cl.query(a.sql)).rows;
+      if (filas.length) { console.warn(`  ⚠ ${a.titulo}:`); filas.forEach(f => console.warn('    - ' + Object.values(f).map(v => v ?? '(vacío)').join(' · '))); }
     }
     await cl.end();
     console.log(`Base ${b.nombre}: ${nuevas ? nuevas + ' migración(es) nueva(s)' : 'al día'}; permisos ajustados`);

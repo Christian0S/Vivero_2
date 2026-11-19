@@ -18,7 +18,8 @@ function perfil(u) {
   return {
     id: u.id, email: u.email, rol: u.rol, nombre: u.nombre, apellidos: u.apellidos,
     permisos: u.permisos || [], debeCambiarClave: !!u.debeCambiarClave,
-    telefono: u.telefono || '', fotoUrl: u.fotoId ? `/api/archivos/${u.fotoId}` : null,
+    telefono: u.telefono || '', fotoUrl: (u.fotoId ?? u.foto_id) ? `/api/archivos/${u.fotoId ?? u.foto_id}` : null,
+    tipoDoc: u.tipo_doc || '', numeroDoc: u.numero_doc || '', cargo: u.cargo || '', ciudad: u.ciudad || '', direccion: u.direccion || '',
     primerNombre: pn, primerApellido: pa, nombreCorto: [pn, pa].filter(Boolean).join(' ') || u.email,
   };
 }

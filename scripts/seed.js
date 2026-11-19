@@ -1,6 +1,7 @@
 // Carga los JSON del prototipo (legacy/jsons) en ambas bases. Se puede repetir: vacía y vuelve a cargar.   Uso: npm run db:seed
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const { hash: hashClave } = require('../identidad/lib/password');
+const { normalizar, puedeWhatsapp } = require('../compartido/telefonos');
 const { Client } = require('pg');
 const cfg = require('../src/config');
 cfg.exigir(['PG_ADMIN_PASSWORD', 'IDENTIDAD_DB', 'NEGOCIO_DB']);
@@ -47,18 +48,21 @@ const ins = async (cl, sql, p) => (await cl.query(sql + ' RETURNING id', p)).row
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
         [e.nombre, e.apellidos, e.tipoIdentificacion, e.numeroIdentificacion, e.pais, e.ciudad, e.direccion, e.telefono, e.cargo, e.antecedentes, !!e.eliminado]);
 
-    const pid = {}, pidNombre = {}, primeroDeCat = {}, provPorCat = {}, legacyCalif = {};
+    const pid = {}, pidNombre = {}, primeroDeCat = {}, provPorCat = {}, legacyCalif = {}, provCat = {};
     for (const p of J('proveedores.json')) {
-      const id = await ins(neg, `INSERT INTO proveedor(nombre,tipo_doc,numero_doc,pais,ciudad,direccion,telefono,correo,categoria_id,creado_por)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
-        [p.nombre, p.tipoIdentificacion, p.numeroIdentificacion, p.pais, p.ciudad, p.direccion, p.telefono, p.correo, cat[p.category], uid.gerente]);
-      pid[p.id] = id; pidNombre[p.nombre] = id; primeroDeCat[p.category] ??= id; (provPorCat[p.category] ||= []).push(id); legacyCalif[id] = p.calificacion;
+      const tel = normalizar(p.telefono);   // el prototipo traía "3101234567" sin indicativo: WhatsApp necesita +573101234567
+      if (!tel.ok) console.warn(`  ⚠ ${p.nombre}: teléfono "${p.telefono}" no válido (${tel.motivo}); se carga vacío`);
+      const id = await ins(neg, `INSERT INTO proveedor(nombre,tipo_doc,numero_doc,pais,ciudad,direccion,telefono,whatsapp,correo,categoria_id,creado_por)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+        [p.nombre, p.tipoIdentificacion, p.numeroIdentificacion, p.pais, p.ciudad, p.direccion, tel.e164, puedeWhatsapp(tel.e164) ? tel.e164 : null, p.correo, cat[p.category], uid.gerente]);
+      pid[p.id] = id; pidNombre[p.nombre] = id; provCat[id] = p.category; primeroDeCat[p.category] ??= id; (provPorCat[p.category] ||= []).push(id); legacyCalif[id] = p.calificacion;
     }
 
     // 77 de 100 productos apuntaban a un proveedor inexistente: se asigna el primero de su categoría
     let reasignados = 0;
     for (const p of J('productos.json')) {
-      let prov = pid[p.supplierId]; if (!prov) { prov = primeroDeCat[p.category]; reasignados++; }
+      let prov = pid[p.supplierId];
+      if (!prov || provCat[prov] !== p.category) { prov = primeroDeCat[p.category]; reasignados++; }   // sin proveedor o de otra categoría
       await neg.query(`INSERT INTO producto(nombre,categoria_id,proveedor_id,descripcion,imagen_url,precio_base,pct_ganancia,pct_iva,precio_venta,stock,stock_minimo,creado_por)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
         [p.name, cat[p.category], prov, p.description, imgCat(p.category), pesos(p.basePrice), p.ultPercentage, p.vatPercentage, pesos(p.sellingPrice), p.quantityToAdd, p.quantityToAlert, uid.empleado]);

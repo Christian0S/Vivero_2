@@ -43,6 +43,7 @@ const { verificarOrigen } = require('../compartido/auth');
   app.use('/api/admin', require('./routes/admin')(db));
   app.use('/api/catalogo', require('./routes/catalogo')(db));   // público
   app.use('/api/proveedores', require('./routes/proveedores')(db));
+  app.use('/api/mi-proveedor', require('./routes/mi-proveedor')(db));
   app.use('/api/productos', require('./routes/productos')(db));
   app.use('/api/dashboard', require('./routes/dashboard')(db));
   app.use('/api', (req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));

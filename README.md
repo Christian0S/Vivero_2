@@ -1,126 +1,101 @@
 # SRM Vivero Las Magnolias
 
-Gestión de inventario y proveedores para un vivero. Catálogo público para clientes y aplicación interna por rol.
+Sistema web para que un vivero —una microempresa— controle su inventario, compre a sus proveedores sin errores y sepa, con datos, quién le cumple. Incluye un catálogo público para que los clientes vean lo disponible sin crear cuenta.
 
-## Puesta en marcha (Windows, PowerShell)
-Requisitos: Node.js, Git y Docker Desktop abierto.
+## El problema
 
-    npm install
-    npm run setup:env     # crea/completa .env (claves aleatorias) y las llaves de firma en keys/
-    npm run db:up         # levanta PostgreSQL en Docker (la primera vez descarga la imagen)
-    npm run db:reset      # crea las dos bases, migra y carga los datos de demostración
-    npm test              # pruebas de API, tokens, permisos y seguridad de las bases
-    npm start             # abre http://localhost:3000
+- Los pedidos a proveedores se hacen por WhatsApp, a mano: listados desordenados, cantidades que se olvidan, errores humanos.
+- Cuando algo llega incompleto o dañado no hay evidencia clara para reclamar.
+- Nadie se entera a tiempo de qué producto se está agotando, ni de qué proveedor lleva meses sin usarse.
+- La opinión sobre cada proveedor depende de la memoria de quien lo atendió.
+- Los clientes preguntan por WhatsApp qué hay disponible, una y otra vez.
+- Un software comercial de gestión cuesta más de lo que una microempresa puede pagar.
 
-Usuarios demo (solo desarrollo), todos con clave `Vivero2026!`:
-`admin@vivero.com`, `gerente@vivero.com`, `empleado@vivero.com`, `proveedor@vivero.com`.
+## Qué se quiere lograr
 
-## Arquitectura: dos servicios, dos bases
-    Navegador ──► Negocio (:3000) ──proxy /api/auth──► Identidad (:3001)
-                     │  verifica tokens (llave PÚBLICA)      │  firma tokens (llave PRIVADA)
-                     ▼                                       ▼
-                  BD srm_negocio                         BD srm_identidad
+1. **Una sola fuente de verdad** de productos, proveedores y pedidos, en lugar de hojas sueltas y chats.
+2. **Pedidos claros y sin errores humanos.** El empleado elige proveedor, productos y cantidades en la aplicación; el sistema arma el listado ordenado, lo envía por WhatsApp y guarda un PDF con número consecutivo.
+3. **Recepción verificada.** Al llegar la mercancía se compara lo recibido contra lo pedido, con fotos y soporte.
+4. **Reclamos con evidencia.** Si algo falla, el reclamo sale redactado, con el PDF del pedido y las fotos, y con una huella digital que prueba que nada fue alterado.
+5. **Evaluación objetiva de proveedores** (puntualidad, calidad, cumplimiento), calculada de entregas reales. Es información interna: el proveedor nunca ve su propia calificación.
+6. **Alertas a tiempo**: stock bajo, entregas sin confirmar, pedidos sin calificar, proveedores inactivos.
+7. **Un catálogo público** que responde la pregunta "¿qué tienen disponible?" sin atención manual.
+8. **Costo cero en licencias** y operación sencilla: software libre, un servidor pequeño.
+9. **Seguridad por diseño**, porque se manejan datos de personas, proveedores y evidencia.
 
-| Servicio | Hace | Conoce |
-|---|---|---|
-| **Identidad** (`identidad/`) | Login, sesiones, roles y permisos, administración de cuentas | Solo `srm_identidad` y la llave privada |
-| **Negocio** (`src/`) | Catálogo, inventario, proveedores, perfiles, auditoría | Solo `srm_negocio` y la llave pública |
+## Cómo funciona
 
-`npm start` arranca los dos como procesos separados y a cada uno solo le entrega sus propias credenciales
-(`scripts/lib-env.js`). Identidad escucha únicamente en `127.0.0.1`.
-Si identidad se cae, quien ya inició sesión sigue trabajando (el negocio solo verifica la firma); iniciar sesión da un 502 claro.
+### El ciclo de compra, con WhatsApp como canal
 
-## Cómo funciona la sesión
-- **Token de acceso**: JWT firmado con **EdDSA (Ed25519)**, dura 10 minutos, viaja en cookie `httpOnly`. Lleva rol y permisos.
-  El negocio solo puede **verificar** (llave pública): aunque lo comprometan no puede fabricar sesiones. Se rechazan `alg: none`,
-  firmas de otra llave, ataques de confusión HS256, tokens vencidos o de otra aplicación.
-- **Token de renovación**: 256 bits aleatorios, cookie `httpOnly` + `SameSite=Strict` que **solo viaja a `/api/auth`**.
-  En la base solo se guarda su huella SHA-256. **Rota en cada uso**; si alguien reutiliza uno ya usado (robo), se cierran todas las sesiones
-  de esa cadena y queda un evento de seguridad. Dura 7 días con tope absoluto de 30.
-- El front renueva solo cuando el token vence (ver `public/js/api.js`).
-- **Contraseñas**: argon2id (`hash-wasm`, sin compilar nada). Mínimo 10 caracteres. Las cuentas nuevas o restablecidas usan una clave temporal y
-  la app obliga a cambiarla antes de continuar.
-- **Límite de intentos** guardado en la base de datos (5 fallos por correo / 50 por IP cada 15 min): sobrevive a reinicios.
-- **Anti-CSRF**: `SameSite` + verificación de `Origin` en los cambios de datos.
+El proveedor casi nunca va a abrir una aplicación: la conversación sigue siendo por WhatsApp. En lugar de pelear con eso, el sistema lo aprovecha y pone el orden de su lado.
 
-## Roles y permisos
-Los permisos son **datos** que edita el administrador en la pantalla *Permisos* (los cambios rigen en el próximo login o renovación, máx. 10 min).
-El administrador siempre tiene todos. Para proteger una ruta: `requirePermiso('inventario.ver')` (`compartido/auth.js`).
-Para agregar un permiso: una migración nueva en `migrations/identidad/` y listo; aparece solo en la matriz.
+1. **Alerta**: un producto baja de su stock mínimo y la campana lo avisa.
+2. **Pedido**: se eligen los productos del proveedor y las cantidades; el sistema genera el listado y un PDF con consecutivo.
+3. **Envío**: se abre WhatsApp con el mensaje ya redactado (pedido, consulta, seguimiento) para enviarlo con un toque.
+4. **Recepción**: al llegar la entrega se registra lo recibido contra lo pedido, con fotos.
+5. **Reclamo o calificación**: si hay diferencias, se genera el reclamo con evidencia; si todo salió bien, se califica al proveedor.
 
-| Permiso | Admin | Gerente | Empleado | Proveedor |
-|---|:-:|:-:|:-:|:-:|
-| dashboard.ver | ✓ | ✓ | ✓ | ✓ |
-| inventario.ver | ✓ | ✓ | ✓ | |
-| proveedores.ver | ✓ | ✓ | ✓ | |
-| usuarios.admin | ✓ | | | |
-| permisos.admin | ✓ | | | |
-| parametros.admin | ✓ | | | |
+Todo queda registrado: quién hizo qué y cuándo, y los archivos nunca se borran.
 
-El administrador no puede cambiar su propio rol ni desactivarse, y siempre debe quedar al menos un administrador activo.
-El proveedor **nunca** recibe calificaciones (ni las suyas).
+### El catálogo público
 
-## Bases de datos
-| Base | Contiene | Usuario de la app |
-|---|---|---|
-| `srm_identidad` | Cuentas, roles, permisos, sesiones, eventos de seguridad | `srm_identidad_app` |
-| `srm_negocio` | Perfiles, productos, proveedores, órdenes, auditoría | `srm_negocio_app` |
+Los clientes entran a la página principal, buscan por nombre o categoría, ven precio y disponibilidad, y escriben al vivero por WhatsApp. No ven proveedores, costos ni cantidades exactas de stock.
 
-Cada usuario solo entra a su base, solo con permisos de datos (nada de DDL), y `auditoria` y `evento_seguridad` son **solo inserción**.
-Cuenta y perfil comparten el mismo UUID, sin llave foránea entre bases a propósito.
-Los cambios de estructura son archivos nuevos `migrations/<base>/00N_nombre.sql` (una migración aplicada no se edita: el sistema lo detecta).
+## Quién la usa
 
-## Archivos
-La base guarda los **datos** del archivo (tabla `archivo`) y el archivo vive en disco, en `almacenamiento/` (configurable con `ALMACEN_DIR`).
-- **Ruta y nombre**: `usuarios/{id}/foto_20261113-051530_a1b2c3d4.webp` → qué es, fecha y hora (UTC), sufijo aleatorio.
-- **Se confía en los bytes, no en el nombre**: solo PNG, JPEG y WebP (el SVG se rechaza porque puede llevar código); máximo 600 KB.
-  El navegador reduce la foto a 256 px antes de subirla.
-- **Huella SHA-256** de cada archivo: prueba de que no fue alterado.
-- **Nunca se borran desde la app**: se marcan como eliminados (la app no tiene `DELETE` ni puede cambiar la huella). Es la base de la evidencia en pedidos y reclamos.
-- **Se descargan solo con sesión** y permiso sobre ese archivo (`/api/archivos/:id`), con `nosniff` y CSP `sandbox`. No hay carpetas públicas.
-- Para sumar un tipo de archivo (producto, soporte, factura): ampliar el `CHECK` de `archivo.tipo` con una migración y su regla de acceso en `src/routes/archivos.js`.
-
-## Mi perfil, parámetros y notificaciones
-- **Mi perfil** (todos los roles): nombre, apellidos, teléfono, foto y cambio de contraseña. El rol, el correo y el estado NO se editan ahí.
-- **Parámetros** (solo administrador): datos del vivero, IVA y stock mínimo por defecto, plazos de alerta, prefijo de pedidos. Cada uno se valida según su tipo y rango.
-  Los marcados como públicos (nombre, teléfono, WhatsApp, dirección) aparecen en el catálogo, que muestra un botón de WhatsApp si se configuró.
-- **Campana**: notificaciones calculadas al momento según los permisos de quien pregunta. Hoy: stock bajo. La Fase 8 agrega entregas por confirmar, calificaciones pendientes y proveedores inactivos.
-
-## Comandos
-| Comando | Qué hace |
+| Rol | Qué hace |
 |---|---|
-| `npm run setup:env` | Genera `.env` y las llaves de firma sin imprimir secretos |
-| `npm run db:up` / `db:down` | Enciende / apaga PostgreSQL (`db:down` NO borra los datos) |
-| `npm run db:reset` | Recrea todo desde cero (solo desarrollo): setup + migrate + seed |
-| `npm run db:migrate` | Aplica migraciones pendientes y ajusta permisos |
-| `npm run db:seed` | Vacía y recarga los datos de demostración |
-| `npm start` / `npm run dev` | Los dos servicios / con recarga automática |
-| `npm run start:identidad` / `start:negocio` | Un servicio por separado |
-| `npm test` | Levanta ambos servicios y corre todas las pruebas |
+| **Cliente** (sin cuenta) | Consulta el catálogo y escribe al vivero. |
+| **Administrador** | Configura el sistema: usuarios, permisos y parámetros. |
+| **Gerente** | Representante legal. Gestiona el negocio: inventario, proveedores, pedidos, calificaciones. Hace también las funciones del empleado. |
+| **Empleado** | Opera el día a día: consulta inventario, recibe pedidos. |
+| **Proveedor** | Usuario externo y opcional, con acceso limitado a lo suyo. Si no quiere usar la aplicación, todo sigue funcionando por WhatsApp. |
 
-## Estructura
-    public/        front (login, catálogo público, aplicación interna)
-    src/           servicio de negocio
-    identidad/     servicio de identidad
-    compartido/    verificación de tokens, permisos y anti-CSRF (usado por ambos)
-    migrations/    SQL versionado, una carpeta por base
-    scripts/       setup:env, db-setup, migrate, seed, arrancar
-    keys/          llaves de firma (NO se suben a Git)
-    almacenamiento/ archivos subidos (fotos, luego documentos). NO se sube a Git
-    legacy/jsons   datos del prototipo (solo los lee el seed)
+Lo que puede hacer cada rol no está escrito en el código: son **permisos que el administrador ajusta** desde la propia aplicación.
 
-## Problemas frecuentes
-| Síntoma | Causa y solución |
-|---|---|
-| `No se pudo conectar a PostgreSQL` | Docker Desktop cerrado o falta `npm run db:up` |
-| `password authentication failed` | Cambiaste `PG_ADMIN_PASSWORD` después de crear el contenedor. De cero: `docker compose down -v` (borra datos), luego `db:up` y `db:reset` |
-| `No se encuentra la llave pública` | Corre `npm run setup:env` |
-| Al iniciar sesión sale "servicio de identidad no disponible" | Arrancaste solo el negocio; usa `npm start` |
-| `EADDRINUSE` en 3000/3001 | Hay otro servidor corriendo; ciérralo (o cambia `PORT` / `IDENTIDAD_PORT` en `.env`) |
-| Un cambio de rol/permiso no se nota | Rige en el próximo login o renovación (máx. 10 min) |
+## Estado actual
 
-## Historial de fases
-1. Base de datos y carga de datos del prototipo. 2. API de login y roles. 2.5. Front reorganizado: catálogo público, tema, perfil.
-3A. PostgreSQL en Docker, dos bases, migraciones, auditoría inalterable.
-3B. Servicio de identidad separado: tokens EdDSA, renovación rotativa, roles y permisos editables, administración de usuarios, cambio obligatorio de clave.
-3C. Encabezado nuevo (campana, tema, menú de usuario), Mi perfil con foto, parámetros del sistema, base de archivos con huella SHA-256 y catálogo con WhatsApp.
+### Ya funciona
+- **Catálogo público** con búsqueda, categorías, disponibilidad y contacto por WhatsApp.
+- **Inventario**: consulta con filtros y alertas de stock bajo; creación y edición de productos (el proveedor se elige entre los de la categoría del producto), precio de venta calculado por el sistema, activar y desactivar, e historial de cada cambio.
+- **Proveedores**: ficha con contacto directo (WhatsApp, copiar el teléfono o correo) y calificación interna. El gerente edita los datos de cualquier proveedor, y cada proveedor actualiza su propio contacto desde **Mi empresa**, sin depender del administrador. Los teléfonos están en formato internacional para que los enlaces funcionen.
+- **Usuarios y permisos**: cuentas por rol con sus datos completos (documento, cargo, teléfono, ciudad, dirección), permisos editables por el administrador, clave temporal con cambio obligatorio al primer ingreso.
+- **Mi perfil**: datos personales, foto y cambio de contraseña.
+- **Parámetros del sistema**: datos del vivero, valores por defecto y plazos de alerta.
+- **Notificaciones**: campana en el encabezado (hoy avisa de stock bajo).
+- **Cimientos de evidencia**: auditoría inalterable y archivos con huella digital, que no se borran desde la aplicación.
+
+### En construcción
+- Fotos de productos organizadas y pantalla de detalle con características por categoría.
+- Documentos de cada usuario (hoja de vida y similares).
+- Ventana de detalle de cada proveedor, con su historial.
+- Pedidos: selección de productos, PDF con consecutivo y envío por WhatsApp.
+- Recepción con soporte, facturas y reclamos con evidencia.
+- Notificaciones completas: entregas por confirmar, calificaciones pendientes, proveedores inactivos.
+- Cotizaciones comparativas, reposición sugerida y desempeño de proveedores con datos reales.
+- Verificación en dos pasos para administrador y gerente.
+
+## Principios de diseño
+
+- **El canal es el del proveedor, no el nuestro.** La aplicación se adapta a WhatsApp, no al revés.
+- **La evidencia no se altera.** Los archivos nunca se borran (se marcan como eliminados), cada uno lleva su huella SHA-256 y la auditoría es de solo inserción.
+- **Cada pieza ve solo lo que necesita.** Identidad y negocio son servicios separados con bases de datos y credenciales distintas, y cada usuario de base de datos tiene los mínimos permisos.
+- **Seguridad desde el diseño**: sesiones con renovación rotativa, tokens firmados que el negocio solo puede verificar, contraseñas con argon2id, límites de intentos y archivos que solo se descargan con sesión.
+- **Simple de operar.** Software libre (Node.js, PostgreSQL, Docker), dos servicios y un solo servidor pequeño.
+- **Todo cambio de estructura queda versionado**, y cada capacidad nueva llega con pruebas automáticas.
+
+## Documentación y puesta en marcha
+
+Para correrlo en tu equipo (Windows, con Node.js, Git y Docker Desktop):
+
+```
+npm install
+npm run setup:env
+npm run db:up
+npm run db:reset
+npm test
+npm start          # abre http://localhost:3000
+```
+
+- [Guía de uso local](docs/guia-local.md): requisitos, comandos, usuarios de demostración y problemas frecuentes.
+- [Arquitectura](docs/arquitectura.md): servicios, sesión, permisos, bases de datos, archivos y cómo extender el sistema.

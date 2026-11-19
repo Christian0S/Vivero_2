@@ -1,21 +1,21 @@
-// Quién soy y mi perfil: datos del token (rol y permisos) + perfil del negocio. Cada usuario edita SOLO lo suyo y con límites.
+// Quién soy y mi perfil. Cada usuario edita SOLO lo suyo y con límites: el documento, el cargo, el correo y el rol los define el administrador.
 const express = require('express');
 const { requireAuth } = require('../../compartido/auth');
+const V = require('../../compartido/validaciones');
 const { perfil } = require('../nombres');
 const almacen = require('../almacen');
 
 const MAX_FOTO = 600 * 1024;
-const CAMPOS = ['nombre', 'apellidos', 'telefono'];          // rol, correo y estado NO se editan aquí
-const TEL = /^\+?[0-9 ()-]{7,20}$/;
-const texto = (v, max) => (typeof v === 'string' && v.trim().length >= 1 && v.trim().length <= max ? v.trim() : null);
+const CAMPOS = ['nombre', 'apellidos', 'telefono', 'ciudad', 'direccion'];
+const COLUMNAS = 'nombre, apellidos, telefono, foto_id, tipo_doc, numero_doc, cargo, ciudad, direccion';
 
 module.exports = ({ negocio }) => {
   const r = express.Router();
   r.use(requireAuth());
   const auditar = (req, accion, detalle) => negocio.run("INSERT INTO auditoria(usuario_id, accion, entidad, detalle) VALUES ($1,$2,'perfil',$3)", [req.user.id, accion, detalle]);
   const responder = async (req, res) => {
-    const p = await negocio.get('SELECT nombre, apellidos, telefono, foto_id FROM perfil WHERE cuenta_id = $1', [req.user.id]);
-    res.json(perfil({ ...req.user, nombre: p?.nombre || '', apellidos: p?.apellidos || '', telefono: p?.telefono || '', fotoId: p?.foto_id }));
+    const p = await negocio.get(`SELECT ${COLUMNAS} FROM perfil WHERE cuenta_id = $1`, [req.user.id]);
+    res.json(perfil({ ...req.user, ...(p || {}), nombre: p?.nombre || '', apellidos: p?.apellidos || '' }));
   };
 
   r.get('/', responder);
@@ -23,16 +23,19 @@ module.exports = ({ negocio }) => {
   r.patch('/', async (req, res) => {
     const b = req.body || {};
     const extra = Object.keys(b).filter(k => !CAMPOS.includes(k));
-    if (extra.length) return res.status(400).json({ error: `No puedes cambiar: ${extra.join(', ')}` });
-    const nombre = b.nombre === undefined ? undefined : texto(b.nombre, 80);
-    const apellidos = b.apellidos === undefined ? undefined : texto(b.apellidos, 80);
-    const telefono = b.telefono === undefined ? undefined : (b.telefono === '' ? '' : (typeof b.telefono === 'string' && TEL.test(b.telefono.trim()) ? b.telefono.trim() : null));
-    if (nombre === null || apellidos === null) return res.status(400).json({ error: 'Nombre y apellidos no pueden estar vacíos (máximo 80 caracteres)' });
-    if (telefono === null) return res.status(400).json({ error: 'El teléfono no es válido' });
-    if (nombre === undefined && apellidos === undefined && telefono === undefined) return res.status(400).json({ error: 'No hay cambios para guardar' });
-    await negocio.run("UPDATE perfil SET nombre = COALESCE($1, nombre), apellidos = COALESCE($2, apellidos), telefono = CASE WHEN $3::text IS NULL THEN telefono ELSE NULLIF($3, '') END WHERE cuenta_id = $4",
-      [nombre ?? null, apellidos ?? null, telefono ?? null, req.user.id]);
-    await auditar(req, 'perfil_actualizado', Object.keys(b).join(', '));
+    if (extra.length) return res.status(400).json({ error: `No puedes cambiar: ${extra.join(', ')}. Eso lo modifica el administrador.` });
+    const c = {};
+    if ('nombre' in b) { c.nombre = V.texto(b.nombre, 1, 80); if (!c.nombre) return res.status(400).json({ error: 'El nombre no puede estar vacío (máximo 80 caracteres)' }); }
+    if ('apellidos' in b) { c.apellidos = V.texto(b.apellidos, 1, 80); if (!c.apellidos) return res.status(400).json({ error: 'Los apellidos no pueden estar vacíos (máximo 80 caracteres)' }); }
+    if ('telefono' in b) { const t = V.telefono(b.telefono); if (t?.error) return res.status(400).json({ error: t.error }); c.telefono = t; }
+    if ('ciudad' in b) { c.ciudad = V.opcional(b.ciudad, 80); if (c.ciudad === null) return res.status(400).json({ error: 'La ciudad admite hasta 80 caracteres' }); }
+    if ('direccion' in b) { c.direccion = V.opcional(b.direccion, 160); if (c.direccion === null) return res.status(400).json({ error: 'La dirección admite hasta 160 caracteres' }); }
+    if (!Object.keys(c).length) return res.status(400).json({ error: 'No hay cambios para guardar' });
+    const sets = [], vals = [];
+    for (const [col, v] of Object.entries(c)) { vals.push(v === '' ? null : v); sets.push(`${col} = $${vals.length}`); }   // las columnas salen de la lista fija CAMPOS
+    vals.push(req.user.id);
+    await negocio.run(`UPDATE perfil SET ${sets.join(', ')} WHERE cuenta_id = $${vals.length}`, vals);
+    await auditar(req, 'perfil_actualizado', Object.keys(c).join(', '));
     return responder(req, res);
   });
 

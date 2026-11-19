@@ -9,6 +9,12 @@ export const avatar = (nombre, fotoUrl, extra = '') => {
   return `<span class="avatar ${extra}" data-ini="${esc(ini)}">${fotoUrl ? `<img src="${esc(fotoUrl)}" alt="">` : esc(ini)}</span>`;
 };
 export const BOTON_TEMA = '<button class="theme-btn" type="button" data-tema-toggle aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>';
+// Teléfonos: se guardan en formato internacional (+573101234567); aquí se muestran legibles y se arman los enlaces
+export const fmtTel = e => {
+  const m = /^\+57(3\d{2})(\d{3})(\d{4})$/.exec(e || '') || /^\+57(60\d)(\d{3})(\d{4})$/.exec(e || '');
+  return m ? `+57 ${m[1]} ${m[2]} ${m[3]}` : (e || '');
+};
+export const urlWhatsapp = (e164, texto = '') => `https://wa.me/${String(e164).replace(/\D/g, '')}${texto ? '?text=' + encodeURIComponent(texto) : ''}`;
 export const norm = s => String(s ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 export const initials = n => String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 export const debounce = (fn, ms = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
@@ -73,12 +79,27 @@ export function toast(msg, type = '') {
 }
 
 // Ventana modal accesible (usa <dialog>: foco atrapado y Esc de serie). cerrable:false la hace obligatoria.
-export function dialogo(html, { cerrable = true } = {}) {
+export function dialogo(html, { cerrable = true, clase = '' } = {}) {
   const d = document.createElement('dialog');
-  d.className = 'dlg'; d.innerHTML = `<div class="dlg-in">${html}</div>`;
+  d.className = `dlg ${clase}`.trim(); d.innerHTML = `<div class="dlg-in">${html}</div>`;
   if (!cerrable) d.addEventListener('cancel', e => e.preventDefault());
   d.addEventListener('click', e => { if (cerrable && e.target === d) d.close(); });
   d.addEventListener('close', () => d.remove());
   document.body.append(d); d.showModal();
   return d;
+}
+
+// Copiar al portapapeles con aviso (en el computador no existe "llamar": se copia el número y se pega donde haga falta)
+export async function copiar(texto, mensaje = 'Copiado') {
+  try { await navigator.clipboard.writeText(texto); }
+  catch {                                    // respaldo para páginas sin permiso del portapapeles
+    const t = document.createElement('textarea');
+    t.value = texto; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.append(t); t.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch { /* sin respaldo */ }
+    t.remove();
+    if (!ok) { toast('No se pudo copiar. Selecciónalo y cópialo a mano', 'error'); return false; }
+  }
+  toast(mensaje);
+  return true;
 }

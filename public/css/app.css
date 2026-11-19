@@ -233,3 +233,21 @@ select.input { appearance: auto; }
 .field-error { color: var(--danger); font-size: .8rem; }
 .field .hint { color: var(--muted); font-size: .8rem; }
 .param-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+/* ── Formulario de producto ── */
+.dlg.wide { width: min(640px, calc(100vw - 2rem)); }
+.form-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 520px) { .form-2 { grid-template-columns: 1fr; } }
+textarea.input { min-height: 84px; padding: .6rem .9rem; resize: vertical; line-height: 1.4; }
+.row-off td { opacity: .55; }
+.row-off td:last-child { opacity: 1; }
+.preview { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 1rem; border-radius: var(--radius-sm); background: var(--brand-50); border: 1px dashed var(--brand-500); }
+.preview strong { font-size: 1.25rem; }
+
+/* ── Copiar teléfono, secciones de formularios ── */
+.copiable { padding: 0; border: 0; background: none; color: var(--brand-600); font: inherit; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; text-align: left; }
+.copiable:hover { color: var(--brand-700); text-decoration-style: solid; }
+.form-section { margin: .25rem 0 -.25rem; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.form-grid .check { display: flex; align-items: center; gap: .5rem; font-size: .9rem; cursor: pointer; }
+.form-grid .check input { width: 18px; height: 18px; accent-color: var(--brand-600); }
+.datos-lista { display: grid; gap: .6rem; margin: 0; } .datos-lista div { display: grid; grid-template-columns: 130px 1fr; gap: .75rem; align-items: baseline; } .datos-lista dt { color: var(--muted); font-size: .85rem; } .datos-lista dd { margin: 0; }

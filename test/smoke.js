@@ -7,6 +7,8 @@ const { Client } = require('pg');
 const { envPara, RAIZ } = require('../scripts/lib-env');
 const cfg = require('../src/config');
 const { primerApellido } = require('../src/nombres');
+const { normalizar, puedeWhatsapp } = require('../compartido/telefonos');
+const { pathToFileURL } = require('url');
 
 const ID_PORT = 3098, NG_PORT = 3099, NG = `http://localhost:${NG_PORT}`, CLAVE = 'Vivero2026!';
 const envId = envPara('identidad', { PORT: ID_PORT, APP_PORT: NG_PORT });
@@ -173,6 +175,67 @@ async function comoApp(c, db, sql) {
     await pedir(A.jar, '/api/admin/permisos', { method: 'PUT', body: { rol: 'proveedor', permiso: 'inventario.ver', otorgado: false } });
     check('...y al quitarlo vuelve el 403', (await pedir((await entrar('proveedor@vivero.com')).jar, '/api/productos')).status === 403);
 
+    console.log('\n── Gestión de productos ──');
+    const P_ = (jar, metodo, ruta, body) => pedir(jar, `/api/productos${ruta}`, { method: metodo, body });
+    check('sin sesión no se crean productos (401)', (await P_(null, 'POST', '', {})).status === 401);
+    check('empleado NO crea, edita, ni activa productos (403)', (await P_(E.jar, 'POST', '', {})).status === 403 && (await P_(E.jar, 'PUT', '/1', {})).status === 403 && (await P_(E.jar, 'PATCH', '/1/activo', { activo: false })).status === 403);
+    check('empleado NO ve las opciones del formulario (403)', (await P_(E.jar, 'GET', '/opciones')).status === 403);
+    check('proveedor NO toca el inventario (403)', (await P_(P.jar, 'POST', '', {})).status === 403);
+    const op = (await P_(G2.jar, 'GET', '/opciones')).json;
+    check('el gerente recibe categorías, proveedores activos y los valores por defecto de Parámetros', op.categorias.length === 4 && op.proveedores.length === 20 && op.defaults.iva === 19 && op.defaults.stock_minimo === 5, JSON.stringify(op.defaults));
+    const vistaE = (await P_(E.jar, 'GET', '')).json[0], vistaG = (await P_(G2.jar, 'GET', '')).json[0];
+    check('quien solo consulta NO ve costos ni márgenes; quien edita sí', !('precio_base' in vistaE) && !('pct_ganancia' in vistaE) && 'precio_base' in vistaG && 'activo' in vistaG);
+
+    const prov0 = op.proveedores[0];
+    const prodBase = { nombre: 'Prueba Helecho', descripcion: 'Planta de sombra', categoria_id: prov0.categoria_id, proveedor_id: prov0.id, precio_base: 10000, pct_ganancia: 30, pct_iva: 19, stock: 3, stock_minimo: 5 };
+    const malo = async (cambios, etiqueta) => check(`validación: ${etiqueta} -> 400`, (await P_(G2.jar, 'POST', '', { ...prodBase, ...cambios })).status === 400);
+    await malo({ nombre: '' }, 'nombre vacío'); await malo({ nombre: 'A' }, 'nombre de 1 letra'); await malo({ nombre: 'x'.repeat(121) }, 'nombre de 121 letras');
+    await malo({ descripcion: 'x'.repeat(501) }, 'descripción de 501 letras');
+    await malo({ categoria_id: 9999 }, 'categoría inexistente'); await malo({ proveedor_id: 9999 }, 'proveedor inexistente');
+    await malo({ precio_base: -1 }, 'costo negativo'); await malo({ precio_base: 10.5 }, 'costo con decimales'); await malo({ precio_base: '10000' }, 'costo como texto'); await malo({ precio_base: 100000001 }, 'costo desmedido');
+    await malo({ pct_ganancia: 1001 }, 'ganancia sobre 1000'); await malo({ pct_ganancia: -5 }, 'ganancia negativa'); await malo({ pct_ganancia: 10.123 }, 'ganancia con 3 decimales');
+    await malo({ pct_iva: 101 }, 'IVA sobre 100'); await malo({ stock: -1 }, 'stock negativo'); await malo({ stock: 1.5 }, 'stock decimal'); await malo({ stock_minimo: -2 }, 'stock mínimo negativo');
+    check('validación: no se acepta un precio de venta enviado a mano', (await P_(G2.jar, 'POST', '', { ...prodBase, precio_venta: 1 })).status === 400);
+    check('validación: campos desconocidos se rechazan', (await P_(G2.jar, 'POST', '', { ...prodBase, activo: false })).status === 400);
+    const faltante = { ...prodBase }; delete faltante.stock;
+    check('validación: faltar un campo obligatorio -> 400', (await P_(G2.jar, 'POST', '', faltante)).status === 400);
+    const provId = prov0.id;
+    await ngDb.query('UPDATE proveedor SET activo = false WHERE id = $1', [provId]);
+    const conInactivo = await P_(G2.jar, 'POST', '', prodBase);
+    await ngDb.query('UPDATE proveedor SET activo = true WHERE id = $1', [provId]);
+    check('validación: no se crea un producto con un proveedor inactivo', conInactivo.status === 400 && /inactivo/.test(conInactivo.json?.error || ''));
+
+    const bajosAntes = (await pedir(G2.jar, '/api/dashboard')).json.kpis.bajoStock;
+    const nuevoP = await P_(G2.jar, 'POST', '', prodBase);
+    check('crear producto -> 201 con el precio de venta calculado por el servidor (10.000 × 1,30 × 1,19 = 15.470)', nuevoP.status === 201 && nuevoP.json.precio_venta === 15470, nuevoP.json?.precio_venta);
+    const pid = nuevoP.json?.id;
+    check('el producto nuevo aparece en el inventario y en el catálogo público como "pocas unidades"', (await P_(G2.jar, 'GET', '')).json.some(p => p.id === pid) && (await pedir(null, '/api/catalogo')).json.some(p => p.nombre === 'Prueba Helecho' && p.disponibilidad === 'pocas'));
+    check('la alerta de stock bajo lo cuenta (+1)', (await pedir(G2.jar, '/api/dashboard')).json.kpis.bajoStock === bajosAntes + 1);
+    check('queda registrado quién lo creó y la auditoría', (await ngDb.query("SELECT 1 FROM auditoria WHERE accion = 'producto_creado' AND entidad_id = $1", [pid])).rowCount === 1);
+
+    const edit = await P_(G2.jar, 'PUT', `/${pid}`, { ...prodBase, precio_base: 20000, stock: 50 });
+    check('editar: el precio se recalcula (20.000 × 1,30 × 1,19 = 30.940)', edit.status === 200 && edit.json.precio_venta === 30940 && edit.json.stock === 50);
+    const aud = (await ngDb.query("SELECT detalle FROM auditoria WHERE accion = 'producto_modificado' AND entidad_id = $1", [pid])).rows;
+    check('la auditoría guarda cada campo cambiado como [antes, después]', aud.length === 1 && JSON.parse(aud[0].detalle).precio_base[0] === 10000 && JSON.parse(aud[0].detalle).precio_base[1] === 20000 && JSON.parse(aud[0].detalle).stock[1] === 50);
+    await P_(G2.jar, 'PUT', `/${pid}`, { ...prodBase, precio_base: 20000, stock: 50 });
+    check('guardar sin cambios NO ensucia la auditoría', (await ngDb.query("SELECT 1 FROM auditoria WHERE accion = 'producto_modificado' AND entidad_id = $1", [pid])).rowCount === 1);
+    check('la alerta baja cuando se repone el stock (stock 50 > mínimo 5)', (await pedir(G2.jar, '/api/dashboard')).json.kpis.bajoStock === bajosAntes);
+    check('editar un producto que no existe -> 404', (await P_(G2.jar, 'PUT', '/999999', prodBase)).status === 404 && (await P_(G2.jar, 'PUT', '/abc', prodBase)).status === 404);
+
+    const off = await P_(G2.jar, 'PATCH', `/${pid}/activo`, { activo: false });
+    check('desactivar: deja de verse en el catálogo y en el inventario normal', off.status === 200 && off.json.activo === false
+      && !(await pedir(null, '/api/catalogo')).json.some(p => p.nombre === 'Prueba Helecho') && !(await P_(G2.jar, 'GET', '')).json.some(p => p.id === pid));
+    check('...pero quien edita lo ve con "mostrar inactivos"; quien consulta, no', (await P_(G2.jar, 'GET', '?inactivos=1')).json.some(p => p.id === pid && p.activo === false) && !(await P_(E.jar, 'GET', '?inactivos=1')).json.some(p => p.id === pid));
+    check('activar de nuevo lo devuelve al catálogo', (await P_(G2.jar, 'PATCH', `/${pid}/activo`, { activo: true })).status === 200 && (await pedir(null, '/api/catalogo')).json.some(p => p.nombre === 'Prueba Helecho'));
+    await P_(G2.jar, 'PATCH', `/${pid}/activo`, { activo: false });   // el producto de prueba no debe contar en lo que sigue
+    check('activar sin indicar el estado -> 400', (await P_(G2.jar, 'PATCH', `/${pid}/activo`, {})).status === 400);
+    check('la base rechaza un IVA o una ganancia fuera de rango aunque se salte la API',
+      !(await comoApp(cfg.negocio, cfg.negocio.database, "INSERT INTO producto(nombre, precio_base, precio_venta, pct_iva) VALUES ('x', 1, 1, 150)")).ok
+      && !(await comoApp(cfg.negocio, cfg.negocio.database, "INSERT INTO producto(nombre, precio_base, precio_venta, pct_ganancia) VALUES ('x', 1, 1, 5000)")).ok);
+    const pf = await import(pathToFileURL(path.join(RAIZ, 'public/js/precios.js')).href), pb = require('../compartido/precios');
+    let iguales = true; for (let i = 0; i < 500; i++) { const a = Math.floor(Math.random() * 5e6), g = Math.round(Math.random() * 100000) / 100, v = Math.round(Math.random() * 10000) / 100; if (pf.calcularPrecioVenta(a, g, v) !== pb.calcularPrecioVenta(a, g, v)) iguales = false; }
+    check('la fórmula del formulario (navegador) y la del servidor dan siempre lo mismo (500 casos)', iguales);
+
     console.log('\n── Fuerza bruta (límite guardado en la base de datos) ──');
     await pedir(A.jar, '/api/admin/usuarios', { method: 'POST', body: { email: emailBloqueo, rol: 'proveedor', nombre: 'Bloqueo', apellidos: 'Prueba' } });
     const codigos = []; for (let i = 0; i < 6; i++) codigos.push((await entrar(emailBloqueo, 'mala-clave')).status);
@@ -191,11 +254,31 @@ async function comoApp(c, db, sql) {
     check('sirve catálogo (/) y /login.html con cabeceras de seguridad', raiz.status === 200 && login.status === 200 && raiz.headers.get('x-frame-options') === 'DENY');
     check('ruta de API inexistente da 404', (await pedir(null, '/api/nada')).status === 404);
 
+    console.log('\n── Teléfonos y WhatsApp de proveedores ──');
+    const n = v => { const r = normalizar(v); return r.ok ? r.e164 : null; };
+    check('celular sin indicativo (3101234567) -> +573101234567', n('3101234567') === '+573101234567');
+    check('con espacios, guiones o paréntesis -> mismo resultado', ['310 123 4567', '(310) 123-4567', '310-123-4567', '+57 310 123 4567', '573101234567', '0057 310 123 4567'].every(v => n(v) === '+573101234567'));
+    check('prefijo incorrecto: "+" sin el 57 (+3101234567) -> se corrige', n('+3101234567') === '+573101234567');
+    check('prefijo incorrecto: 57 repetido (+57 57 310…) -> se corrige', n('+57 57 310 123 4567') === '+573101234567');
+    check('un fijo (601…) se normaliza pero NO recibe WhatsApp', n('6011234567') === '+576011234567' && !puedeWhatsapp('+576011234567') && puedeWhatsapp('+573101234567'));
+    check('número extranjero válido se respeta (+1 555…)', n('+1 555 123 4567') === '+15551234567');
+    check('7 dígitos, texto o número corto NO se aceptan (no se inventa nada)', !normalizar('1234567').ok && !normalizar('abc').ok && !normalizar('+57 12').ok);
+    check('vacío es válido y queda sin teléfono', normalizar('').ok && normalizar('   ').e164 === null && normalizar(null).e164 === null);
+    const provs = (await pedir(G2.jar, '/api/proveedores')).json;
+    check('los 20 proveedores quedan con teléfono internacional', provs.length === 20 && provs.every(p => /^\+57[36][0-9]{9}$/.test(p.telefono)), provs.find(p => !/^\+57/.test(p.telefono))?.telefono);
+    check('...y todos tienen WhatsApp (son celulares), igual al teléfono', provs.every(p => p.whatsapp === p.telefono));
+    const insApp = sql => comoApp(cfg.negocio, cfg.negocio.database, sql);
+    check('la base rechaza un teléfono sin indicativo en un registro nuevo', !(await insApp("INSERT INTO proveedor(nombre, telefono) VALUES ('Prueba', '3101234567')")).ok);
+    check('la base rechaza un WhatsApp sin formato internacional', !(await insApp("INSERT INTO proveedor(nombre, whatsapp) VALUES ('Prueba', '3101234567')")).ok);
+    const ui = await import(pathToFileURL(path.join(RAIZ, 'public/js/ui.js')).href);
+    check('el enlace de WhatsApp usa solo dígitos (wa.me no admite el "+")', ui.urlWhatsapp('+573101234567', 'Hola mundo') === 'https://wa.me/573101234567?text=Hola%20mundo');
+    check('el teléfono se muestra legible (+57 310 123 4567)', ui.fmtTel('+573101234567') === '+57 310 123 4567' && ui.fmtTel('+15551234567') === '+15551234567');
+
     console.log('\n── Mi perfil ──');
     const mi = (await pedir(G2.jar, '/api/me')).json;
     check('/api/me incluye teléfono y foto (vacíos al inicio)', mi.telefono === '' && mi.fotoUrl === null);
     const tel = await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { telefono: '+57 300 123 4567' } });
-    check('actualizar el teléfono propio -> 200', tel.status === 200 && tel.json.telefono === '+57 300 123 4567');
+    check('actualizar el teléfono propio -> 200 (se guarda en formato internacional)', tel.status === 200 && tel.json.telefono === '+573001234567', tel.json?.telefono);
     check('intentar cambiar el rol desde el perfil -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { rol: 'administrador' } })).status === 400);
     check('intentar cambiar el correo desde el perfil -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { email: 'otro@x.co' } })).status === 400);
     check('teléfono inválido -> 400', (await pedir(G2.jar, '/api/me', { method: 'PATCH', body: { telefono: 'abc' } })).status === 400);
@@ -258,6 +341,114 @@ async function comoApp(c, db, sql) {
     check('el proveedor no recibe alertas de inventario', (await pedir(P.jar, '/api/notificaciones')).json?.total === 0);
     check('sin sesión no hay notificaciones (401)', (await pedir(null, '/api/notificaciones')).status === 401);
 
+    console.log('\n── Actualización de datos, rol por rol ──');
+    {
+      const H = (jar, metodo, ruta, body) => pedir(jar, ruta, { method: metodo, body });
+      const roles = { admin: A.jar, gerente: G2.jar, empleado: E.jar, proveedor: P.jar };
+      const permitido = async (jar, metodo, ruta, body) => { const s = (await H(jar, metodo, ruta, body)).status; return s !== 403 && s !== 401; };
+      const matriz = async (etiqueta, metodo, ruta, body, esperado) => {
+        const real = {}; for (const [rol, jar] of Object.entries(roles)) real[rol] = await permitido(jar, metodo, ruta, body);
+        check(`${etiqueta}: ${JSON.stringify(esperado)}`, Object.entries(esperado).every(([r, v]) => real[r] === v), JSON.stringify(real));
+      };
+      await matriz('editar productos', 'PUT', '/api/productos/999999', prodBase, { admin: true, gerente: true, empleado: false, proveedor: false });
+      await matriz('editar cualquier proveedor', 'PUT', '/api/proveedores/999999', { ciudad: 'X' }, { admin: true, gerente: true, empleado: false, proveedor: false });
+      await matriz('editar la empresa propia (Mi empresa)', 'GET', '/api/mi-proveedor', undefined, { admin: true, gerente: false, empleado: false, proveedor: true });
+      await matriz('administrar usuarios', 'GET', '/api/admin/usuarios', undefined, { admin: true, gerente: false, empleado: false, proveedor: false });
+      await matriz('cambiar parámetros del sistema', 'GET', '/api/parametros', undefined, { admin: true, gerente: false, empleado: false, proveedor: false });
+      const propios = {}; for (const [rol, jar] of Object.entries(roles)) propios[rol] = (await H(jar, 'PATCH', '/api/me', { telefono: '3151112233' })).status;
+      check('todos los roles actualizan su propio perfil', Object.values(propios).every(s => s === 200), JSON.stringify(propios));
+      for (const jar of Object.values(roles)) await H(jar, 'PATCH', '/api/me', { telefono: '' });
+      const mePatch = await H(G2.jar, 'PATCH', '/api/me', { ciudad: 'Bucaramanga', direccion: 'Calle 10 # 5-20', telefono: '300 123 4567' });
+      check('Mi perfil: ciudad, dirección y teléfono (normalizado) se guardan', mePatch.status === 200 && mePatch.json.ciudad === 'Bucaramanga' && mePatch.json.direccion === 'Calle 10 # 5-20' && mePatch.json.telefono === '+573001234567');
+      const noPropio = await H(G2.jar, 'PATCH', '/api/me', { cargo: 'Dueño' });
+      check('Mi perfil: el cargo y el documento NO los cambia el usuario (los define el administrador)', noPropio.status === 400 && /administrador/.test(noPropio.json?.error) && (await H(G2.jar, 'PATCH', '/api/me', { numero_doc: '123456' })).status === 400 && (await H(G2.jar, 'PATCH', '/api/me', { tipo_doc: 'NIT' })).status === 400);
+      await H(G2.jar, 'PATCH', '/api/me', { ciudad: '', direccion: '', telefono: '' });
+
+      console.log('\n── Proveedores: edición por gerente y administrador ──');
+      const lis = id => (jar) => H(jar, 'GET', '/api/proveedores').then(r => r.json.find(p => p.id === id));
+      const provs2 = (await H(G2.jar, 'GET', '/api/proveedores')).json;
+      const pA = provs2[0], pB = provs2[1];
+      const orig = (await ngDb.query('SELECT id, telefono, whatsapp, correo, ciudad, direccion FROM proveedor WHERE id = ANY($1)', [[pA.id, pB.id]])).rows;
+      check('quien solo consulta NO ve documento ni dirección del proveedor; quien edita sí', !('numero_doc' in (await H(E.jar, 'GET', '/api/proveedores')).json[0]) && 'numero_doc' in provs2[0] && 'direccion' in provs2[0]);
+      check('las opciones del formulario (categorías y tipos de documento) son solo para quien edita', (await H(E.jar, 'GET', '/api/proveedores/opciones')).status === 403 && (await H(G2.jar, 'GET', '/api/proveedores/opciones')).json.categorias.length === 4);
+      check('sin sesión no se edita un proveedor (401)', (await H(null, 'PUT', `/api/proveedores/${pA.id}`, { ciudad: 'X' })).status === 401);
+      check('empleado y proveedor NO editan proveedores (403)', (await H(E.jar, 'PUT', `/api/proveedores/${pA.id}`, { ciudad: 'X' })).status === 403 && (await H(P.jar, 'PUT', `/api/proveedores/${pA.id}`, { ciudad: 'X' })).status === 403);
+      const nuevosDatos = { telefono: '310 555 0101', whatsapp: '3105550101', correo: 'Contacto@Prueba.CO', ciudad: 'Medellín', direccion: 'Calle 1 # 2-3' };
+      const ed = await H(G2.jar, 'PUT', `/api/proveedores/${pA.id}`, nuevosDatos);
+      check('el gerente actualiza teléfono, WhatsApp, correo y dirección (todo se normaliza)', ed.status === 200 && ed.json.telefono === '+573105550101' && ed.json.whatsapp === '+573105550101' && ed.json.correo === 'contacto@prueba.co' && ed.json.ciudad === 'Medellín', JSON.stringify([ed.json?.telefono, ed.json?.correo]));
+      const audP = (await ngDb.query("SELECT detalle FROM auditoria WHERE accion = 'proveedor_modificado' AND entidad_id = $1 ORDER BY id DESC LIMIT 1", [pA.id])).rows[0];
+      check('la auditoría guarda cada campo como [antes, después]', audP && JSON.parse(audP.detalle).telefono[1] === '+573105550101' && JSON.parse(audP.detalle).correo[1] === 'contacto@prueba.co');
+      const cuenta = (await ngDb.query("SELECT count(*)::int n FROM auditoria WHERE accion = 'proveedor_modificado' AND entidad_id = $1", [pA.id])).rows[0].n;
+      await H(G2.jar, 'PUT', `/api/proveedores/${pA.id}`, nuevosDatos);
+      check('guardar sin cambios no ensucia la auditoría', (await ngDb.query("SELECT count(*)::int n FROM auditoria WHERE accion = 'proveedor_modificado' AND entidad_id = $1", [pA.id])).rows[0].n === cuenta);
+      const malP = async (cambios, etiqueta) => check(`proveedor, validación: ${etiqueta} -> 400`, (await H(G2.jar, 'PUT', `/api/proveedores/${pA.id}`, cambios)).status === 400);
+      await malP({ telefono: '123' }, 'teléfono corto'); await malP({ telefono: 'abc' }, 'teléfono con letras'); await malP({ whatsapp: '601 123 4567' }, 'WhatsApp que es un fijo');
+      await malP({ correo: 'no-es-correo' }, 'correo inválido'); await malP({ nombre: 'A' }, 'nombre de 1 letra'); await malP({ categoria_id: 9999 }, 'categoría inexistente');
+      await malP({ tipo_doc: 'Licencia' }, 'tipo de documento inválido'); await malP({ activo: false }, 'campo no permitido'); await malP({}, 'sin cambios');
+      const otraCat = (await H(G2.jar, 'GET', '/api/proveedores/opciones')).json.categorias.find(c => c.id !== pA.categoria_id).id;
+      const cambioCat = await H(G2.jar, 'PUT', `/api/proveedores/${pA.id}`, { categoria_id: otraCat });
+      check('no se cambia la categoría de un proveedor con productos asociados', cambioCat.status === 400 && /producto/.test(cambioCat.json?.error), cambioCat.json?.error);
+      check('el administrador también edita proveedores', (await H(A.jar, 'PUT', `/api/proveedores/${pB.id}`, { ciudad: 'Cali' })).status === 200);
+      check('proveedor inexistente -> 404', (await H(G2.jar, 'PUT', '/api/proveedores/999999', { ciudad: 'X' })).status === 404);
+
+      console.log('\n── Mi empresa: el proveedor actualiza lo suyo ──');
+      const mio = await H(P.jar, 'GET', '/api/mi-proveedor');
+      check('el proveedor ve los datos de SU empresa, sin calificaciones', mio.status === 200 && !!mio.json.nombre && !/promedio|calificacion|puntaje/i.test(JSON.stringify(mio.json)), mio.json?.nombre);
+      const miosDatos = { telefono: '3201112233', whatsapp: '3201112233', correo: 'Nuevo@Plantas.co', ciudad: 'Cali', direccion: 'Carrera 5 # 6-7' };
+      const mput = await H(P.jar, 'PUT', '/api/mi-proveedor', miosDatos);
+      check('el proveedor actualiza su teléfono, WhatsApp, correo y dirección sin el administrador', mput.status === 200 && mput.json.telefono === '+573201112233' && mput.json.correo === 'nuevo@plantas.co' && mput.json.direccion === 'Carrera 5 # 6-7');
+      const misId = mio.json.id;
+      check('el vivero ve el cambio en la ficha del proveedor', (await lis(misId)(G2.jar)).telefono === '+573201112233');
+      check('la auditoría registra que lo hizo el propio proveedor', (await ngDb.query("SELECT 1 FROM auditoria a JOIN perfil p ON p.cuenta_id = a.usuario_id WHERE a.accion = 'proveedor_modificado' AND a.entidad_id = $1 AND p.nombre = 'Gustavo'", [misId])).rowCount >= 1);
+      for (const [campo, valor] of [['nombre', 'Otro nombre'], ['categoria_id', 1], ['numero_doc', '999999'], ['tipo_doc', 'NIT'], ['pais', 'Chile']])
+        check(`el proveedor NO puede cambiar "${campo}" (lo define el vivero)`, (await H(P.jar, 'PUT', '/api/mi-proveedor', { [campo]: valor })).status === 400);
+      check('el proveedor tampoco puede editar OTRA empresa (403)', (await H(P.jar, 'PUT', `/api/proveedores/${pA.id}`, { ciudad: 'X' })).status === 403);
+      check('gerente y empleado no usan Mi empresa (403); sin sesión (401)', (await H(G2.jar, 'GET', '/api/mi-proveedor')).status === 403 && (await H(E.jar, 'GET', '/api/mi-proveedor')).status === 403 && (await H(null, 'GET', '/api/mi-proveedor')).status === 401);
+      check('una cuenta de proveedor sin empresa vinculada recibe un aviso claro (404)', (await H(A.jar, 'GET', '/api/mi-proveedor')).status === 404);
+      for (const o of orig) await ngDb.query('UPDATE proveedor SET telefono = $2, whatsapp = $3, correo = $4, ciudad = $5, direccion = $6 WHERE id = $1', [o.id, o.telefono, o.whatsapp, o.correo, o.ciudad, o.direccion]);
+      await ngDb.query("DELETE FROM auditoria WHERE accion = 'proveedor_modificado' AND creado_en >= $1", [inicio]);
+
+      console.log('\n── Panel de usuarios del administrador: todos los campos ──');
+      const emailU = `test-full-${sufijo}@vivero.test`, emailU2 = `test-nuevo-${sufijo}@vivero.test`;
+      const antesN = (await H(A.jar, 'GET', '/api/admin/usuarios')).json.length;
+      const completo = { email: emailU, rol: 'empleado', nombre: 'Laura', apellidos: 'De la Cruz Pérez', telefono: '300 444 5566', tipo_doc: 'Cédula', numero_doc: '1098765432', cargo: 'Vendedora', ciudad: 'Bucaramanga', direccion: 'Carrera 27 # 10-15' };
+      check('crear usuario con teléfono inválido -> 400 y NO queda una cuenta a medias', (await H(A.jar, 'POST', '/api/admin/usuarios', { ...completo, telefono: 'abc' })).status === 400 && (await H(A.jar, 'GET', '/api/admin/usuarios')).json.length === antesN);
+      check('crear usuario con tipo de documento inválido -> 400', (await H(A.jar, 'POST', '/api/admin/usuarios', { ...completo, tipo_doc: 'Licencia' })).status === 400);
+      check('número de documento sin indicar el tipo -> 400', (await H(A.jar, 'POST', '/api/admin/usuarios', { ...completo, tipo_doc: '' })).status === 400);
+      const cre = await H(A.jar, 'POST', '/api/admin/usuarios', completo);
+      check('crear usuario con todos los datos -> 201', cre.status === 201 && cre.json.claveTemporal?.length === 14);
+      const uu = (await H(A.jar, 'GET', '/api/admin/usuarios')).json.find(u => u.email === emailU);
+      check('el panel muestra teléfono (internacional), documento, cargo, ciudad y dirección', uu && uu.telefono === '+573004445566' && uu.tipoDoc === 'Cédula' && uu.numeroDoc === '1098765432' && uu.cargo === 'Vendedora' && uu.ciudad === 'Bucaramanga' && uu.direccion === 'Carrera 27 # 10-15' && !!uu.creadaEn);
+      const idU = cre.json.id;
+      const p1 = await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { telefono: '3109998877', cargo: 'Jefa de ventas', ciudad: 'Floridablanca' });
+      const uu2 = (await H(A.jar, 'GET', '/api/admin/usuarios')).json.find(u => u.id === idU);
+      check('editar teléfono, cargo y ciudad de otro usuario', p1.status === 200 && uu2.telefono === '+573109998877' && uu2.cargo === 'Jefa de ventas' && uu2.ciudad === 'Floridablanca');
+      check('vaciar un campo opcional lo deja vacío', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { cargo: '' })).status === 200 && (await H(A.jar, 'GET', '/api/admin/usuarios')).json.find(u => u.id === idU).cargo === '');
+      const mixto = await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { rol: 'gerente', telefono: 'abc' });
+      check('si un dato es inválido NO se aplica nada (ni el rol)', mixto.status === 400 && (await H(A.jar, 'GET', '/api/admin/usuarios')).json.find(u => u.id === idU).rol === 'empleado');
+      check('campos que no existen o intentan colarse (password) -> 400', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { password: 'x' })).status === 400 && (await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, {})).status === 400);
+      const sesionU = await entrar(emailU, cre.json.claveTemporal);
+      const cmail = await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { email: emailU2 });
+      check('el administrador cambia el correo de otra cuenta y se cierran sus sesiones', cmail.status === 200 && (await pedir(sesionU.jar, '/api/auth/refresh', { method: 'POST' })).status === 401);
+      check('con el correo nuevo entra; con el viejo ya no', (await entrar(emailU2, cre.json.claveTemporal)).status === 200 && (await entrar(emailU, cre.json.claveTemporal)).status === 401);
+      check('correo repetido (de otra cuenta) -> 409', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { email: 'gerente@vivero.com' })).status === 409);
+      check('correo inválido -> 400', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { email: 'no-es-correo' })).status === 400);
+      const miIdA = (await H(A.jar, 'GET', '/api/me')).json.id;
+      check('el administrador NO se cambia su propio rol ni su propio correo', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${miIdA}`, { email: 'otro@vivero.com' })).status === 400 && (await H(A.jar, 'PATCH', `/api/admin/usuarios/${miIdA}`, { rol: 'gerente' })).status === 400);
+      check('...pero sí sus datos personales (teléfono, cargo)', (await H(A.jar, 'PATCH', `/api/admin/usuarios/${miIdA}`, { cargo: 'Administrador del sistema', telefono: '3001230000' })).status === 200);
+      await H(A.jar, 'PATCH', `/api/admin/usuarios/${miIdA}`, { cargo: '', telefono: '' });
+      check('el gerente NO edita usuarios (403)', (await H(G2.jar, 'PATCH', `/api/admin/usuarios/${idU}`, { cargo: 'x' })).status === 403);
+
+      console.log('\n── Coherencia de datos y formato en la base ──');
+      check('ningún producto tiene un proveedor de otra categoría', (await ngDb.query('SELECT count(*)::int n FROM producto p JOIN proveedor v ON v.id = p.proveedor_id WHERE p.categoria_id <> v.categoria_id')).rows[0].n === 0);
+      const cat2 = (await H(G2.jar, 'GET', '/api/productos/opciones')).json;
+      const ajeno = cat2.proveedores.find(x => x.categoria_id !== prov0.categoria_id);
+      const mism = await H(G2.jar, 'POST', '/api/productos', { ...prodBase, nombre: 'Prueba Ajeno', proveedor_id: ajeno.id });
+      check('un producto NO se crea con un proveedor de otra categoría', mism.status === 400 && /categor/.test(mism.json?.error), mism.json?.error);
+      check('las opciones del formulario traen la categoría de cada proveedor (para filtrar)', cat2.proveedores.every(x => Number.isInteger(x.categoria_id)));
+      check('la base rechaza un teléfono de persona sin formato internacional', !(await comoApp(cfg.negocio, cfg.negocio.database, "INSERT INTO perfil(cuenta_id, telefono) VALUES (gen_random_uuid(), '3101234567')")).ok);
+    }
+
     console.log('\n── Separación de servicios y bases ──');
     check('la API del negocio NO recibe credenciales de identidad ni la llave privada', !Object.keys(envNg).some(k => /IDENTIDAD_(DB|USER|PASSWORD)|PRIVATE|PG_ADMIN/.test(k)));
     check('el servicio de identidad NO recibe credenciales del negocio', !Object.keys(envId).some(k => /NEGOCIO_|PG_ADMIN/.test(k)));
@@ -289,6 +480,9 @@ async function comoApp(c, db, sql) {
         await idDb.query('DELETE FROM cuenta WHERE id = ANY($1)', [ids]);
         await ngDb.query('DELETE FROM perfil WHERE cuenta_id = ANY($1)', [ids]);
         await ngDb.query("DELETE FROM auditoria WHERE accion = 'prueba'");
+        await ngDb.query("DELETE FROM producto WHERE nombre LIKE 'Prueba %'");
+        await ngDb.query("DELETE FROM auditoria WHERE entidad = 'producto' AND creado_en >= $1", [inicio]);
+        await ngDb.query('UPDATE proveedor SET activo = true WHERE NOT activo');
         const subidos = (await ngDb.query('SELECT ruta FROM archivo WHERE creado_en >= $1', [inicio])).rows;
         await ngDb.query('UPDATE perfil SET foto_id = NULL WHERE foto_id IN (SELECT id FROM archivo WHERE creado_en >= $1)', [inicio]);
         await ngDb.query('DELETE FROM archivo WHERE creado_en >= $1', [inicio]);
